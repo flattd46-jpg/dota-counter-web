@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Counter Web — помощник по драфту Dota 2</title>
+<meta name="description" content="Помощник по драфту Dota 2: контрпики, матчапы на линии, предметы, сборки героев и советы по игре в реальном времени.">
+<meta name="theme-color" content="#08060d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%2308060d'/%3E%3Cpath d='M14.5 17.5 3 6V3h3l11.5 11.5' fill='none' stroke='%23ff7a2f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m13 19 6-6' fill='none' stroke='%23ff7a2f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -184,6 +187,12 @@ a{color:inherit}
 .role-btn{padding:4px 8px;border:1px solid var(--void-700);border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-400);transition:all .2s}
 .role-btn:hover{border-color:var(--void-600);color:var(--mist-200)}
 .role-btn.on{border-color:var(--ember-500);background:rgba(255,122,47,.15);color:var(--ember-400)}
+:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px;border-radius:4px}
+button:focus{outline:none}
+button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
 .pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:540px;overflow-y:auto;padding-right:4px}
 @media(min-width:640px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
 @media(min-width:768px){.pool-grid{grid-template-columns:repeat(6,1fr)}}
@@ -206,6 +215,87 @@ a{color:inherit}
 .hero-cell-info{position:absolute;top:2px;right:2px;padding:0 4px;border-radius:3px;background:rgba(8,6,13,.85);font-family:ui-monospace,monospace;font-size:9px;font-weight:700;color:var(--gold-400);opacity:0;transition:opacity .2s}
 .hero-cell:hover .hero-cell-info{opacity:1}
 .pool-empty{grid-column:1/-1;padding:32px 0;text-align:center;font-size:14px;color:var(--mist-600)}
+.role-strip{position:absolute;top:0;bottom:0;left:0;width:3px;z-index:3}
+.role-strip.carry{background:#f2c14e}
+.role-strip.mid{background:#9b8cff}
+.role-strip.offlane{background:#ff7a2f}
+.role-strip.support{background:#2fd39a}
+.role-strip.roamer{background:#ff6d84}
+.hero-cell .hero-cell-wr{position:absolute;bottom:4px;right:4px;z-index:3;padding:0 5px;border-radius:3px;background:rgba(8,6,13,.82);font-family:ui-monospace,monospace;font-size:9px;font-weight:700;color:var(--gold-400);pointer-events:none}
+.hero-cell-info{position:absolute;top:2px;right:2px;padding:3px;border-radius:3px;background:rgba(8,6,13,.85);color:var(--gold-400);opacity:0;transition:all .2s;z-index:3}
+.hero-cell:hover .hero-cell-info{opacity:1}
+.hero-cell-info:hover{background:var(--gold-400);color:var(--void-950)}
+.pool-sort{display:flex;gap:4px;flex-wrap:wrap}
+.sort-btn{padding:4px 8px;border:1px solid var(--void-700);border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-400);transition:all .2s}
+.sort-btn:hover{border-color:var(--void-600);color:var(--mist-200)}
+.sort-btn.on{border-color:var(--ember-500);background:rgba(255,122,47,.15);color:var(--ember-400)}
+.cmp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--ember-500);border-bottom-color:var(--void-750);background:rgba(255,122,47,.08)}
+.cmp-bar b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ember-400)}
+.cmp-pair{display:flex;align-items:center;gap:6px}
+.cmp-hero{display:flex;align-items:center;gap:6px;padding:2px 8px 2px 2px;border:1px solid var(--void-700);border-radius:99px;background:var(--void-850);font-size:11px;color:var(--mist-200)}
+.cmp-hero img{width:32px;height:20px;border-radius:99px;object-fit:cover}
+.cmp-clear{padding:3px;border-radius:3px;color:var(--mist-400);transition:all .2s}
+.cmp-clear:hover{color:var(--dire-400)}
+.cmp-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:640px){.cmp-grid{grid-template-columns:1fr 1fr}}
+.cmp-card{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.6)}
+.cmp-card.win{border-color:rgba(47,211,154,.55)}
+.cmp-card.lose{border-color:rgba(242,65,95,.55)}
+.cmp-card-head{display:flex;align-items:center;gap:8px}
+.cmp-card-head img{width:56px;height:34px;border-radius:3px;object-fit:cover}
+.cmp-card-head h3{font-size:14px;font-weight:600;color:var(--mist-50)}
+.cmp-card-head .cmp-score{margin-left:auto;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;color:var(--gold-400)}
+.cmp-bar-gauge{height:6px;border-radius:99px;background:var(--void-800);overflow:hidden}
+.cmp-bar-gauge i{display:block;height:100%;border-radius:99px;background:linear-gradient(to right,var(--ember-600),var(--gold-400))}
+.cmp-reasons{list-style:none;display:flex;flex-direction:column;gap:3px;font-size:11px;line-height:1.35;color:var(--mist-400)}
+.cmp-reasons b{color:var(--mist-200);font-weight:600}
+.cmp-verdict{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+/* вкладки страницы */
+.pagetabs{display:flex;gap:6px;overflow-x:auto;padding:10px 12px 0;border-bottom:1px solid var(--void-750);background:var(--void-900)}
+.pagetab{display:flex;align-items:center;gap:6px;padding:9px 14px;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mist-600);transition:all .2s;white-space:nowrap}
+.pagetab:hover{color:var(--mist-200);background:var(--void-850)}
+.pagetab.on{color:var(--ember-400);background:var(--void-850);border-color:var(--void-750)}
+.pagetab .pg-count{margin-left:4px;padding:0 6px;border-radius:99px;background:var(--void-800);font-family:ui-monospace,monospace;font-size:10px;color:var(--mist-400)}
+.pagetab.on .pg-count{color:var(--ember-400)}
+.tabpage{display:none}
+.tabpage.on{display:block}
+/* гайды */
+.guide-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;max-height:340px;overflow-y:auto;padding:12px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.5)}
+.guide-hero{position:relative;overflow:hidden;border:1px solid var(--void-750);border-radius:5px;background:var(--void-850);cursor:pointer;transition:all .2s;padding:0}
+.guide-hero:hover{border-color:rgba(255,122,47,.6);transform:translateY(-2px)}
+.guide-hero.on{border-color:var(--ember-500);box-shadow:0 0 0 1px rgba(255,122,47,.4)}
+.guide-hero img{aspect-ratio:16/10;width:100%;object-fit:cover}
+.guide-hero span{position:absolute;inset-inline:0;bottom:0;padding:14px 4px 2px;background:linear-gradient(to top,var(--void-950),transparent);font-size:9px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.guide-layout{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:1024px){.guide-layout{grid-template-columns:340px 1fr}}
+.guide-hero-info{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.6)}
+.guide-hero-info img{width:88px;height:54px;border-radius:4px;object-fit:cover}
+.guide-hero-info h3{font-size:16px;color:var(--mist-50)}
+.guide-hero-info .roles{font-size:11px;color:var(--mist-400)}
+.guide-section{margin-top:12px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.5);overflow:hidden}
+.guide-section>h4{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid var(--void-750);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mist-200)}
+.guide-section .gs-body{padding:12px;font-size:12px;line-height:1.55;color:var(--mist-400)}
+.guide-section .gs-body b{color:var(--mist-200)}
+.skill-order{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.skill-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border:1px solid var(--void-700);border-radius:3px;background:var(--void-850);font-family:ui-monospace,monospace;font-size:10px;color:var(--mist-200)}
+.skill-chip em{font-style:normal;color:var(--gold-400);font-weight:700}
+.minute-table{display:flex;flex-direction:column;gap:2px}
+.minute-row{display:flex;gap:8px;align-items:flex-start;padding:5px 4px;border-radius:4px}
+.minute-row:nth-child(even){background:rgba(15,11,24,.35)}
+.minute-time{flex-shrink:0;width:52px;font-family:ui-monospace,monospace;font-size:11px;font-weight:700;color:var(--ember-400);padding-top:1px}
+.minute-main{min-width:0;flex:1}
+.minute-main b{display:block;font-size:12px;color:var(--mist-200)}
+.minute-main span{font-size:11px;color:var(--mist-400);line-height:1.4}
+.minute-item{flex-shrink:0;width:36px;height:27px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(242,193,78,.2)}
+.minute-item img{width:100%;height:100%;object-fit:cover}
+.matchup-note{padding:6px 4px;border-top:1px solid var(--void-750)}
+.matchup-note:first-child{border-top:none}
+.matchup-note b{color:var(--mist-200);font-size:11px}
+.matchup-note p{font-size:11px;color:var(--mist-400);margin-top:2px;line-height:1.45}
+.guide-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 0;text-align:center;color:var(--mist-600)}
+.guide-empty p{max-width:34ch;font-size:13px}
+.guide-grid6{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.guide-grid6 .guide-hero{background:rgba(15,11,24,.5)}
 .advisor{display:flex;flex-direction:column;overflow:hidden}
 .advisor-tabs{display:flex;border-bottom:1px solid var(--void-750)}
 .advisor-tab{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mist-600);transition:all .2s}
@@ -335,6 +425,23 @@ a{color:inherit}
   </div>
 </header>
 <div class="wrap">
+  <div class="pagetabs" role="tablist">
+    <button type="button" class="pagetab on" id="tabBtnDraft" data-tabpage="pageDraft" role="tab" aria-selected="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>
+      Драфт
+    </button>
+    <button type="button" class="pagetab" id="tabBtnGuides" data-tabpage="pageGuides" role="tab" aria-selected="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Гайды
+      <span class="pg-count" id="pgCountGuides"></span>
+    </button>
+    <button type="button" class="pagetab" id="tabBtnCompare" data-tabpage="pageCompare" role="tab" aria-selected="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M12 20v2"/><path d="M12 14v2"/><path d="M12 8v2"/></svg>
+      Сравнение
+      <span class="pg-count" id="pgCountCompare"></span>
+    </button>
+  </div>
+  <div class="tabpage on" id="pageDraft">
   <section class="panel hero anim-fade-in">
     <img id="spotlight" alt="" aria-hidden="true">
     <div class="hero-inner">
@@ -408,6 +515,7 @@ a{color:inherit}
           </button>
         </div>
         <div class="role-btns" id="poolRoles"></div>
+        <div class="pool-sort" id="poolSortBtns"></div>
       </div>
       <div class="pool-grid" id="poolGrid"></div>
     </section>
@@ -434,6 +542,34 @@ a{color:inherit}
         <ul class="lib-list" id="libList"></ul>
       </section>
     </div>
+  </div>
+  </div>
+  <div class="tabpage" id="pageCompare">
+    <section class="panel" style="padding:12px 16px">
+      <div class="pool-head">
+        <h2>Сравнение двух героев</h2>
+        <span class="label-caps">выберите двух героев в списке ниже, чтобы увидеть, кто лучше против текущего состава врага</span>
+      </div>
+      <div class="cmp-bar" id="cmpBar" style="display:none"></div>
+      <div class="cmp-grid" id="cmpGrid"></div>
+      <div class="guide-grid6" id="cmpPool"></div>
+    </section>
+  </div>
+  <div class="tabpage" id="pageGuides">
+    <section class="panel" style="padding:12px 16px">
+      <div class="pool-head">
+        <h2>Гайд по герою</h2>
+        <span class="label-caps">сборка по минутам, прокачка способностей и советы против героев врага</span>
+      </div>
+      <div class="guide-layout">
+        <div>
+          <div class="guide-select" id="guideHeroes"></div>
+        </div>
+        <div>
+          <div id="guideBody2"></div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 <script>
@@ -649,6 +785,26 @@ Gem of True Sight|gem|Permanent true sight for hunting invisibility.|vision|invi
 Sentry Ward|ward_sentry|Cheap true sight to deny invisibility and wards.|vision|invis,pusher
 Smoke of Deceit|smoke_of_deceit|Move unseen to punish greedy split pushers.|vision|pusher
 Observer Ward|ward_observer|Vision to dodge ganks and track rotations.|vision|mobile,invis
+Boots of Speed|boots|Base movement speed for laning and rotations.|utility|
+Quelling Blade|quelling_blade|Bonus damage to creeps - faster last hits.|offense|
+Phase Boots|phase_boots|Active phase to run through units and chase.|offense|
+Bottle|bottle|Rechargeable healing and mana, stores runes.|utility|
+Tranquil Boots|tranquil_boots|Out-of-combat regen and passive healing.|utility|
+Null Talisman|null_talisman|Attributes and mana for casters.|utility|
+Boots of Travel|travel_boots|Global teleport to creep or tower.|utility|
+Power Treads|power_treads|Attack speed and switchable attributes.|offense|
+Ring of Health|ring_of_health|Flat health regeneration to sustain lane.|defense|
+Stout Shield|stout_shield|Damage block versus attacks for melee.|defense|
+Vanguard|vanguard|Damage block and health regen to tank the lane.|defense|
+Arcane Boots|arcane_boots|Mana replenishment for your team.|utility|
+Wraith Band|wraith_band|Agility and armor for agility cores.|offense|
+Dragon Lance|dragon_lance|Attack range and stats for ranged cores.|offense|
+Shadow Blade|shadow_blade|Invisibility to initiate or escape.|offense|
+Armlet of Mordiggian|armlet|Toggles bonus strength, high risk-reward.|offense|
+Ring of Basilius|ring_of_basilius|Mana regen aura for lane sustain.|utility|
+Soul Ring|soul_ring|Convert health into mana burst.|utility|
+Kaya|kaya|Spell amplification and mana reduction.|utility|
+Echo Sabre|echo_sabre|Double hit and mana regen for melee cores.|offense|
 `;
 var items = ITEM_RAW.trim().split('\n').map(function(line) {
   var p = line.split('|');
@@ -1396,6 +1552,660 @@ var synergyWith = parseTable(SYNERGY_WITH_RAW);
 var totalCounterPairs = 0;
 Object.keys(counteredBy).forEach(function(k) { totalCounterPairs += counteredBy[k].length; });
 
+/* ============ DATA: гайды героев ============
+   skills — порядок прокачки: 1/2/3 = способности, 4 = ульта.
+   items — сборка: { m: 'минута', item, why }.
+   tips — советы против героев врага { heroName: 'совет' }. */
+var HERO_GUIDES = {
+  'Crystal Maiden': {
+    skills: [1,2,3,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Frostbite', 'Crystal Nova', 'Arcane Aura', 'Freezing Field'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на старте — кормите аурой маны союзников и ставите варды.' },
+      { m: '6:00', item: 'Boots of Speed', why: 'Движение — чтобы успевать на ротации и в лес на глипс.' },
+      { m: '10:00', item: 'Glimmer Cape', why: 'Спасение себя и союзника под фокусом, плюс невидимость для сетапа.' },
+      { m: '18:00', item: 'Force Staff', why: 'Отталкивает инициаторов, помогает вытаскивать союзников из боя.' },
+      { m: '25:00', item: 'Aghanim\'s Scepter', why: 'Frostbite по площади и по призванным существам — огромная ценность в драках.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от бурста — выживаете, чтобы отдать ульту.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Держите Frostbite наготове — AM уходит Blink\'ом. Ловите его после прыжка, пока он добивает крипов.',
+      'Storm Spirit': 'Ставьте варды на руны. Frostbite по нему до Zap — и союзники успевают его дожать.',
+      'Phantom Assassin': 'Не стойте рядом с командой в открытую — PA прыгает на саппортов первой. Glimmer и Frostbite спасают.',
+      'Sniper': 'Ульту не даст прочесть — бейте его Frostbite из-за своих коров, когда он встаёт на шрапнель.'
+    }
+  },
+  'Juggernaut': {
+    skills: [1,2,3,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Blade Fury', 'Healing Ward', 'Blade Dance', 'Omnislash'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Быстрее добивать крипов на линии.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и фаза через крипов для добиваний Blade Fury.' },
+      { m: '12:00', item: 'Battle Fury', why: 'Фарм всего леса за минуты и рассекающий урон в драках.' },
+      { m: '20:00', item: 'Manta Style', why: 'Снимает молчания и даёт илюзии для фарма и давления.' },
+      { m: '28:00', item: 'Butterfly', why: 'Уклонение и скорость атаки — классический лейт для Juggernaut.' },
+      { m: '35:00', item: 'Abyssal Blade', why: 'Bash сквозь BKB, чтобы добивать мобильных коров.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Blade Fury и Omnislash рвут иллюзии. Покупайте Battle Fury и бейте по нему в драке.',
+      'Anti-Mage': 'Mana Void карает пустую ману — не тратьте всё на Blade Fury без цели. Оманишьте его после Blink, когда он без маны.',
+      'Storm Spirit': 'Держите Omnislash под его Ball Lightning. Снимайте себя Manta от Orchid.'
+    }
+  },
+  'Pudge': {
+    skills: [2,1,3,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Meat Hook', 'Rot', 'Flesh Heap', 'Dismember'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на рунах и позициях для хуков.' },
+      { m: '5:00', item: 'Bottle', why: 'Кликбэки на ротациях после успешных хуков.' },
+      { m: '10:00', item: 'Tranquil Boots', why: 'Восстановление между хуками и ротациями.' },
+      { m: '15:00', item: 'Blink Dagger', why: 'Внезапный блинк + Dismember — главный сетап Пуджа.' },
+      { m: '25:00', item: 'Aghanim\'s Shard', why: 'Дополнительный контроль и живучесть в драке.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Огромный пул здоровья под Flesh Heap.' }
+    ],
+    tips: {
+      'Shadow Fiend': 'Он встаёт на фарм и становится идеальной целью для хука. Не фармите против него — ротируйте.',
+      'Anti-Mage': 'Ловите его Blink-направление — ставы вардов. Один удачный хук — и его нет.',
+      'Invoker': 'Хукайте после того, как он использовал Tornado/EMP — в окне каст-анимации он неподвижен.'
+    }
+  },
+  'Invoker': {
+    skills: [2,3,1,2,1,3,2,1,3,1,2,3,1,2,3,4,4,4],
+    skillNames: ['Quas', 'Wex', 'Exort', 'Invoke'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Сила магии и мана на ранней стадии.' },
+      { m: '6:00', item: 'Bottle', why: 'Руны, мана и здоровье — сердце мидового Инвокера.' },
+      { m: '12:00', item: 'Boots of Travel', why: 'Глобальные ротации и мгновенное возвращение на линию.' },
+      { m: '18:00', item: 'Aghanim\'s Scepter', why: 'Настоящий Инвокер без Scepter не существует: усиленные способности.' },
+      { m: '25:00', item: 'Refresher Orb', why: 'Два круга заклинаний: Tornado + Meteor + Deafening Blast дважды.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Перезарядки и вампиризм от магии для постоянного давления.' }
+    ],
+    tips: {
+      'Storm Spirit': 'EMP сжигает его ману — комбинируйте с Tornado. Держите дистанцию от Zap.',
+      'Anti-Mage': 'Ice Wall и Deafening Blast ловят его после Blink. Не тратьте Tornado в пустоту.',
+      'Sniper': 'Tornado + Meteor + Deafening Blast уничтожают его. Прыгайте комбо с блинка.'
+    }
+  },
+  'Storm Spirit': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Static Remnant', 'Electric Vortex', 'Overload', 'Ball Lightning'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Урон и мана на линию.' },
+      { m: '6:00', item: 'Bottle', why: 'Руны и контроль маны — основа игры на Storm.' },
+      { m: '12:00', item: 'Power Treads', why: 'Интеллект/сила для баланса маны в драках.' },
+      { m: '18:00', item: 'Orchid Malevolence', why: 'Молчание и мана-реген — первый большой айтем для убийств.' },
+      { m: '25:00', item: 'Bloodthorn', why: 'Апгрейд Orchid: криты и настоящий дэмейдж.' },
+      { m: '30:00', item: 'Linken\'s Sphere', why: 'Защита от точечного контроля — чтобы летать в бой без страха.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает Ball Lightning — не влетайте в него с почти пустой маной.',
+      'Silencer': 'Global Silence отключает вас мгновенно. Покупайте BKB и не заходите первым.',
+      'Puck': 'Phase Shift даёт ему спасение от вашего Vortex — дождитесь его фазы.'
+    }
+  },
+  'Anti-Mage': {
+    skills: [1,3,2,1,3,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Mana Break', 'Blink', 'Mana Void', 'Counterspell'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Быстрый фарм крипов на линии.' },
+      { m: '8:00', item: 'Ring of Health', why: 'Восстановление для бесконечного фарма.' },
+      { m: '14:00', item: 'Battle Fury', why: 'Главный айтем: лес за минуты и давление на карту.' },
+      { m: '22:00', item: 'Manta Style', why: 'Снимает молчания и даёт илюзии для фарма.' },
+      { m: '28:00', item: 'Butterfly', why: 'Уклонение и атака — стандарт лейта AM.' },
+      { m: '34:00', item: 'Abyssal Blade', why: 'Bash для убийств коров-одиночек.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Он летает на мане — ваша Mana Break делает его беспомощным. Догоняйте Blink\'ом.',
+      'Invoker': 'Mana Void по нему после его комбо — огромный урон. Не давайте ему катать комбо спокойно.',
+      'Phantom Assassin': 'Бейте её до того, как она накопила — ваш мана-брейк и мобильность быстрее.'
+    }
+  },
+  'Phantom Assassin': {
+    skills: [2,1,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Stifling Dagger', 'Phantom Strike', 'Blur', 'Coup de Grace'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов и лес.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки и переключение атрибутов.' },
+      { m: '14:00', item: 'Desolator', why: 'Минус броня — криты начинают болеть по-настоящему.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Неприкосновенность для прыжка в драку.' },
+      { m: '26:00', item: 'Satanic', why: 'Вампиризм переживает фокус и отбивает драку.' },
+      { m: '32:00', item: 'Abyssal Blade', why: 'Bash, чтобы добивать уходящих.' }
+    ],
+    tips: {
+      'Axe': 'Он кричит и обрезает — не прыгайте в толпу первой. Дождитесь его Call, потом добивайте.',
+      'Sven': 'Его God\'s Strength раздаёт — уклонение Blur от физики не спасёт от крита по площади. Прыгайте на него в Warcry-окне.',
+      'Monkey King': 'Его Wukong\'s Command ловит прыжки — не влетайте в ульту.'
+    }
+  },
+  'Axe': {
+    skills: [1,3,2,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Berserker\'s Call', 'Battle Hunger', 'Counter Helix', 'Culling Blade'],
+    items: [
+      { m: '0:00', item: 'Stout Shield', why: 'Блок урона для торгов на линии.' },
+      { m: '6:00', item: 'Vanguard', why: 'Блок и регенерация — стоим на линии вечно.' },
+      { m: '12:00', item: 'Blink Dagger', why: 'Главный сетап: блинк + Call — вся команда в панике.' },
+      { m: '20:00', item: 'Blade Mail', why: 'Возвращает урон во время Call — убивает тех, кто бьёт.' },
+      { m: '28:00', item: 'Crimson Guard', why: 'Командная защита от физики в драках.' },
+      { m: '35:00', item: 'Heart of Tarrasque', why: 'Живучесть и регенерация для постоянного давления.' }
+    ],
+    tips: {
+      'Phantom Assassin': 'Call ловит её прыжок. Blade Mail и Counter Helix делают её фокус самоубийством.',
+      'Monkey King': 'В его Wukong\'s Command — Call и Helix карают всех. Прыгайте в ульту первым.',
+      'Juggernaut': 'Blade Fury делает его неуязвимым к Call — дождитесь конца вихря.'
+    }
+  },
+  'Lion': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Earth Spike', 'Hex', 'Mana Drain', 'Finger of Death'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для раннего давления и защиты мида.' },
+      { m: '6:00', item: 'Arcane Boots', why: 'Мана для трёх активных способностей.' },
+      { m: '12:00', item: 'Blink Dagger', why: 'Блинк + Hex + Spike — мгновенный контроль цели.' },
+      { m: '18:00', item: 'Aether Lens', why: 'Дальность каста — контролируем безопасно.' },
+      { m: '25:00', item: 'Aghanim\'s Scepter', why: 'Finger по площади — целая команда врагов в ужасе.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Ваш Hex ломает его Blink-прыжки. Держите мана-пул на двойной контроль.',
+      'Storm Spirit': 'Hex после его прыжка — и он мёртв. Не давайте ему летать.',
+      'Terrorblade': 'Mana Drain высасывает его иллюзии и ману — комбинируйте с Finger.'
+    }
+  },
+  'Lich': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Frost Blast', 'Frost Shield', 'Sacrifice', 'Chain Frost'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор и защита от ганков.' },
+      { m: '6:00', item: 'Tranquil Boots', why: 'Регенерация для активной игры на линии.' },
+      { m: '12:00', item: 'Force Staff', why: 'Спасение и мобильность.' },
+      { m: '18:00', item: 'Aether Lens', why: 'Дальность для Chain Frost и Frost Blast.' },
+      { m: '25:00', item: 'Glimmer Cape', why: 'Спасение себя и союзника под фокусом.' }
+    ],
+    tips: {
+      'Meepo': 'Chain Frost — кошмар для Мипо: рикошетит по всем клонам. Держите его для драки.',
+      'Phantom Assassin': 'Frost Shield на союзника, которого она прыгает — она замедляется и бьёт в броню.'
+    }
+  },
+  'Sniper': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shrapnel', 'Headshot', 'Take Aim', 'Assassinate'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Статы для торгов на линии.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки и переключение.' },
+      { m: '12:00', item: 'Maelstrom', why: 'Фарм и магический урон по целям.' },
+      { m: '18:00', item: 'Dragon Lance', why: 'Дальность и выживаемость.' },
+      { m: '24:00', item: 'Mjollnir', why: 'Статический заряд и урон по площади.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение от прыжков физических коров.' }
+    ],
+    tips: {
+      'Clockwork': 'Hookshot и Cogs снимают вашу дальность — держите дистанцию и покупайте Force Staff.',
+      'Spirit Breaker': 'Charge сбивает вашу позицию. Ставьте варды и держите Force Staff готовым.',
+      'Phantom Assassin': 'Blur и прыжки — ваша смерть. Не открывайтесь ей: бейте из укрытия.'
+    }
+  },
+  'Drow Ranger': {
+    skills: [2,1,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Frost Arrows', 'Gust', 'Marksmanship', 'Multishot'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити для фарма и торгов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Dragon Lance', why: 'Дальность и выживаемость.' },
+      { m: '20:00', item: 'Shadow Blade', why: 'Незаметность и бурст с Gust.' },
+      { m: '26:00', item: 'Black King Bar', why: 'Защита от контроля в драках.' },
+      { m: '32:00', item: 'Hurricane Pike', why: 'Отталкивает ближников и добавляет дальность.' }
+    ],
+    tips: {
+      'Clockwork': 'Его Cogs не дают отступить — Force/Pike обязателен, стреляйте издалека.',
+      'Spectre': 'Haunt приходит к вам. Держите BKB и не открывайтесь вне тимы.'
+    }
+  },
+  'Wraith King': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Wraithfire Blast', 'Vampiric Aura', 'Mortal Strike', 'Reincarnation'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Фарм крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Armlet of Mordiggian', why: 'Классический пул-хит и урон.' },
+      { m: '20:00', item: 'Blink Dagger', why: 'Прыжок + Wraithfire Blast — контроль на старте драки.' },
+      { m: '26:00', item: 'Radiance', why: 'Горение и давление по всей команде.' },
+      { m: '32:00', item: 'Assault Cuirass', why: 'Броня и скорость атаки для всей команды.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает ваш мана-пул. Бейте его первым, пока он не накопился.',
+      'Doom': 'Doom отключает вашу Reincarnation — берегитесь. BKB на фокус.'
+    }
+  },
+  'Tidehunter': {
+    skills: [1,3,2,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Gush', 'Kraken Shell', 'Anchor Smash', 'Ravage'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Регенерация маны для давления.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для Ravage и Gush.' },
+      { m: '15:00', item: 'Blink Dagger', why: 'Блинк + Ravage — главный сетап драки.' },
+      { m: '22:00', item: 'Blade Mail', why: 'Возврат урона в драке.' },
+      { m: '30:00', item: 'Refresher Orb', why: 'Двойной Ravage — команда врага в вечном стане.' }
+    ],
+    tips: {
+      'Silencer': 'Global Silence — ваш кошмар: без Ravage вы бесполезны. BKB и тайминг драки.'
+    }
+  },
+  'Sand King': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Burrowstrike', 'Sand Storm', 'Caustic Finale', 'Epicenter'],
+    items: [
+      { m: '0:00', item: 'Soul Ring', why: 'Мана для постоянного Burrowstrike.' },
+      { m: '8:00', item: 'Boots of Speed', why: 'Мобильность для ротаций.' },
+      { m: '15:00', item: 'Blink Dagger', why: 'Блинк + Epicenter — вся драка в эпицентре.' },
+      { m: '22:00', item: 'Aghanim\'s Scepter', why: 'Пульсация Epicenter без каста — бесплатный урон.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает ваш пул. Не влетайте в него с пустой маной.'
+    }
+  },
+  'Ember Spirit': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Searing Chains', 'Sleight of Fist', 'Flame Guard', 'Fire Remnant'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Статы на линию.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и урон.' },
+      { m: '12:00', item: 'Battle Fury', why: 'Фарм и рассекающий урон.' },
+      { m: '20:00', item: 'Maelstrom', why: 'Урон по площади и фарм.' },
+      { m: '28:00', item: 'Black King Bar', why: 'Защита от контроля, пока кастуете.' },
+      { m: '34:00', item: 'Mjollnir', why: 'Статический заряд и урон.' }
+    ],
+    tips: {
+      'Skywrath Mage': 'Silence отключает ваши ремнанты. BKB или позиция.'
+    }
+  },
+  'Earthshaker': {
+    skills: [1,3,1,2,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Fissure', 'Enchant Totem', 'Aftershock', 'Echo Slam'],
+    items: [
+      { m: '0:00', item: 'Soul Ring', why: 'Мана для Fissure и комбо.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для ульты.' },
+      { m: '15:00', item: 'Blink Dagger', why: 'Блинк + Echo Slam — мгновенный разгром.' },
+      { m: '25:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Echo Slam по призывам.' }
+    ],
+    tips: {
+      'Meepo': 'Echo Slam против Мипо — 5 отражений и вся команда мертва. Держите ульту.'
+    }
+  },
+  'Zeus': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Arc Lightning', 'Lightning Bolt', 'Static Field', 'Thundergod\'s Wrath'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Магический урон и мана.' },
+      { m: '8:00', item: 'Bottle', why: 'Руны и контроль маны.' },
+      { m: '14:00', item: 'Kaya', why: 'Усиление магии и скорость передвижения.' },
+      { m: '20:00', item: 'Aghanim\'s Scepter', why: 'Ульт пронзает укрытия — враги не спрячутся.' },
+      { m: '28:00', item: 'Aether Lens', why: 'Дальность каста для безопасных тычков.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает ваш мана-пул. Держите дистанцию и бейте с линии.'
+    }
+  },
+  'Spectre': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Spectral Dagger', 'Desolate', 'Dispersion', 'Haunt'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Фарм.' },
+      { m: '10:00', item: 'Vanguard', why: 'Выживаемость на линии.' },
+      { m: '18:00', item: 'Radiance', why: 'Горение и давление — главный айтем Спектры.' },
+      { m: '26:00', item: 'Manta Style', why: 'Снятие дебаффов и илюзии.' },
+      { m: '34:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Он фармит быстрее. Давите его Haunt-команды и не давайте ему накопить.'
+    }
+  },
+  'Sven': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Storm Hammer', 'Great Cleave', 'Warcry', 'God\'s Strength'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Фарм.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для добивания.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Двойной удар и мана-реген.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Неприкосновенность под ультой.' },
+      { m: '26:00', item: 'Blink Dagger', why: 'Прыжок + Hammer + ульта — мгновенное убийство.' },
+      { m: '32:00', item: 'Daedalus', why: 'Криты под God\'s Strength — всё тает.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает вас. Бейте его в стане и не давайте убежать.'
+    }
+  },
+  'Medusa': {
+    skills: [2,1,3,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Split Shot', 'Mystic Snake', 'Mana Shield', 'Stone Gaze'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и торговля.' },
+      { m: '10:00', item: 'Phase Boots', why: 'Скорость.' },
+      { m: '18:00', item: 'Manta Style', why: 'Илюзии и снятие дебаффов.' },
+      { m: '26:00', item: 'Butterfly', why: 'Атака и уклонение.' },
+      { m: '34:00', item: 'Eye of Skadi', why: 'Снижение лечения и замедление по всем целям.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Shield — ваша мана. Он высасывает её и бьёт Mana Void. Держите дистанцию.'
+    }
+  },
+  'Terrorblade': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Reflection', 'Conjure Image', 'Metamorphosis', 'Sunder'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити.' },
+      { m: '10:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '16:00', item: 'Dragon Lance', why: 'Дальность в Metamorphosis.' },
+      { m: '22:00', item: 'Manta Style', why: 'Илюзии под Metamorphosis — тройная сила.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и урон.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает. Илюзии питают его Bfury. Осторожно.'
+    }
+  },
+  'Phantom Lancer': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Spirit Lance', 'Doppelganger', 'Juxtapose', 'Phantom Rush'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '12:00', item: 'Diffusal Blade', why: 'Мана-бёрн и замедление — сердце PL.' },
+      { m: '18:00', item: 'Manta Style', why: 'Ещё илюзии.' },
+      { m: '26:00', item: 'Butterfly', why: 'Атака и уклонение.' },
+      { m: '34:00', item: 'Heart of Tarrasque', why: 'Илюзии живут вечно.' }
+    ],
+    tips: {
+      'Earthshaker': 'Echo Slam уничтожает все илюзии. Не влетайте в него.'
+    }
+  },
+  'Meepo': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Earthbind', 'Poof', 'Geostrike', 'Divided We Stand'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана для Poof-комбо.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки на всех клонах.' },
+      { m: '14:00', item: 'Blink Dagger', why: 'Блинк + Poof — мгновенный бурст.' },
+      { m: '20:00', item: 'Aghanim\'s Scepter', why: 'Ещё один клон и усиление.' }
+    ],
+    tips: {
+      'Earthshaker': 'Echo Slam — ваша смерть. Не давайте ему подойти.'
+    }
+  },
+  'Necrophos': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Death Pulse', 'Ghost Shroud', 'Heartstopper Aura', 'Reaper\'s Scythe'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана для Death Pulse.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для давления.' },
+      { m: '16:00', item: 'Kaya', why: 'Усиление магии и реген.' },
+      { m: '22:00', item: 'Aghanim\'s Scepter', why: 'Reaper\'s Scythe не даёт воскреснуть.' },
+      { m: '30:00', item: 'Shiva\'s Guard', why: 'Снижение лечения и аура.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает. Держите дистанцию и жмите Scythe когда он без маны.'
+    }
+  },
+  'Huskar': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Inner Fire', 'Burning Spear', 'Berserker\'s Blood', 'Life Break'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана и броня.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '12:00', item: 'Armlet of Mordiggian', why: 'Классика — пул-хит и урон.' },
+      { m: '18:00', item: 'Aghanim\'s Scepter', why: 'Life Break без восстановления.' },
+      { m: '26:00', item: 'Heart of Tarrasque', why: 'Живучесть под Berserker\'s Blood.'
+      }
+    ],
+    tips: {
+      'Ancient Apparition': 'Ice Blast не даёт вам лечиться — вы умираете. BKB и позиция.'
+    }
+  },
+  'Dazzle': {
+    skills: [1,3,2,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Poison Touch', 'Shallow Grave', 'Shadow Wave', 'Bad Juju'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор.' },
+      { m: '6:00', item: 'Arcane Boots', why: 'Мана для спасений.' },
+      { m: '12:00', item: 'Glimmer Cape', why: 'Невидимое спасение союзника.' },
+      { m: '18:00', item: 'Force Staff', why: 'Вытягивает союзника из боя.' },
+      { m: '25:00', item: 'Holy Locket', why: 'Усиление лечения.'
+      }
+    ],
+    tips: {
+      'Tinker': 'Grave на цель его комбо — и комбо разбивается.'
+    }
+  },
+  'Oracle': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Fortune\'s End', 'Fate\'s Edict', 'Purifying Flames', 'False Promise'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор.' },
+      { m: '6:00', item: 'Arcane Boots', why: 'Мана для комбо.' },
+      { m: '14:00', item: 'Aether Lens', why: 'Дальность спасений.' },
+      { m: '20:00', item: 'Force Staff', why: 'Мобильность.' },
+      { m: '26:00', item: 'Glimmer Cape', why: 'Спасение.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'False Promise на цель его Mana Void — снимает риск.'
+    }
+  },
+  'Winter Wyvern': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Arctic Burn', 'Splinter Blast', 'Cold Embrace', 'Winter\'s Curse'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор.' },
+      { m: '6:00', item: 'Tranquil Boots', why: 'Регенерация.' },
+      { m: '14:00', item: 'Force Staff', why: 'Спасение.' },
+      { m: '20:00', item: 'Aether Lens', why: 'Дальность Winter\'s Curse.'
+      }
+    ],
+    tips: {
+      'Phantom Assassin': 'Winter\'s Curse заставляет её убить своих — идеальный контр.'
+    }
+  },
+  'Skywrath Mage': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Arcane Bolt', 'Concussive Shot', 'Ancient Seal', 'Mystic Flare'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Магический урон.' },
+      { m: '6:00', item: 'Bottle', why: 'Руны и мана.' },
+      { m: '14:00', item: 'Kaya', why: 'Усиление магии.' },
+      { m: '20:00', item: 'Aether Lens', why: 'Дальность.' },
+      { m: '28:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Mystic Flare.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает. Бейте из укрытия.'
+    }
+  },
+  'Undying': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Decay', 'Soul Rip', 'Tombstone', 'Flesh Golem'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана для Decay.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для Tombstone.' },
+      { m: '16:00', item: 'Vanguard', why: 'Живучесть.' },
+      { m: '24:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Flesh Golem.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает. Бейте Decay по нему.'
+    }
+  },
+  'Kunkka': {
+    skills: [1,3,1,2,1,4,1,3,1,3,4,3,3,2,2,4,2,2],
+    skillNames: ['Torrent', 'Tidebringer', 'X Marks the Spot', 'Ghostship'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание Tidebringer.' },
+      { m: '6:00', item: 'Phase Boots', why: 'Скорость и урон.' },
+      { m: '14:00', item: 'Armlet of Mordiggian', why: 'Урон и живучесть.' },
+      { m: '20:00', item: 'Blink Dagger', why: 'Прыжок + Torrent + Boat.' },
+      { m: '28:00', item: 'Daedalus', why: 'Криты с Tidebringer — реквием по команде.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Ловите его на Torrent после Blink.'
+    }
+  },
+  'Magnus': {
+    skills: [1,3,2,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shockwave', 'Empower', 'Skewer', 'Reverse Polarity'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для комбо.' },
+      { m: '15:00', item: 'Blink Dagger', why: 'Блинк + Reverse Polarity — ульт, который решает.' },
+      { m: '22:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Shockwave после ульты.'
+      }
+    ],
+    tips: {
+      'Phantom Lancer': 'Reverse Polarity ловит все илюзии и кор.'
+    }
+  },
+  'Tiny': {
+    skills: [2,1,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Avalanche', 'Toss', 'Tree Grab', 'Grow'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана для комбо.' },
+      { m: '6:00', item: 'Boots of Speed', why: 'Мобильность.' },
+      { m: '12:00', item: 'Blink Dagger', why: 'Блинк + Toss + Avalanche — мгновенный бурст.' },
+      { m: '20:00', item: 'Aghanim\'s Scepter', why: 'Toss на врагов по площади.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и скорость атаки.'
+      }
+    ],
+    tips: {
+      'Phantom Assassin': 'Avalanche+Toss разбирают её до того, как она прыгнет.'
+    }
+  },
+  'Spirit Breaker': {
+    skills: [1,3,1,2,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Charge of Darkness', 'Bulldoze', 'Greater Bash', 'Nether Strike'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Blink Dagger', why: 'Внезапные рывки.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Защита от контроля во время бурста.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и атака.'
+      }
+    ],
+    tips: {
+      'Puck': 'Charge сбивает Phase Shift-тайминги — давите.'
+    }
+  },
+  'Night Stalker': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Void', 'Crippling Fear', 'Hunter in the Night', 'Darkness'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана и броня.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Vanguard', why: 'Живучесть для ног.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Защита от контроля ночью.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и атака.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Давите его ночью, пока он без BKB.'
+    }
+  },
+  'Viper': {
+    skills: [1,3,1,2,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Poison Attack', 'Corrosive Skin', 'Nethertoxin', 'Viper Strike'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость.' },
+      { m: '14:00', item: 'Dragon Lance', why: 'Дальность и выживаемость.' },
+      { m: '20:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Viper Strike.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и атака.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Poison Attack не даёт ему фармить спокойно.'
+    }
+  },
+  'Windranger': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shackleshot', 'Powershot', 'Windrun', 'Focus Fire'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Магический урон.' },
+      { m: '6:00', item: 'Bottle', why: 'Руны и мана.' },
+      { m: '14:00', item: 'Maelstrom', why: 'Фарм и урон.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Защита под Focus Fire.' },
+      { m: '28:00', item: 'Aghanim\'s Scepter', why: 'Focus Fire на разных целях.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Shackleshot ловит его после Blink.'
+    }
+  },
+  'Muerta': {
+    skills: [2,1,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dead Shot', 'The Calling', 'Gunslinger', 'Pierce the Veil'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Dragon Lance', why: 'Дальность.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Защита под ультой.' },
+      { m: '28:00', item: 'Daedalus', why: 'Криты под Pierce the Veil.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Void карает. Держите дистанцию.'
+    }
+  },
+  'Marci': {
+    skills: [1,3,1,2,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dispose', 'Rebound', 'Sidekick', 'Unleash'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Двойной удар.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Защита от контроля.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и атака.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Давите его в раннем миде.'
+    }
+  },
+  'Snapfire': {
+    skills: [1,3,1,2,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Scatterblast', 'Firesnap Cookie', 'Lil\' Shredder', 'Mortimer Kisses'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность.' },
+      { m: '22:00', item: 'Blink Dagger', why: 'Прыжок + Scatterblast + Cookie.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Давите его, пока он слаб.'
+    }
+  },
+  'Dawnbreaker': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Star Breaker', 'Solar Guardian', 'Celestial Hammer', 'Luminosity'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Двойной удар.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Защита.' },
+      { m: '28:00', item: 'Assault Cuirass', why: 'Броня и атака.'
+      }
+    ],
+    tips: {
+      'Anti-Mage': 'Solar Guardian спасает от его фокуса.'
+    }
+  }
+};
+function heroGuide(name) {
+  var g = HERO_GUIDES[name] || null;
+  if (!g) return null;
+  return {
+    skills: g.skills,
+    skillNames: g.skillNames || ['Способность 1', 'Способность 2', 'Способность 3', 'Ульта'],
+    items: g.items || [],
+    tips: g.tips || {}
+  };
+}
+
 var TAG_LABELS = {
   magic: 'Магический урон', physical: 'Физический урон', tank: 'Живучий', mobile: 'Мобильный',
   illusion: 'Иллюзии', summon: 'Призывы', invis: 'Невидимость', regen: 'Восстановление',
@@ -1639,7 +2449,11 @@ var advisorTab = 'counters';
 var advisorRole = null;
 var poolSearch = '';
 var poolRole = null;
+var poolSort = 'name';
 var guideOpen = null;
+var selectedGuide = null;
+var cmpA = null;
+var cmpB = null;
 
 var $ = function(id) { return document.getElementById(id); };
 
@@ -1682,12 +2496,19 @@ function relativeTime(iso) {
 function addTo(side, name) {
   var other = side === 'ally' ? enemies : allies;
   if (other.indexOf(name) !== -1) return;
+  var sideLabel = side === 'ally' ? 'Ваша команда' : 'Команда врага';
   if (side === 'ally') {
-    if (allies.indexOf(name) !== -1 || allies.length >= TEAM_SIZE) return;
+    if (allies.indexOf(name) !== -1 || allies.length >= TEAM_SIZE) {
+      if (allies.indexOf(name) === -1) toast(sideLabel + ' заполнена (' + TEAM_SIZE + '/' + TEAM_SIZE + ')', true);
+      return;
+    }
     allies = allies.concat(name);
     if (allies.length >= TEAM_SIZE) activeSide = 'enemy';
   } else {
-    if (enemies.indexOf(name) !== -1 || enemies.length >= TEAM_SIZE) return;
+    if (enemies.indexOf(name) !== -1 || enemies.length >= TEAM_SIZE) {
+      if (enemies.indexOf(name) === -1) toast(sideLabel + ' заполнена (' + TEAM_SIZE + '/' + TEAM_SIZE + ')', true);
+      return;
+    }
     enemies = enemies.concat(name);
     if (enemies.length >= TEAM_SIZE) activeSide = 'ally';
   }
@@ -1705,6 +2526,7 @@ function clearSide(side) {
   render();
 }
 function resetAll() {
+  if (allies.length + enemies.length > 0 && !confirm('Сбросить текущий драфт? Обе команды будут очищены.')) return;
   allies = [];
   enemies = [];
   inspected = null;
@@ -1965,9 +2787,27 @@ function renderPool() {
   });
   $('poolCount').textContent = visible.length + ' из ' + heroes.length;
 
+  $('poolSortBtns').innerHTML = [
+    { id: 'name', label: 'Имя' },
+    { id: 'wr', label: 'Винрейт' },
+    { id: 'counter', label: 'Контрит врага' }
+  ].map(function(s) {
+    return '<button type="button" class="sort-btn' + (poolSort === s.id ? ' on' : '') + '" data-action="pool-sort" data-sort="' + s.id + '" title="Сортировать: ' + s.label + '">' + s.label + '</button>';
+  }).join('');
+
   $('poolRoles').innerHTML = ROLES.map(function(r) {
     return '<button type="button" class="role-btn' + (poolRole === r ? ' on' : '') + '" data-action="pool-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
   }).join('');
+
+  var visible = visible.slice().sort(function(a, b) {
+    if (poolSort === 'wr') return b.winRate - a.winRate || a.name.localeCompare(b.name, 'ru');
+    if (poolSort === 'counter') {
+      var ac = enemies.filter(function(e) { return counterWeight(e, a.name) > 0; }).length;
+      var bc = enemies.filter(function(e) { return counterWeight(e, b.name) > 0; }).length;
+      return bc - ac || a.name.localeCompare(b.name, 'ru');
+    }
+    return a.name.localeCompare(b.name, 'ru');
+  });
 
   var taken = heroesTaken();
   grid.innerHTML = visible.map(poolCell).join('') +
@@ -1993,8 +2833,11 @@ function poolCell(hero, i) {
     ? 'Убрать ' + hero.name + ' из драфта'
     : 'Добавить ' + hero.name + (activeSide === 'ally' ? ' в вашу команду' : ' в команду врага');
 
+  var roleStrip = '<span class="role-strip ' + hero.roles[0] + '"></span>';
+
   return '<div class="' + cls + '" style="animation-delay:' + (Math.min(i, 24) * 12) + 'ms">' +
     tag +
+    roleStrip +
     '<button type="button" data-action="' + action + '"' + (picked ? ' data-side="' + (isAlly ? 'ally' : 'enemy') + '"' : '') + ' data-name="' + hero.name + '" class="hero-cell-btn" title="' + title + '">' +
       heroImg(hero.name, picked ? 'dim' : '') +
       '<span class="hero-cell-name">' + hero.name + '</span>' +
@@ -2002,7 +2845,8 @@ function poolCell(hero, i) {
     (counters > 0 && !picked
       ? '<span class="hero-cell-counter" title="Контрит ' + counters + (counters === 1 ? ' пик' : ' пика') + ' врага">+' + counters + '</span>'
       : '') +
-    '<button type="button" class="hero-cell-info" data-action="inspect" data-name="' + hero.name + '" title="Разбор матчапов: ' + hero.name + '">ИНФО</button>' +
+    '<span class="hero-cell-wr" title="Винрейт в пабах">' + hero.winRate + '%</span>' +
+    '<button type="button" class="hero-cell-info" data-action="inspect" data-name="' + hero.name + '" title="Разбор матчапов: ' + hero.name + '">' + ICON_INFO + '</button>' +
     '</div>';
 }
 
@@ -2043,8 +2887,12 @@ function renderDetail() {
         '<div><h2>' + inspected + '</h2>' +
         '<span class="roles">' + roles + ' · <span style="font-family:monospace;color:var(--gold-400)">' + hero.winRate + '%</span> побед</span></div>' +
         '<div class="detail-add">' +
-          '<button type="button" class="btn-enemy" data-action="add" data-side="enemy" data-name="' + hero.name + '">+ Врагу</button>' +
-          '<button type="button" class="btn-ally" data-action="add" data-side="ally" data-name="' + hero.name + '">+ Себе</button>' +
+          (allies.indexOf(hero.name) !== -1
+            ? '<button type="button" class="btn-ally" disabled style="opacity:.5;cursor:default" title="Уже в вашей команде">В команде</button>'
+            : '<button type="button" class="btn-ally" data-action="add" data-side="ally" data-name="' + hero.name + '">+ Себе</button>') +
+          (enemies.indexOf(hero.name) !== -1
+            ? '<button type="button" class="btn-enemy" disabled style="opacity:.5;cursor:default" title="Уже в команде врага">У врага</button>'
+            : '<button type="button" class="btn-enemy" data-action="add" data-side="enemy" data-name="' + hero.name + '">+ Врагу</button>') +
         '</div>' +
       '</div>' +
     '</div>' +
@@ -2179,7 +3027,7 @@ function renderLibrary() {
     }
     return '<li class="lib-item anim-slide-up" style="animation-delay:' + (i * 30) + 'ms">' +
       '<button type="button" class="lib-item-main" data-action="load" data-id="' + d.id + '" title="Загрузить этот драфт">' +
-        '<h4>' + d.name + '</h4>' +
+        '<h4>' + escapeHtml(d.name) + '</h4>' +
         '<span class="lib-lineup">' + lineup(d.enemies) +
           '<span style="font-size:10px;color:var(--mist-600)">против</span>' +
           lineup(d.allies) + '</span>' +
@@ -2188,6 +3036,130 @@ function renderLibrary() {
       '<button type="button" class="lib-del" data-action="delete" data-id="' + d.id + '" title="Удалить драфт">' + ICON_TRASH + '</button>' +
       '</li>';
   }).join('');
+}
+
+/* ============ РЕНДЕР: ГАЙДЫ ============ */
+function renderGuideHeroes() {
+  var names = Object.keys(HERO_GUIDES).sort(function(a, b) { return a.localeCompare(b, 'ru'); });
+  $('guideHeroes').innerHTML = names.map(function(name) {
+    return '<button type="button" class="guide-hero' + (selectedGuide === name ? ' on' : '') + '" data-action="guide-select" data-name="' + name + '" title="Гайд: ' + name + '">' +
+      heroImg(name, '') + '<span>' + name + '</span></button>';
+  }).join('');
+}
+function renderGuides() {
+  renderGuideHeroes();
+  var body = $('guideBody2');
+  if (!selectedGuide || !HERO_GUIDES[selectedGuide]) {
+    body.innerHTML = '<div class="guide-empty">' + ICON_BOOKMARK +
+      '<p>Выберите героя в списке слева — покажем прокачку способностей, сборку по минутам с пояснениями и советы против героев из вашего текущего состава врага.</p></div>';
+    return;
+  }
+  var g = heroGuide(selectedGuide);
+  var hero = heroByName[selectedGuide];
+  var roles = hero.roles.map(function(r) { return ROLE_LABELS[r]; }).join(' · ');
+
+  var skillLegend = g.skillNames.map(function(name, i) {
+    return '<span class="skill-chip"><em>' + (i + 1) + '</em>' + name + '</span>';
+  }).join('');
+  var skillOrder = g.skills.map(function(num, i) {
+    return '<span class="skill-chip" title="Уровень ' + (i + 1) + ': ' + g.skillNames[num - 1] + '"><em>' + num + '</em>' + (i + 1) + '</span>';
+  }).join('');
+
+  var itemsHtml = g.items.map(function(row) {
+    return '<div class="minute-row">' +
+      '<span class="minute-time">' + row.m + '</span>' +
+      '<span class="minute-item">' + itemImg(row.item, '') + '</span>' +
+      '<span class="minute-main"><b>' + row.item + '</b><span>' + row.why + '</span></span>' +
+    '</div>';
+  }).join('');
+
+  var tipRows = [];
+  enemies.forEach(function(enemy) {
+    if (g.tips[enemy]) tipRows.push('<div class="matchup-note"><b>Против ' + enemy + '</b><p>' + g.tips[enemy] + '</p></div>');
+  });
+  var tipsHtml = tipRows.length
+    ? '<div class="gs-body" style="padding:4px 12px">' + tipRows.join('') + '</div>'
+    : '<div class="gs-body">Советов против героев из текущего состава врага пока нет. Отметьте врагов на вкладке «Драфт» — и здесь появятся матчап-советы.</div>';
+
+  body.innerHTML =
+    '<div class="guide-hero-info">' + heroImg(selectedGuide, '', 'lg') +
+      '<div><h3>' + selectedGuide + '</h3>' +
+      '<span class="roles">' + roles + ' · <span style="font-family:monospace;color:var(--gold-400)">' + hero.winRate + '%</span> побед</span></div>' +
+    '</div>' +
+    '<div class="guide-section"><h4>Прокачка способностей</h4><div class="gs-body">' +
+      '<div class="skill-order">' + skillOrder + '</div>' +
+      '<div class="skill-order" style="margin-top:8px">' + skillLegend + '</div>' +
+    '</div></div>' +
+    '<div class="guide-section"><h4>Сборка по минутам</h4><div class="gs-body"><div class="minute-table">' + itemsHtml + '</div></div></div>' +
+    '<div class="guide-section"><h4>Советы против героев врага</h4>' + tipsHtml + '</div>';
+}
+
+/* ============ РЕНДЕР: СРАВНЕНИЕ ============ */
+function scoreAgainst(list, name) {
+  var beats = [], lanes = [], risk = [], score = 0;
+  (list || []).forEach(function(enemy) {
+    var w = counterWeight(enemy, name);
+    if (w > 0) { score += w; beats.push(enemy); }
+    if ((laneWins[name] || []).indexOf(enemy) !== -1) { score += WEIGHT_LANE; lanes.push(enemy); }
+    var back = counterWeight(name, enemy);
+    if (back > 0) { score -= back * WEIGHT_RISK; risk.push(enemy); }
+  });
+  score += (heroByName[name].winRate - 50) * WEIGHT_WINRATE;
+  return { score: score, beats: beats, lanes: lanes, risk: risk };
+}
+function renderComparePool() {
+  $('cmpPool').innerHTML = heroes.slice().sort(function(a, b) { return a.name.localeCompare(b.name, 'ru'); }).map(function(hero) {
+    var picked = cmpA === hero.name || cmpB === hero.name;
+    return '<button type="button" class="guide-hero' + (picked ? ' on' : '') + '" data-action="cmp" data-name="' + hero.name + '" title="' +
+      (picked ? 'Убрать из сравнения: ' : 'Выбрать для сравнения: ') + hero.name + '">' +
+      heroImg(hero.name, '') + '<span>' + hero.name + '</span></button>';
+  }).join('');
+  renderCompare();
+}
+function cmpChip(name) {
+  return '<span class="cmp-hero">' + heroImg(name, '') + '<span>' + name + '</span></span>';
+}
+function cmpCardBody(name, s) {
+  var lines = [];
+  if (s.beats.length) lines.push('<li><b>Контрит:</b> ' + s.beats.join(', ') + '</li>');
+  if (s.lanes.length) lines.push('<li><b>Линия:</b> ' + s.lanes.join(', ') + '</li>');
+  if (s.risk.length) lines.push('<li style="color:var(--dire-400)"><b>Риск:</b> его контрят ' + s.risk.join(', ') + '</li>');
+  if (lines.length === 0) lines.push('<li>Никого из состава врага не контрит и не выигрывает линии.</li>');
+  return '<div class="cmp-card-head">' + heroImg(name, '', 'lg') +
+      '<h3>' + name + '</h3><span class="cmp-score">' + (s.score > 0 ? '+' : '') + s.score.toFixed(1) + '</span></div>' +
+    '<ul class="cmp-reasons">' + lines.join('') + '</ul>';
+}
+function renderCompare() {
+  var bar = $('cmpBar'), grid = $('cmpGrid');
+  if (!cmpA || !cmpB) {
+    bar.style.display = 'none';
+    grid.innerHTML = '<div class="guide-empty">' + ICON_TARGET +
+      '<p>Выберите двух героев из списка ниже — увидим, кто из них сильнее против текущего состава врага.</p></div>';
+    return;
+  }
+  var a = scoreAgainst(enemies, cmpA);
+  var b = scoreAgainst(enemies, cmpB);
+  var denom = a.score + b.score;
+  var aPct = denom === 0 ? 50 : Math.round((a.score / denom) * 100);
+  aPct = Math.max(4, Math.min(96, aPct));
+
+  var verdict, tone;
+  var diff = a.score - b.score;
+  if (enemies.length === 0) { verdict = 'Добавьте врагов на вкладке «Драфт»'; tone = 'var(--mist-400)'; }
+  else if (Math.abs(diff) < 0.4) { verdict = 'Практически ровно'; tone = 'var(--gold-400)'; }
+  else if (diff > 0) { verdict = cmpA + ' сильнее'; tone = 'var(--radiant-400)'; }
+  else { verdict = cmpB + ' сильнее'; tone = 'var(--radiant-400)'; }
+
+  bar.style.display = '';
+  bar.innerHTML = '<span class="cmp-pair">' + cmpChip(cmpA) + '<b>против</b>' + cmpChip(cmpB) + '</span>' +
+    '<span class="cmp-bar-gauge" style="flex:1;min-width:120px"><i style="width:' + aPct + '%"></i></span>' +
+    '<span class="cmp-verdict" style="color:' + tone + '">' + verdict + '</span>' +
+    '<button type="button" class="cmp-clear" data-action="cmp-clear" title="Сбросить сравнение">' + ICON_X + '</button>';
+
+  var clsA = enemies.length > 0 && diff > 0.4 ? ' win' : (enemies.length > 0 && diff < -0.4 ? ' lose' : '');
+  var clsB = enemies.length > 0 && diff < -0.4 ? ' win' : (enemies.length > 0 && diff > 0.4 ? ' lose' : '');
+  grid.innerHTML = '<div class="cmp-card' + clsA + '">' + cmpCardBody(cmpA, a) + '</div>' +
+    '<div class="cmp-card' + clsB + '">' + cmpCardBody(cmpB, b) + '</div>';
 }
 
 /* ============ РЕНДЕР: ВСЁ ============ */
@@ -2200,6 +3172,8 @@ function render() {
   renderDetail();
   renderAdvisor();
   renderLibrary();
+  if ($('pageGuides').classList.contains('on')) renderGuides();
+  if ($('pageCompare').classList.contains('on')) renderComparePool();
 }
 
 /* ============ СОБЫТИЯ ============ */
@@ -2207,6 +3181,7 @@ document.addEventListener('click', function(e) {
   var el = e.target.closest ? e.target.closest('[data-action]') : null;
   if (!el) return;
   var action = el.getAttribute('data-action');
+  if (e.detail > 1 && (action === 'pick' || action === 'remove' || action === 'cmp' || action === 'guide-select')) return;
   var name = el.getAttribute('data-name');
   var side = el.getAttribute('data-side');
   switch (action) {
@@ -2220,6 +3195,17 @@ document.addEventListener('click', function(e) {
     case 'tab': advisorTab = el.getAttribute('data-tab'); renderAdvisor(); break;
     case 'advisor-role': advisorRole = el.getAttribute('data-role') || null; renderAdvisor(); break;
     case 'pool-role': poolRole = poolRole === el.getAttribute('data-role') ? null : el.getAttribute('data-role'); renderPool(); break;
+    case 'pool-sort': poolSort = el.getAttribute('data-sort'); renderPool(); break;
+    case 'guide-select': selectedGuide = name; renderGuides(); break;
+    case 'cmp':
+      if (name === cmpA) cmpA = null;
+      else if (name === cmpB) cmpB = null;
+      else if (!cmpA) cmpA = name;
+      else if (!cmpB) cmpB = name;
+      else cmpB = name;
+      renderComparePool();
+      break;
+    case 'cmp-clear': cmpA = null; cmpB = null; renderComparePool(); break;
     case 'load': loadDraft(el.getAttribute('data-id')); break;
     case 'delete':
       var drafts = readDrafts().filter(function(d) { return d.id !== el.getAttribute('data-id'); });
@@ -2245,6 +3231,21 @@ $('poolSearchClear').addEventListener('click', function() {
 });
 $('sideEnemy').addEventListener('click', function() { setActiveSide('enemy'); });
 $('sideAlly').addEventListener('click', function() { setActiveSide('ally'); });
+document.querySelectorAll('.pagetab').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var target = btn.getAttribute('data-tabpage');
+    document.querySelectorAll('.pagetab').forEach(function(b) {
+      var on = b === btn;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.tabpage').forEach(function(p) {
+      p.classList.toggle('on', p.id === target);
+    });
+    if (target === 'pageGuides') renderGuides();
+    if (target === 'pageCompare') renderComparePool();
+  });
+});
 $('resetBtn').addEventListener('click', resetAll);
 $('guideToggle').addEventListener('click', function() { toggleGuide(); });
 $('libForm').addEventListener('submit', function(e) {
@@ -2271,6 +3272,8 @@ $('libForm').addEventListener('submit', function(e) {
 $('stat-heroes').textContent = heroes.length;
 $('stat-pairs').textContent = totalCounterPairs;
 $('stat-items').textContent = items.length;
+$('pgCountGuides').textContent = Object.keys(HERO_GUIDES).length;
+$('pgCountCompare').textContent = heroes.length;
 try {
   guideOpen = !localStorage.getItem(SEEN_KEY);
 } catch (e) {
