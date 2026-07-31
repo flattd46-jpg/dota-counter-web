@@ -570,11 +570,90 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px}
 
 /* ============ RESPONSIVE POOL GRID ============ */
-/* ============ ENHANCED SCROLLBAR ============ */
-::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--void-700);border-radius:99px;border:2px solid var(--void-850)}
-::-webkit-scrollbar-thumb:hover{background:var(--mist-400)}
+/* ============ DASHBOARD LAYOUT ============ */
+.dashboard{display:flex;min-height:100vh}
+.dashboard-sidebar{width:220px;flex-shrink:0;background:var(--void-900);border-right:1px solid var(--void-750);display:flex;flex-direction:column;padding:16px 0;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s}
+.dashboard-sidebar .logo{padding:0 16px 20px;border-bottom:1px solid var(--void-750);margin-bottom:12px}
+.dashboard-sidebar .logo h1{font-size:18px;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.dashboard-sidebar .logo h1 span{color:var(--ember-400)}
+.dashboard-nav{display:flex;flex-direction:column;gap:2px;padding:0 8px}
+.dash-nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--mist-500);transition:all .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.dash-nav-item:hover{background:var(--void-850);color:var(--mist-200)}
+.dash-nav-item.active{background:rgba(255,122,47,.1);color:var(--ember-400)}
+.dash-nav-item svg{width:18px;height:18px;flex-shrink:0}
+.dash-nav-badge{margin-left:auto;font-size:10px;padding:1px 6px;border-radius:99px;background:var(--void-800);color:var(--mist-400);font-family:ui-monospace,monospace}
+.dash-nav-divider{height:1px;background:var(--void-750);margin:8px 12px}
+.dashboard-main{flex:1;min-width:0;padding:0;transition:background .6s}
+.dashboard-context{width:240px;flex-shrink:0;background:var(--void-900);border-left:1px solid var(--void-750);padding:16px;overflow-y:auto;height:100vh;position:sticky;top:0;transition:transform .3s;display:none}
+@media(min-width:1400px){.dashboard-context{display:block}}
+.dashboard-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--void-900);border-top:1px solid var(--void-750);padding:6px 0;padding-bottom:max(6px,env(safe-area-inset-bottom))}
+@media(max-width:768px){.dashboard-bottom-nav{display:flex;justify-content:space-around}.dashboard-sidebar{display:none}.dashboard-sidebar.mobile-open{display:flex;position:fixed;inset:0;z-index:300;width:260px;box-shadow:4px 0 24px rgba(0,0,0,.5)}.dashboard-context{display:none}}
+@media(min-width:769px){.dashboard-bottom-nav{display:none}}
+
+/* ============ GLASSMORPHISM V2 ============ */
+.glass{background:linear-gradient(135deg,rgba(21,15,34,.88),rgba(15,11,24,.92));backdrop-filter:blur(16px) saturate(1.3);border:1px solid rgba(255,255,255,.06);box-shadow:0 4px 24px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.03)}
+.glass-sm{background:rgba(21,15,34,.75);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.04);border-radius:8px}
+.panel{background:linear-gradient(135deg,rgba(21,15,34,.9),rgba(15,11,24,.95));backdrop-filter:blur(12px) saturate(1.2);border:1px solid rgba(255,255,255,.06);border-radius:12px;box-shadow:0 4px 24px -8px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.02);transition:border-color .25s,box-shadow .25s,transform .2s}
+.panel:hover{border-color:rgba(255,122,47,.14);box-shadow:0 8px 32px -8px rgba(0,0,0,.55),0 0 0 1px rgba(255,122,47,.05),inset 0 1px 0 rgba(255,255,255,.03)}
+.glass-accent{border-image:linear-gradient(135deg,rgba(255,122,47,.15),transparent 40%,rgba(122,103,245,.1)) 1}
+
+/* ============ PAGE TRANSITIONS ============ */
+.page-slide{animation:pageSlideIn .3s ease-out both}
+@keyframes pageSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tabpage{opacity:0;transform:translateY(6px);pointer-events:none;position:absolute;inset:0;width:100%;transition:opacity .28s ease,transform .28s ease}.tabpage.on{opacity:1;transform:translateY(0);pointer-events:auto;position:relative}
+
+/* ============ HERO CARD ============ */
+.hero-card{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--void-750);border-radius:8px;background:rgba(15,11,24,.5);transition:all .2s;cursor:pointer;position:relative;overflow:hidden}
+.hero-card:hover{transform:translateY(-1px);border-color:rgba(255,122,47,.3);box-shadow:0 4px 12px -4px rgba(0,0,0,.4);background:rgba(20,15,35,.7)}
+.hero-card:active{transform:scale(.98)}
+.hero-card.portrait{width:52px;height:52px;flex-shrink:0;border-radius:8px;overflow:hidden;position:relative}
+.hero-card.portrait img{width:100%;height:100%;object-fit:cover;transition:transform .3s}.hero-card:hover .portrait img{transform:scale(1.08)}
+.hero-card.portrait .portrait-bg{position:absolute;inset:0;border-radius:8px}
+.hero-card-info{flex:1;min-width:0}
+.hero-card-info h4{font-size:13px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.hero-card:hover .hero-card-info h4{color:var(--mist-50)}
+.hero-card-tags{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap}
+.tag-role{font-size:10px;padding:1px 5px;border-radius:3px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tag-role.carry{background:rgba(242,65,95,.15);color:var(--dire-400)}.tag-role.mid{background:rgba(255,122,47,.15);color:var(--ember-400)}.tag-role.offlane{background:rgba(242,193,78,.15);color:var(--gold-400)}.tag-role.support{background:rgba(47,211,154,.15);color:var(--radiant-400)}.tag-role.roamer{background:rgba(155,140,255,.15);color:#9b8cff}
+.hero-card-winrate{position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 8px 8px;transition:width .4s}
+.hero-card.counter{pointer-events:none;opacity:.45}
+.hero-card .hero-card-pick{position:absolute;top:4px;right:4px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+.hero-card.picked-ally .hero-card-pick{background:var(--radiant-500);color:var(--void-950)}.hero-card.picked-enemy .hero-card-pick{background:var(--dire-500);color:var(--void-950)}
+
+/* ============ RADIAL PROGRESS ============ */
+.radial-progress{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.radial-progress svg{transform:rotate(-90deg)}
+.radial-progress .ring-bg{fill:none;stroke:var(--void-750);stroke-width:5}
+.radial-progress .ring-fg{fill:none;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.radial-progress .ring-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--mist-50)}
+
+/* ============ DYNAMIC HERO THEME ============ */
+:root{--hero-accent:rgba(255,122,47,.08);--hero-glow:rgba(255,122,47,.15);--hero-border:rgba(255,122,47,.2)}
+.dashboard-main[data-hero]{--theme-accent:var(--hero-accent);--theme-glow:var(--hero-glow);--theme-border:var(--hero-border)}
+.glass-accent{background:linear-gradient(135deg,var(--hero-accent),rgba(15,11,24,.95))!important;border-color:var(--hero-border)!important}
+
+/* ============ MATCHUP MATRIX ============ */
+.matrix-container{overflow-x:auto;padding:8px}
+.matrix-table{border-collapse:separate;border-spacing:2px;font-size:11px}
+.matrix-table th,.matrix-table td{padding:5px;border-radius:4px;text-align:center;min-width:28px;font-family:ui-monospace,monospace;font-size:10px;transition:all .2s}
+.matrix-table th{color:var(--mist-500);font-weight:600;position:sticky;top:0;background:var(--void-900);z-index:1}
+.matrix-table th.row-header{position:sticky;left:0;z-index:2;min-width:60px;text-align:right;padding-right:6px}
+.matrix-cell{border-radius:3px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.matrix-cell:hover{transform:scale(1.15);box-shadow:0 2px 8px -2px rgba(0,0,0,.5);z-index:10;position:relative}
+.matrix-cell.dim{opacity:.4}
+.matrix-cell.active{box-shadow:0 0 0 2px var(--ember-500)}
+.matrix-tooltip{position:fixed;z-index:400;padding:8px 12px;border-radius:8px;background:var(--void-850);border:1px solid var(--void-700);box-shadow:0 8px 24px -6px rgba(0,0,0,.6);font-size:11px;max-width:200px;pointer-events:none;opacity:0;transition:opacity .15s}
+.matrix-tooltip.show{opacity:1}
+
+/* ============ AI RECOMMENDATION ============ */
+.ai-rec{padding:12px;border-radius:10px;background:linear-gradient(135deg,rgba(255,122,47,.06),rgba(122,103,245,.06));border:1px solid rgba(255,122,47,.1);transition:transform .2s,border-color .2s}
+.ai-rec:hover{transform:translateX(2px);border-color:rgba(255,122,47,.25)}
+.ai-rec-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ai-rec-badge{font-size:10px;padding:2px 8px;border-radius:99px;background:rgba(255,122,47,.15);color:var(--ember-400);font-weight:700;letter-spacing:.08em}
+.ai-rec-score{font-size:24px;font-weight:700;color:var(--gold-400)}
+.ai-rec-reason{font-size:11px;color:var(--mist-400);line-height:1.5;margin-top:6px}
+.ai-rec-heroes{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.ai-rec-heroes span{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--void-800);color:var(--mist-300);border:1px solid var(--void-750)}
 .hero-cell-btn{display:block;width:100%}
 .matchup li img.dim{filter:saturate(.45)}
 </style>
@@ -592,31 +671,56 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opa
   </div>
 </header>
 <div class="wrap">
-  <div class="pagetabs" role="tablist">
-    <button type="button" class="pagetab on" id="tabBtnDraft" data-tabpage="pageDraft" role="tab" aria-selected="true">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>
-      Драфт
+</header>
+
+<div class="dashboard">
+
+<aside class="dashboard-sidebar" id="dashSidebar">
+  <div class="logo">
+    <h1><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg> <span>Counter<b>Web</b></span></h1>
+  </div>
+  <nav class="dashboard-nav" id="dashNav">
+    <button class="dash-nav-item active" data-dash="pageDraft" id="navDraft">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg> Драфт
     </button>
-    <button type="button" class="pagetab" id="tabBtnGuides" data-tabpage="pageGuides" role="tab" aria-selected="false">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      Гайды
-      <span class="pg-count" id="pgCountGuides"></span>
+    <button class="dash-nav-item" data-dash="pageGuiders" id="navGuiders">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Гайды <span class="dash-nav-badge" id="navGuideCount"></span>
     </button>
-    <button type="button" class="pagetab" id="tabBtnCompare" data-tabpage="pageCompare" role="tab" aria-selected="false">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M12 20v2"/><path d="M12 14v2"/><path d="M12 8v2"/></svg>
-      Сравнение
-      <span class="pg-count" id="pgCountCompare"></span>
+    <button class="dash-nav-item" data-dash="pageMatrix" id="navMatrix">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Матрица
     </button>
-    <button type="button" class="pagetab" id="tabBtnHelp" data-tabpage="pageHelp" role="tab" aria-selected="false">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-      Инструкция
+    <button class="dash-nav-item" data-dash="pageSynergy" id="navSynergy">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Аналитика
     </button>
+    <button class="dash-nav-item" data-dash="pageAi" id="navAi">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93V12h1.5v-2.07A4.002 4.002 0 0 0 16 6a4 4 0 0 0-4-4"/><path d="M16 13h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4"/><circle cx="11" cy="13" r="2"/></svg> ИИ-контрпик
+    </button>
+    <div class="dash-nav-divider"></div>
+    <button class="dash-nav-item" data-dash="pageHelp" id="navHelp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg> Инструкция
+    </button>
+  </nav>
+  <div style="margin-top:auto;padding:0 12px">
+    <div id="dashAuthArea"></div>
+  </div>
+</aside>
+
+<main class="dashboard-main" id="dashMain" data-hero="">
+  <div class="pagetabs" role="tablist" id="dashTabs">
+    <button type="button" class="pagetab on" id="tabBtnDraft" data-tabpage="pageDraft" role="tab" aria-selected="true">Драфт</button>
+    <button type="button" class="pagetab" id="tabBtnGuiders" data-tabpage="pageGuiders" role="tab" aria-selected="false">Гайды<span class="pg-count" id="pgCountGuides"></span></button>
+    <button type="button" class="pagetab" id="tabBtnMatrix" data-tabpage="pageMatrix" role="tab" aria-selected="false">Матрица</button>
+    <button type="button" class="pagetab" id="tabBtnSynergy" data-tabpage="pageSynergy" role="tab" aria-selected="false">Аналитика</button>
+    <button type="button" class="pagetab" id="tabBtnAi" data-tabpage="pageAi" role="tab" aria-selected="false">ИИ</button>
+    <button type="button" class="pagetab" id="tabBtnCompare" data-tabpage="pageCompare" role="tab" aria-selected="false">Сравнение<span class="pg-count" id="pgCountCompare"></span></button>
+    <button type="button" class="pagetab" id="tabBtnHelp" data-tabpage="pageHelp" role="tab" aria-selected="false">Инструкция</button>
     <button type="button" class="pagetab auth-tab" id="authBtn" style="margin-left:auto">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
       <span id="authLabel">Войти</span>
     </button>
   </div>
-  <div class="tabpage on" id="pageDraft">
+
+<div class="tabpage on" id="pageDraft">
   <section class="panel hero anim-fade-in">
     <div class="hero-inner">
       <div class="hero-txt">
@@ -5192,7 +5296,7 @@ $('pgCountCompare').textContent = heroes.length;
   setTimeout(function() {
     bar.style.width = '100%';
     bar.classList.add('done');
-    setTimeout(function() { bar.remove(); }, 400);
+    setTimeout(function() { if (bar && bar.parentNode) try{ bar.parentNode.removeChild(bar); }catch(e){}; }, 400);
   }, 100);
 })();
 
@@ -5475,7 +5579,335 @@ renderGuideBody();
 render();
 initAuth();
 initPremium();
+initRadialProgress();
+updateDashAuth();
+updateGuideBadge();
+
+// Bottom navigation & sidebar handlers
+(function() {
+  var bottomNav = document.getElementById('bottomNav');
+  if (bottomNav) {
+    bottomNav.addEventListener('click', function(e) {
+      var btn = e.target.closest('.bottom-nav-item');
+      if (!btn) return;
+      var tabId = btn.getAttribute('data-tab');
+      if (!tabId) return;
+      var pagetabBtn = document.querySelector('.pagetab[data-tabpage="' + tabId + '"]');
+      if (pagetabBtn) pagetabBtn.click();
+      document.querySelectorAll('.bottom-nav-item').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  }
+  var sidebarNav = document.getElementById('dashNav');
+  if (sidebarNav) {
+    sidebarNav.addEventListener('click', function(e) {
+      var btn = e.target.closest('.dash-nav-item');
+      if (!btn) return;
+      var tabId = btn.getAttribute('data-dash');
+      if (!tabId) return;
+      var pagetabBtn = document.querySelector('.pagetab[data-tabpage="' + tabId + '"]');
+      if (pagetabBtn) pagetabBtn.click();
+      document.querySelectorAll('.dash-nav-item').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  }
+  var ctxClose = document.getElementById('dashContextClose');
+  if (ctxClose) {
+    ctxClose.addEventListener('click', function() {
+      var ctx = document.getElementById('dashContext');
+      if (ctx) ctx.classList.remove('open');
+    });
+  }
+})();
+
+// AI Counter-Pick Engine
+function analyzeEnemyTeam(heroNames, allHeroes) {
+  heroNames = heroNames.filter(Boolean);
+  if (heroNames.length === 0) return [];
+  var enemyRoles = {};
+  var enemyAttr = {};
+  var enemySynergy = {};
+  heroNames.forEach(function(name) {
+    var h = allHeroes.find(function(hh) { return hh.name === name; });
+    if (!h) return;
+    if (h.roles) h.roles.forEach(function(r) { enemyRoles[r] = (enemyRoles[r] || 0) + 1; });
+    if (h.attr) enemyAttr[h.attr] = (enemyAttr[h.attr] || 0) + 1;
+    if (h.synergy) h.synergy.forEach(function(s) { enemySynergy[s] = (enemySynergy[s] || 0) + 1; });
+  });
+  var selectedIds = heroNames.map(function(n) { var h = allHeroes.find(function(hh) { return hh.name === n; }); return h ? h.id : null; }).filter(Boolean);
+  return allHeroes
+    .filter(function(h) { return selectedIds.indexOf(h.id) === -1; })
+    .map(function(h) {
+      var score = 0; var reasons = [];
+      h.roles.forEach(function(r) { if (enemyRoles[r]) { score += 3; reasons.push('контррол-' + r); } });
+      if (h.attr && enemyAttr[h.attr]) { score += 1; reasons.push('тот же атрибут'); }
+      if (h.synergy) h.synergy.forEach(function(s) { if (enemySynergy[s]) { score += 2; reasons.push('синергия ' + s); } });
+      h.counters.forEach(function(c) { if (heroNames.indexOf(c) !== -1) { score += 4; reasons.push('контр ' + c); } });
+      return { hero: h, score: score, reasons: reasons };
+    })
+    .filter(function(r) { return r.score > 0; })
+    .sort(function(a, b) { return b.score - a.score; })
+    .slice(0, 5)
+    .map(function(r) {
+      return { name: r.hero.name, confidence: Math.min(95, 20 + r.score * 3), reasons: r.reasons, roles: r.hero.roles, attr: r.hero.attr };
+    });
+}
+
+function renderAICounterPick(container) {
+  if (!container) return;
+  var enemyHeroes = getCurrentTeamHeroes();
+  if (enemyHeroes.length === 0) {
+    container.innerHTML = '<div class="ai-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="1.5"><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93V12h1.5v-2.07A4.002 4.002 0 0 0 16 6a4 4 0 0 0-4-4"/><path d="M16 13h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4"/><circle cx="11" cy="13" r="2"/></svg><p>Добавьте вражеских героев в драфт для получения рекомендаций ИИ</p></div>';
+    return;
+  }
+  var results = analyzeEnemyTeam(enemyHeroes, HEROES);
+  var html = '<div class="ai-results"><h4 style="font-size:13px;margin-bottom:12px">ИИ-рекомендации контрпика:</h4>';
+  results.forEach(function(r, i) {
+    var confColor = r.confidence > 70 ? '#22c55e' : r.confidence > 40 ? '#eab308' : '#ef4444';
+    html += '<div class="ai-rec" style="animation-delay:' + (i * 0.08) + 's">';
+    html += '<div class="ai-rec-header"><span class="ai-rec-name">' + r.name + '</span>';
+    html += '<span class="ai-rec-badge" style="background:' + confColor + '">' + r.confidence + '%</span></div>';
+    html += '<div class="ai-rec-tags">' + r.roles.map(function(rl) { return '<span class="tag-role" style="background:rgba(255,122,47,0.15);color:#ff7a2f">' + rl + '</span>'; }).join('') + '</div>';
+    html += '<div class="ai-rec-reasons">' + r.reasons.map(function(re) { return '<span style="font-size:11px;color:var(--mist-400)">' + re + '</span>'; }).join(' ') + '</div>';
+    html += '<div class="radial-progress" data-pct="' + r.confidence + '"><svg viewBox="0 0 36 36"><path class="bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--bg-card)" stroke-width="3"/></svg>';
+    html += '<svg viewBox="0 0 36 36" class="fg" style="transform:rotate(-90deg)"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="' + confColor + '" stroke-width="3" stroke-dasharray="' + r.confidence + ', 100" stroke-linecap="round"/></svg>';
+    html += '<span class="progress-text" style="color:' + confColor + '">' + r.confidence + '%</span></div></div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+  initScrollReveal();
+}
+
+function getCurrentTeamHeroes() {
+  var selected = [];
+  document.querySelectorAll('.hero-card.selected').forEach(function(card) { var n = card.getAttribute('data-hero'); if (n) selected.push(n); });
+  return selected;
+}
+
+// Matchup Matrix Visualization
+function renderMatchupMatrix(container) {
+  if (!container) return;
+  var heroes = HEROES.slice(0, Math.min(8, HEROES.length));
+  var html = '<div class="matrix-container"><h4 style="font-size:13px;margin-bottom:12px">Матрица контрпиков</h4><div class="matrix-table-wrapper"><table class="matrix-table" id="matchupMatrix">';
+  html += '<thead><tr><th class="matrix-corner"></th>';
+  heroes.forEach(function(h) {
+    html += '<th class="matrix-th"><span class="matrix-hero-name">' + h.name + '</span><span class="matrix-hero-tag" style="background:' + getAttrColor(h.attr) + '40;color:' + getAttrColor(h.attr) + '">' + h.attr.charAt(0) + '</span></th>';
+  });
+  html += '</tr></thead><tbody>';
+  heroes.forEach(function(rowHero) {
+    html += '<tr><th class="matrix-th"><span class="matrix-hero-name">' + rowHero.name + '</span><span class="matrix-hero-tag" style="background:' + getAttrColor(rowHero.attr) + '40;color:' + getAttrColor(rowHero.attr) + '">' + rowHero.attr.charAt(0) + '</span></th>';
+    heroes.forEach(function(colHero) {
+      var advantage = calculateMatchupAdvantage(rowHero, colHero);
+      var bgColor;
+      if (advantage > 0.6) bgColor = 'rgba(34,197,94,0.3)';
+      else if (advantage > 0.5) bgColor = 'rgba(34,197,94,0.15)';
+      else if (advantage < 0.4) bgColor = 'rgba(239,68,68,0.3)';
+      else if (advantage < 0.5) bgColor = 'rgba(239,68,68,0.15)';
+      else bgColor = 'rgba(107,114,128,0.15)';
+      html += '<td class="matrix-td" data-row="' + rowHero.name + '" data-col="' + colHero.name + '" style="background:' + bgColor + '"><span class="matrix-value">' + (advantage * 100).toFixed(0) + '%</span><span class="matrix-arrow">' + (advantage > 0.5 ? '&#9650;' : advantage < 0.5 ? '&#9660;' : '&#9644;') + '</span></td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  html += '<div class="matrix-legend"><span class="legend-item"><span class="legend-dot" style="background:#22c55e"></span> Преимущество</span><span class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> Слабость</span><span class="legend-item"><span class="legend-dot" style="background:#6b7280"></span> Нейтрально</span></div></div>';
+  container.innerHTML = html;
+
+  container.querySelectorAll('.matrix-td').forEach(function(td) {
+    td.addEventListener('mouseenter', function() {
+      var row = td.getAttribute('data-row');
+      var col = td.getAttribute('data-col');
+      var tooltip = document.getElementById('matrixTooltip');
+      if (tooltip) {
+        var rh = HEROES.find(function(h) { return h.name === row; });
+        var ch = HEROES.find(function(h) { return h.name === col; });
+        if (rh && ch) {
+          var adv = calculateMatchupAdvantage(rh, ch);
+          var desc = adv > 0.55 ? 'Сильный контр' : adv > 0.45 ? 'Слабый контр' : 'Нейтрально';
+          tooltip.innerHTML = '<strong>' + rh.name + '</strong> vs <strong>' + ch.name + '</strong>: ' + desc + ' (' + (adv * 100).toFixed(0) + '%)';
+          tooltip.style.left = (td.getBoundingClientRect().left + 100) + 'px';
+          tooltip.style.top = (td.getBoundingClientRect().top - 40) + 'px';
+          tooltip.classList.add('visible');
+        }
+      }
+    });
+    td.addEventListener('mouseleave', function() {
+      var tooltip = document.getElementById('matrixTooltip');
+      if (tooltip) tooltip.classList.remove('visible');
+    });
+  });
+}
+
+function calculateMatchupAdvantage(hero1, hero2) {
+  var base = 0.5;
+  hero1.counters.forEach(function(c) { if (c === hero2.name) base += 0.3; });
+  hero2.counters.forEach(function(c) { if (c === hero1.name) base -= 0.3; });
+  if (hero1.roles && hero2.roles) {
+    hero2.roles.forEach(function(r) { if (hero1.roles.indexOf(r) !== -1) base += 0.1; });
+  }
+  if (hero1.attr === hero2.attr) base += 0.05;
+  return Math.max(0.1, Math.min(0.9, base));
+}
+
+function getAttrColor(attr) {
+  if (attr === 'Сила') return '#ef4444';
+  if (attr === 'Ловкость') return '#22c55e';
+  return '#3b82f6';
+}
+
+// Team Synergy Analysis
+function renderTeamSynergy(container) {
+  if (!container) return;
+  var selectedHeroes = getCurrentTeamHeroes();
+  if (selectedHeroes.length < 2) {
+    container.innerHTML = '<div class="ai-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><p>Выберите 2+ героев в драфте для анализа синергии</p></div>';
+    return;
+  }
+  var heroes = selectedHeroes.map(function(name) { return HEROES.find(function(h) { return h.name === name; }); }).filter(Boolean);
+  if (heroes.length < 2) { return; }
+
+  var roleCount = {};
+  heroes.forEach(function(h) { if (h.roles) h.roles.forEach(function(r) { roleCount[r] = (roleCount[r] || 0) + 1; }); });
+  var totalRoles = heroes.reduce(function(sum, h) { return sum + (h.roles ? h.roles.length : 0); }, 0);
+  var synergyScore = calculateSynergyScore(heroes);
+
+  var html = '<div class="synergy-results"><h4 style="font-size:13px;margin-bottom:12px">Аналитика состава</h4>';
+  html += '<div class="synergy-heroes">';
+  heroes.forEach(function(h) {
+    html += '<div class="synergy-hero-chip" style="border-color:' + getAttrColor(h.attr) + '"><span>' + h.name + '</span><span class="tag-role" style="background:' + getAttrColor(h.attr) + '20;color:' + getAttrColor(h.attr) + '">' + h.attr + '</span></div>';
+  });
+  html += '</div>';
+  html += '<div class="synergy-score"><div class="radial-progress-lg" data-pct="' + synergyScore + '"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--bg-card)" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#ff7a2f" stroke-width="8" stroke-dasharray="' + synergyScore + ', 100" stroke-linecap="round" class="progress-ring"/></svg><span class="progress-text-lg" style="color:#ff7a2f">' + synergyScore + '%</span></div><span class="synergy-label">Синергия команды</span></div>';
+  html += '<h5 style="font-size:11px;margin-top:16px;color:var(--mist-400)">Распределение ролей</h5><div class="role-chart">';
+  Object.keys(roleCount).forEach(function(role) {
+    var pct = Math.round((roleCount[role] / Math.max(1, totalRoles)) * 100);
+    var sampleHero = heroes.find(function(hh) { return hh.roles && hh.roles.indexOf(role) !== -1; });
+    var barColor = sampleHero ? getAttrColor(sampleHero.attr) : '#ff7a2f';
+    html += '<div class="role-bar"><span class="role-label">' + role + '</span><div class="role-bar-bg"><div class="role-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div><span class="role-pct">' + pct + '%</span></div>';
+  });
+  html += '</div></div>';
+  container.innerHTML = html;
+  initScrollReveal();
+}
+
+function calculateSynergyScore(heroes) {
+  var total = 0; var count = 0;
+  for (var i = 0; i < heroes.length; i++) {
+    for (var j = i + 1; j < heroes.length; j++) {
+      var h1 = heroes[i]; var h2 = heroes[j];
+      if (h1.synergy && h2.synergy) {
+        if (h1.synergy.indexOf(h2.name) !== -1) total += 0.4;
+        if (h2.synergy.indexOf(h1.name) !== -1) total += 0.4;
+      }
+      if (h1.roles && h2.roles) {
+        h1.roles.forEach(function(r) { if (h2.roles.indexOf(r) === -1) total += 0.1; });
+      }
+      if (h1.attr === h2.attr) total += 0.05;
+      count++;
+    }
+  }
+  return count > 0 ? Math.min(98, Math.round((total / count) * 100)) : 50;
+}
+
+// Dynamic Hero Theme
+function applyHeroTheme(heroName) {
+  var hero = HEROES.find(function(h) { return h.name === heroName; });
+  if (!hero) return;
+  var attr = hero.attr || 'Интеллект';
+  var themes = {
+    'Сила': { primary: '#ef4444', secondary: 'rgba(239,68,68,0.15)', accent: '#ff6b6b' },
+    'Ловкость': { primary: '#22c55e', secondary: 'rgba(34,197,94,0.15)', accent: '#4ade80' },
+    'Интеллект': { primary: '#3b82f6', secondary: 'rgba(59,130,246,0.15)', accent: '#60a5fa' }
+  };
+  var c = themes[attr] || themes['Интеллект'];
+  var root = document.documentElement;
+  if (root) {
+    root.style.setProperty('--accent-primary', c.primary);
+    root.style.setProperty('--accent-secondary', c.secondary);
+    root.style.setProperty('--accent-color', c.accent);
+  }
+}
+
+function resetHeroTheme() {
+  var root = document.documentElement;
+  if (root) {
+    root.style.setProperty('--accent-primary', '#ff7a2f');
+    root.style.setProperty('--accent-secondary', 'rgba(255,122,47,0.12)');
+    root.style.setProperty('--accent-color', '#ff7a2f');
+  }
+}
+
+// Radial progress initialization
+function initRadialProgress() {
+  document.querySelectorAll('.radial-progress[data-pct], .radial-progress-lg[data-pct]').forEach(function(el) {
+    var pct = el.getAttribute('data-pct') || '0';
+    el.style.setProperty('--pct', pct);
+  });
+}
+
+
+function updateDashAuth() {
+  var area = document.getElementById('dashAuthArea');
+  if (!area) return;
+  if (typeof currentUser !== "undefined" && currentUser) {
+    area.innerHTML = '<div class="dash-user"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg><span style="color:var(--mist-200);font-size:11px">' + currentUser + '</span><button class="btn-ghost" onclick="signOut()" style="font-size:10px;padding:4px 10px">Выйти</button></div>';
+  } else {
+    area.innerHTML = '<button class="btn-ghost" onclick="document.getElementById(&apos;authBtn&apos;).click()" style="font-size:11px;color:var(--mist-400)">Войти в аккаунт</button>';
+  }
+}
+
+// Update guide count badge
+function updateGuideBadge() {
+  var count = document.querySelectorAll('.badge').length;
+  var badge = document.getElementById('navGuideCount');
+  if (badge) badge.textContent = count > 0 ? count : '';
+}
+
+// Reinit auth on tab switch
+var _origInitAuth = initAuth;
+initAuth = function() {
+  _origInitAuth();
+  updateDashAuth();
+  updateGuideBadge();
+};
 
 </script>
+<!-- Bottom Navigation Bar -->
+<nav class="dashboard-bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item active" data-tab="pageDraft" title="Драфт">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>
+    <span>Драфт</span>
+  </button>
+  <button class="bottom-nav-item" data-tab="pageGuiders" title="Гайды">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <span>Гайды</span>
+  </button>
+  <button class="bottom-nav-item" data-tab="pageMatrix" title="Матрица">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <span>Матрица</span>
+  </button>
+  <button class="bottom-nav-item" data-tab="pageAi" title="ИИ-контрпик">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93V12h1.5v-2.07A4.002 4.002 0 0 0 16 6a4 4 0 0 0-4-4"/><path d="M16 13h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4"/><circle cx="11" cy="13" r="2"/></svg>
+    <span>ИИ</span>
+  </button>
+  <button class="bottom-nav-item" data-tab="pageSynergy" title="Аналитика">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    <span>Аналитика</span>
+  </button>
+</nav>
+
+<!-- Dashboard Context Panel -->
+<aside class="dashboard-context" id="dashContext">
+  <div class="dash-context-header">
+    <h3>Контекст</h3>
+    <button class="dash-context-close" id="dashContextClose">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div id="dashContextBody">
+    <p class="ctx-empty">Выберите героя или начинайте драфт — здесь будет контекстная информация.</p>
+  </div>
+</aside>
+
+</main></div>
 </body>
 </html>
