@@ -320,7 +320,7 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .popular-stage h5{margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mist-200)}
 .popular-items{display:flex;flex-direction:column;gap:5px}
 .popular-item{display:flex;align-items:center;gap:6px;font-size:11px;line-height:1.2}
-.popular-item img,.popular-item .ph{width:22px;height:22px;flex-shrink:0;border-radius:3px;box-shadow:0 0 0 1px rgba(242,193,78,.2)}
+.popular-item img,.popular-item .ph{width:30px;height:30px;flex-shrink:0;border-radius:4px;box-shadow:0 0 0 1px rgba(242,193,78,.25)}
 .popular-item .ph{font-size:8px}
 .popular-name{flex:0 1 auto;min-width:0;color:var(--mist-200);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .popular-bar{flex:1;min-width:20px;height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
@@ -535,7 +535,11 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
 .particle:nth-child(10){left:15%;top:55%;width:2px;height:2px;animation-duration:21s;animation-delay:9s;background:rgba(255,122,47,.2)}
 
 /* ============ СТАГГЕР-СЕТКА ============ */
-.pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:2px}
+.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-height:520px;overflow-y:auto;padding-right:2px}
+.pool-grid .hero-cell{animation:hero-cell-in .35s ease-out both}
+@media(min-width:640px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.pool-grid{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(6,1fr)}}
 .pool-grid .hero-cell{animation:hero-cell-in .35s ease-out both}
 @keyframes hero-cell-in{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 
@@ -566,9 +570,6 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px}
 
 /* ============ RESPONSIVE POOL GRID ============ */
-@media(max-width:640px){.pool-grid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:1px}.auth-modal{width:95%}.guide-grid6{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}}
-@media(min-width:641px) and (max-width:900px){.pool-grid{grid-template-columns:repeat(auto-fill,minmax(48px,1fr))}}
-
 /* ============ ENHANCED SCROLLBAR ============ */
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:transparent}
