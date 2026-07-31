@@ -1,0 +1,1257 @@
+﻿[
+    {
+        "target":  "Abaddon",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Abaddon",
+        "source":  "Slark",
+        "type":  "core"
+    },
+    {
+        "target":  "Alchemist",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Alchemist",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Ancient Apparition",
+        "source":  "Clockwork",
+        "type":  "support"
+    },
+    {
+        "target":  "Ancient Apparition",
+        "source":  "Weaver",
+        "type":  "core"
+    },
+    {
+        "target":  "Anti-Mage",
+        "source":  "Shadow Shaman",
+        "type":  "support"
+    },
+    {
+        "target":  "Anti-Mage",
+        "source":  "Meepo",
+        "type":  "core"
+    },
+    {
+        "target":  "Arc Warden",
+        "source":  "Bane",
+        "type":  "support"
+    },
+    {
+        "target":  "Arc Warden",
+        "source":  "Broodmother",
+        "type":  "core"
+    },
+    {
+        "target":  "Axe",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Axe",
+        "source":  "Timbersaw",
+        "type":  "core"
+    },
+    {
+        "target":  "Bane",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Bane",
+        "source":  "Lycan",
+        "type":  "core"
+    },
+    {
+        "target":  "Batrider",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Batrider",
+        "source":  "Queen of Pain",
+        "type":  "core"
+    },
+    {
+        "target":  "Beastmaster",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Beastmaster",
+        "source":  "Sven",
+        "type":  "core"
+    },
+    {
+        "target":  "Bloodseeker",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Bloodseeker",
+        "source":  "Medusa",
+        "type":  "core"
+    },
+    {
+        "target":  "Bounty Hunter",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Bounty Hunter",
+        "source":  "Slardar",
+        "type":  "core"
+    },
+    {
+        "target":  "Brewmaster",
+        "source":  "Skywrath Mage",
+        "type":  "support"
+    },
+    {
+        "target":  "Brewmaster",
+        "source":  "Outworld Destroyer",
+        "type":  "core"
+    },
+    {
+        "target":  "Bristleback",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Bristleback",
+        "source":  "Viper",
+        "type":  "core"
+    },
+    {
+        "target":  "Broodmother",
+        "source":  "Grimstroke",
+        "type":  "support"
+    },
+    {
+        "target":  "Broodmother",
+        "source":  "Earthshaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Centaur Warrunner",
+        "source":  "Underlord",
+        "type":  "support"
+    },
+    {
+        "target":  "Centaur Warrunner",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Chaos Knight",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Chaos Knight",
+        "source":  "Sand King",
+        "type":  "core"
+    },
+    {
+        "target":  "Chen",
+        "source":  "Enchantress",
+        "type":  "support"
+    },
+    {
+        "target":  "Chen",
+        "source":  "Clinkz",
+        "type":  "core"
+    },
+    {
+        "target":  "Clinkz",
+        "source":  "Bane",
+        "type":  "support"
+    },
+    {
+        "target":  "Clinkz",
+        "source":  "Spectre",
+        "type":  "core"
+    },
+    {
+        "target":  "Clockwork",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Clockwork",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Crystal Maiden",
+        "source":  "Rubick",
+        "type":  "support"
+    },
+    {
+        "target":  "Crystal Maiden",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Dark Seer",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Dark Seer",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Dark Willow",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Dark Willow",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Dawnbreaker",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Dawnbreaker",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Dazzle",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Dazzle",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Death Prophet",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Death Prophet",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Disruptor",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Disruptor",
+        "source":  "Pangolier",
+        "type":  "core"
+    },
+    {
+        "target":  "Doom",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Doom",
+        "source":  "Medusa",
+        "type":  "core"
+    },
+    {
+        "target":  "Dragon Knight",
+        "source":  "Elder Titan",
+        "type":  "support"
+    },
+    {
+        "target":  "Dragon Knight",
+        "source":  "Viper",
+        "type":  "core"
+    },
+    {
+        "target":  "Drow Ranger",
+        "source":  "Clockwork",
+        "type":  "support"
+    },
+    {
+        "target":  "Drow Ranger",
+        "source":  "Spirit Breaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Earth Spirit",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Earth Spirit",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Earthshaker",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Earthshaker",
+        "source":  "Templar Assassin",
+        "type":  "core"
+    },
+    {
+        "target":  "Elder Titan",
+        "source":  "Shadow Shaman",
+        "type":  "support"
+    },
+    {
+        "target":  "Elder Titan",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Ember Spirit",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Ember Spirit",
+        "source":  "Slark",
+        "type":  "core"
+    },
+    {
+        "target":  "Enchantress",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Enchantress",
+        "source":  "Marci",
+        "type":  "core"
+    },
+    {
+        "target":  "Enigma",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Enigma",
+        "source":  "Sniper",
+        "type":  "core"
+    },
+    {
+        "target":  "Faceless Void",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Faceless Void",
+        "source":  "Naga Siren",
+        "type":  "core"
+    },
+    {
+        "target":  "Grimstroke",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Grimstroke",
+        "source":  "Phantom Lancer",
+        "type":  "core"
+    },
+    {
+        "target":  "Gyrocopter",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Gyrocopter",
+        "source":  "Faceless Void",
+        "type":  "core"
+    },
+    {
+        "target":  "Hoodwink",
+        "source":  "Spirit Breaker",
+        "type":  "support"
+    },
+    {
+        "target":  "Huskar",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Huskar",
+        "source":  "Necrophos",
+        "type":  "core"
+    },
+    {
+        "target":  "Invoker",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Invoker",
+        "source":  "Riki",
+        "type":  "core"
+    },
+    {
+        "target":  "Io",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Io",
+        "source":  "Troll Warlord",
+        "type":  "core"
+    },
+    {
+        "target":  "Jakiro",
+        "source":  "Rubick",
+        "type":  "support"
+    },
+    {
+        "target":  "Jakiro",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Juggernaut",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Juggernaut",
+        "source":  "Riki",
+        "type":  "core"
+    },
+    {
+        "target":  "Keeper of the Light",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Keeper of the Light",
+        "source":  "Night Stalker",
+        "type":  "core"
+    },
+    {
+        "target":  "Kez",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Kez",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Kunkka",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Kunkka",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Legion Commander",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Legion Commander",
+        "source":  "Wraith King",
+        "type":  "core"
+    },
+    {
+        "target":  "Lich",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Lich",
+        "source":  "Bristleback",
+        "type":  "core"
+    },
+    {
+        "target":  "Lifestealer",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Lifestealer",
+        "source":  "Morphling",
+        "type":  "core"
+    },
+    {
+        "target":  "Lina",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Lina",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Lion",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Lion",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Lone Druid",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Lone Druid",
+        "source":  "Slark",
+        "type":  "core"
+    },
+    {
+        "target":  "Luna",
+        "source":  "Underlord",
+        "type":  "support"
+    },
+    {
+        "target":  "Luna",
+        "source":  "Phantom Lancer",
+        "type":  "core"
+    },
+    {
+        "target":  "Lycan",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Lycan",
+        "source":  "Earthshaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Magnus",
+        "source":  "Rubick",
+        "type":  "support"
+    },
+    {
+        "target":  "Magnus",
+        "source":  "Sniper",
+        "type":  "core"
+    },
+    {
+        "target":  "Marci",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Marci",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Mars",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Mars",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Medusa",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Medusa",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Meepo",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Meepo",
+        "source":  "Sand King",
+        "type":  "core"
+    },
+    {
+        "target":  "Monkey King",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Monkey King",
+        "source":  "Timbersaw",
+        "type":  "core"
+    },
+    {
+        "target":  "Mirana",
+        "source":  "Bounty Hunter",
+        "type":  "support"
+    },
+    {
+        "target":  "Mirana",
+        "source":  "Night Stalker",
+        "type":  "core"
+    },
+    {
+        "target":  "Morphling",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Morphling",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Muerta",
+        "source":  "Shadow Shaman",
+        "type":  "support"
+    },
+    {
+        "target":  "Muerta",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Naga Siren",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Naga Siren",
+        "source":  "Sand King",
+        "type":  "core"
+    },
+    {
+        "target":  "Nature\u0027s Prophet",
+        "source":  "Spirit Breaker",
+        "type":  "support"
+    },
+    {
+        "target":  "Nature\u0027s Prophet",
+        "source":  "Timbersaw",
+        "type":  "core"
+    },
+    {
+        "target":  "Necrophos",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Necrophos",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Night Stalker",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Night Stalker",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Nyx Assassin",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Nyx Assassin",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Ogre Magi",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Ogre Magi",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Omniknight",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Omniknight",
+        "source":  "Shadow Fiend",
+        "type":  "core"
+    },
+    {
+        "target":  "Oracle",
+        "source":  "Axe",
+        "type":  "support"
+    },
+    {
+        "target":  "Oracle",
+        "source":  "Phantom Assassin",
+        "type":  "core"
+    },
+    {
+        "target":  "Outworld Destroyer",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Outworld Destroyer",
+        "source":  "Sniper",
+        "type":  "core"
+    },
+    {
+        "target":  "Pangolier",
+        "source":  "Grimstroke",
+        "type":  "support"
+    },
+    {
+        "target":  "Pangolier",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Phantom Assassin",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Phantom Assassin",
+        "source":  "Morphling",
+        "type":  "core"
+    },
+    {
+        "target":  "Phantom Lancer",
+        "source":  "Lich",
+        "type":  "support"
+    },
+    {
+        "target":  "Phantom Lancer",
+        "source":  "Earthshaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Phoenix",
+        "source":  "Snapfire",
+        "type":  "support"
+    },
+    {
+        "target":  "Phoenix",
+        "source":  "Troll Warlord",
+        "type":  "core"
+    },
+    {
+        "target":  "Primal Beast",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Primal Beast",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Puck",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Puck",
+        "source":  "Riki",
+        "type":  "core"
+    },
+    {
+        "target":  "Pudge",
+        "source":  "Bane",
+        "type":  "support"
+    },
+    {
+        "target":  "Pudge",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Pugna",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Pugna",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Queen of Pain",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Queen of Pain",
+        "source":  "Spirit Breaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Razor",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Razor",
+        "source":  "Weaver",
+        "type":  "core"
+    },
+    {
+        "target":  "Riki",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Riki",
+        "source":  "Bristleback",
+        "type":  "core"
+    },
+    {
+        "target":  "Ringmaster",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Ringmaster",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Rubick",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Rubick",
+        "source":  "Riki",
+        "type":  "core"
+    },
+    {
+        "target":  "Sand King",
+        "source":  "Zeus",
+        "type":  "support"
+    },
+    {
+        "target":  "Sand King",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Shadow Demon",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Shadow Demon",
+        "source":  "Phantom Lancer",
+        "type":  "core"
+    },
+    {
+        "target":  "Shadow Fiend",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Shadow Fiend",
+        "source":  "Templar Assassin",
+        "type":  "core"
+    },
+    {
+        "target":  "Shadow Shaman",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Shadow Shaman",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Silencer",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Silencer",
+        "source":  "Phantom Lancer",
+        "type":  "core"
+    },
+    {
+        "target":  "Skywrath Mage",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Skywrath Mage",
+        "source":  "Pugna",
+        "type":  "core"
+    },
+    {
+        "target":  "Slardar",
+        "source":  "Dazzle",
+        "type":  "support"
+    },
+    {
+        "target":  "Slardar",
+        "source":  "Troll Warlord",
+        "type":  "core"
+    },
+    {
+        "target":  "Slark",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Slark",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Snapfire",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Snapfire",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Sniper",
+        "source":  "Clockwork",
+        "type":  "support"
+    },
+    {
+        "target":  "Sniper",
+        "source":  "Spirit Breaker",
+        "type":  "core"
+    },
+    {
+        "target":  "Spectre",
+        "source":  "Undying",
+        "type":  "support"
+    },
+    {
+        "target":  "Spectre",
+        "source":  "Viper",
+        "type":  "core"
+    },
+    {
+        "target":  "Spirit Breaker",
+        "source":  "Clockwork",
+        "type":  "support"
+    },
+    {
+        "target":  "Spirit Breaker",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Storm Spirit",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Storm Spirit",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Sven",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Sven",
+        "source":  "Troll Warlord",
+        "type":  "core"
+    },
+    {
+        "target":  "Techies",
+        "source":  "Zeus",
+        "type":  "support"
+    },
+    {
+        "target":  "Techies",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Templar Assassin",
+        "source":  "Jakiro",
+        "type":  "support"
+    },
+    {
+        "target":  "Templar Assassin",
+        "source":  "Viper",
+        "type":  "core"
+    },
+    {
+        "target":  "Terrorblade",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Terrorblade",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Tidehunter",
+        "source":  "Viper",
+        "type":  "support"
+    },
+    {
+        "target":  "Tidehunter",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Timbersaw",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Timbersaw",
+        "source":  "Ursa",
+        "type":  "core"
+    },
+    {
+        "target":  "Tinker",
+        "source":  "Nyx Assassin",
+        "type":  "support"
+    },
+    {
+        "target":  "Tinker",
+        "source":  "Night Stalker",
+        "type":  "core"
+    },
+    {
+        "target":  "Tiny",
+        "source":  "Jakiro",
+        "type":  "support"
+    },
+    {
+        "target":  "Tiny",
+        "source":  "Slardar",
+        "type":  "core"
+    },
+    {
+        "target":  "Treant Protector",
+        "source":  "Jakiro",
+        "type":  "support"
+    },
+    {
+        "target":  "Treant Protector",
+        "source":  "Timbersaw",
+        "type":  "core"
+    },
+    {
+        "target":  "Troll Warlord",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Troll Warlord",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Tusk",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Tusk",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Underlord",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Underlord",
+        "source":  "Outworld Destroyer",
+        "type":  "core"
+    },
+    {
+        "target":  "Undying",
+        "source":  "Snapfire",
+        "type":  "support"
+    },
+    {
+        "target":  "Undying",
+        "source":  "Sniper",
+        "type":  "core"
+    },
+    {
+        "target":  "Ursa",
+        "source":  "Bane",
+        "type":  "support"
+    },
+    {
+        "target":  "Ursa",
+        "source":  "Troll Warlord",
+        "type":  "core"
+    },
+    {
+        "target":  "Vengeful Spirit",
+        "source":  "Abaddon",
+        "type":  "support"
+    },
+    {
+        "target":  "Vengeful Spirit",
+        "source":  "Phantom Lancer",
+        "type":  "core"
+    },
+    {
+        "target":  "Venomancer",
+        "source":  "Oracle",
+        "type":  "support"
+    },
+    {
+        "target":  "Venomancer",
+        "source":  "Lifestealer",
+        "type":  "core"
+    },
+    {
+        "target":  "Viper",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Viper",
+        "source":  "Chaos Knight",
+        "type":  "core"
+    },
+    {
+        "target":  "Visage",
+        "source":  "Winter Wyvern",
+        "type":  "support"
+    },
+    {
+        "target":  "Visage",
+        "source":  "Axe",
+        "type":  "core"
+    },
+    {
+        "target":  "Void Spirit",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Void Spirit",
+        "source":  "Riki",
+        "type":  "core"
+    },
+    {
+        "target":  "Warlock",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Warlock",
+        "source":  "Weaver",
+        "type":  "core"
+    },
+    {
+        "target":  "Weaver",
+        "source":  "Disruptor",
+        "type":  "support"
+    },
+    {
+        "target":  "Weaver",
+        "source":  "Bloodseeker",
+        "type":  "core"
+    },
+    {
+        "target":  "Windranger",
+        "source":  "Shadow Demon",
+        "type":  "support"
+    },
+    {
+        "target":  "Windranger",
+        "source":  "Centaur Warrunner",
+        "type":  "core"
+    },
+    {
+        "target":  "Winter Wyvern",
+        "source":  "Clockwork",
+        "type":  "support"
+    },
+    {
+        "target":  "Winter Wyvern",
+        "source":  "Timbersaw",
+        "type":  "core"
+    },
+    {
+        "target":  "Witch Doctor",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Witch Doctor",
+        "source":  "Night Stalker",
+        "type":  "core"
+    },
+    {
+        "target":  "Wraith King",
+        "source":  "Lion",
+        "type":  "support"
+    },
+    {
+        "target":  "Wraith King",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    },
+    {
+        "target":  "Zeus",
+        "source":  "Silencer",
+        "type":  "support"
+    },
+    {
+        "target":  "Zeus",
+        "source":  "Storm Spirit",
+        "type":  "core"
+    },
+    {
+        "target":  "Leshrac",
+        "source":  "Ancient Apparition",
+        "type":  "support"
+    },
+    {
+        "target":  "Leshrac",
+        "source":  "Anti-Mage",
+        "type":  "core"
+    }
+]

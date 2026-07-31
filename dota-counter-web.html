@@ -1,0 +1,2127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter Web — помощник по драфту Dota 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void-950:#08060d; --void-900:#0f0b18; --void-850:#150f22; --void-800:#1c1430;
+  --void-750:#241a3d; --void-700:#2f2350; --void-600:#40325f;
+  --ember-600:#e2621a; --ember-500:#ff7a2f; --ember-400:#ff9757;
+  --gold-400:#f2c14e;
+  --radiant-500:#2fd39a; --radiant-400:#5ae3b4;
+  --dire-600:#c92a46; --dire-500:#f2415f; --dire-400:#ff6d84;
+  --arcane-400:#9b8cff; --arcane-500:#7a67f5;
+  --mist-50:#f7f3fb; --mist-200:#d6cbe6; --mist-400:#a394ba; --mist-600:#6d5f83;
+  --font-display:"Cinzel",Georgia,serif; --font-sans:"Barlow",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{isolation:isolate;background:var(--void-950);color-scheme:dark}
+body{
+  position:relative;font-family:var(--font-sans);color:var(--mist-200);
+  background-color:var(--void-950);
+  background-image:
+    radial-gradient(900px 520px at 12% -8%, rgba(255,122,47,.13), transparent 65%),
+    radial-gradient(760px 460px at 92% 4%, rgba(122,103,245,.14), transparent 62%),
+    radial-gradient(1100px 700px at 50% 108%, rgba(47,211,154,.07), transparent 70%);
+  background-attachment:fixed;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display);letter-spacing:.01em;color:var(--mist-50)}
+::selection{background:rgba(255,122,47,.4);color:var(--mist-50)}
+*{scrollbar-width:thin;scrollbar-color:var(--void-700) transparent}
+*::-webkit-scrollbar{width:9px;height:9px}
+*::-webkit-scrollbar-thumb{background:var(--void-700);border-radius:99px}
+*::-webkit-scrollbar-thumb:hover{background:var(--void-600)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+img{display:block;max-width:100%}
+a{color:inherit}
+.panel{
+  border:1px solid color-mix(in srgb, var(--void-700) 80%, transparent);
+  background:linear-gradient(to bottom, color-mix(in srgb, var(--void-850) 92%, transparent), color-mix(in srgb, var(--void-900) 96%, transparent));
+  border-radius:8px;backdrop-filter:blur(6px);
+}
+.label-caps{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.font-display{font-family:var(--font-display)}
+.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.tabular{font-variant-numeric:tabular-nums}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes slide-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slide-down{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop-in{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 0 1px color-mix(in srgb, var(--ember-500) 55%, transparent),0 0 14px -2px color-mix(in srgb, var(--ember-500) 45%, transparent)}
+  50%{box-shadow:0 0 0 1px color-mix(in srgb, var(--ember-400) 85%, transparent),0 0 24px 0 color-mix(in srgb, var(--ember-500) 60%, transparent)}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.5}}
+.anim-fade-in{animation:fade-in .35s ease-out both}
+.anim-slide-up{animation:slide-up .4s cubic-bezier(.16,1,.3,1) both}
+.anim-slide-down{animation:slide-down .3s cubic-bezier(.16,1,.3,1) both}
+.anim-pop-in{animation:pop-in .28s cubic-bezier(.34,1.56,.64,1) both}
+.anim-glow{animation:glow 2.4s ease-in-out infinite}
+.anim-spin{animation:spin 1s linear infinite}
+.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--void-750);background:rgba(8,6,13,.85);backdrop-filter:blur(12px)}
+.topbar-inner{margin:0 auto;max-width:1500px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px}
+@media(min-width:640px){.topbar-inner{padding:10px 20px}}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.brand-badge{display:flex;width:28px;height:28px;align-items:center;justify-content:center;border:1px solid rgba(255,122,47,.4);border-radius:5px;background:rgba(255,122,47,.1)}
+.brand-name{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-50)}
+.brand-name b{color:var(--ember-500)}
+.wrap{margin:0 auto;max-width:1500px;padding:16px 12px;display:flex;flex-direction:column;gap:12px}
+@media(min-width:640px){.wrap{padding:16px 20px}}
+.hero{padding:12px 16px;overflow:hidden;position:relative}
+.hero-inner{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px;position:relative}
+.hero-txt{position:relative}
+.hero h1{margin-top:2px;font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1}
+@media(min-width:640px){.hero h1{font-size:30px}}
+.hero .sub{max-width:64ch;margin-top:6px;font-size:14px;color:var(--mist-400)}
+.hero-stats{display:flex;gap:16px;margin-left:auto;position:relative}
+.stat dd{font-family:var(--font-display);font-size:18px;font-weight:700;line-height:1;color:var(--gold-400);font-variant-numeric:tabular-nums}
+.stat dt{margin-top:2px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.btn-ghost{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--void-700);border-radius:5px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-400);transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,122,47,.6);color:var(--ember-400)}
+.btn-ghost:disabled{pointer-events:none;opacity:.35}
+.btn-ember{display:flex;height:36px;align-items:center;gap:6px;padding:0 12px;border-radius:5px;background:var(--ember-500);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--void-950);transition:all .2s}
+.btn-ember:hover{background:var(--ember-400);box-shadow:0 0 20px -6px rgba(255,122,47,.8)}
+.btn-ember:disabled{pointer-events:none;opacity:.35}
+.guide{overflow:hidden}
+.guide-toggle{display:flex;width:100%;align-items:center;gap:8px;padding:10px 12px;text-align:left;transition:background .2s}
+.guide-toggle:hover{background:var(--void-850)}
+.guide-toggle .chev{margin-left:auto;color:var(--mist-400);transition:transform .3s}
+.guide-toggle .chev.open{transform:rotate(180deg)}
+.guide-body{padding:12px;border-top:1px solid var(--void-750);display:flex;flex-direction:column;gap:12px}
+.guide-steps{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.guide-steps{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.guide-steps{grid-template-columns:repeat(4,1fr)}}
+.guide-card{border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.5);padding:12px;transition:border-color .2s}
+.guide-card:hover{border-color:rgba(255,122,47,.4)}
+.guide-card h4{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--mist-50)}
+.guide-card p{font-size:11px;line-height:1.6;color:var(--mist-400)}
+.guide-grid2{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:1024px){.guide-grid2{grid-template-columns:1fr 1fr}}
+.guide-panel{border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.5);padding:12px}
+.guide-panel h4{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.score-row{display:flex;gap:8px;font-size:11px;line-height:1.4;margin-bottom:6px}
+.score-val{width:92px;flex-shrink:0;text-align:right;font-family:ui-monospace,monospace;font-weight:700;font-variant-numeric:tabular-nums}
+.legend-row{display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.4;margin-bottom:8px}
+.legend-badge{flex-shrink:0;padding:2px 6px;border-radius:3px;font-family:ui-monospace,monospace;font-size:10px;font-weight:700}
+.tag-grid{display:grid;grid-template-columns:1fr;gap:4px 16px}
+@media(min-width:640px){.tag-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.tag-grid{grid-template-columns:repeat(3,1fr)}}
+.board{display:grid;grid-template-columns:1fr;gap:12px;position:relative}
+@media(min-width:1024px){.board{grid-template-columns:1fr 1fr}}
+.vs-badge{display:none;position:absolute;top:50%;left:50%;z-index:10;transform:translate(-50%,-50%);align-items:center;justify-content:center;width:36px;height:36px;border:1px solid rgba(242,193,78,.45);border-radius:50%;background:var(--void-950);font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--gold-400);box-shadow:0 0 20px -4px rgba(242,193,78,.65)}
+@media(min-width:1024px){.vs-badge{display:flex}}
+.team-panel{padding:12px 16px;transition:all .2s}
+.team-enemy.active{border-color:rgba(242,65,95,.7);box-shadow:0 0 28px -10px rgba(242,65,95,.55)}
+.team-ally.active{border-color:rgba(47,211,154,.7);box-shadow:0 0 28px -10px rgba(47,211,154,.55)}
+.team-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.team-header h2{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mist-50)}
+.team-count{margin-left:auto;font-family:ui-monospace,monospace;font-size:12px;font-variant-numeric:tabular-nums}
+.team-clear{padding:4px;border-radius:3px;color:var(--mist-600);transition:all .2s}
+.team-clear:hover{background:var(--void-800);color:var(--dire-400)}
+.slots{display:grid;grid-template-columns:repeat(5,1fr);gap:6px 8px}
+.slot{position:relative;overflow:hidden;border-radius:5px;box-shadow:0 0 0 1px rgba(47,211,154,.6)}
+.slot.enemy{box-shadow:0 0 0 1px rgba(242,65,95,.6)}
+.slot img{aspect-ratio:16/10;width:100%;object-fit:cover;transition:transform .3s}
+.slot:hover img{transform:scale(1.1)}
+.slot-name{position:absolute;inset-inline:0;bottom:0;padding:12px 4px 2px;background:linear-gradient(to top,var(--void-950),rgba(8,6,13,.85) 30%,transparent);font-size:9px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:640px){.slot-name{font-size:10px}}
+.slot-x{position:absolute;top:2px;right:2px;padding:2px;border-radius:3px;background:rgba(8,6,13,.8);color:var(--mist-200);opacity:0;transition:all .2s}
+.slot:hover .slot-x{opacity:1}
+.slot-x:hover{background:var(--dire-600);color:#fff}
+.slot-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:16/10;border:1px dashed;border-radius:5px;background:rgba(15,11,24,.5);color:var(--mist-600);transition:all .2s}
+.team-enemy .slot-empty{border-color:rgba(242,65,95,.2)}
+.team-enemy .slot-empty:hover{border-color:rgba(242,65,95,.5);background:rgba(242,65,95,.05)}
+.team-ally .slot-empty{border-color:rgba(47,211,154,.2)}
+.team-ally .slot-empty:hover{border-color:rgba(47,211,154,.5);background:rgba(47,211,154,.05)}
+.meter{overflow:hidden}
+.meter-head{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--void-750)}
+.meter-head h2{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.meter-verdict{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.meter-body{padding:12px}
+.meter-scale{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;font-family:ui-monospace,monospace;font-size:11px;font-variant-numeric:tabular-nums}
+.bar{position:relative;height:10px;overflow:hidden;border:1px solid var(--void-700);border-radius:99px;background:var(--void-900)}
+.bar-left{position:absolute;inset-block:0;left:0;background:linear-gradient(to right,var(--dire-600),rgba(242,65,95,.7));transition:width .7s ease-out}
+.bar-right{position:absolute;inset-block:0;right:0;background:linear-gradient(to left,var(--radiant-500),rgba(47,211,154,.7));transition:width .7s ease-out}
+.bar-mid{position:absolute;inset-block:0;left:50%;width:1px;transform:translateX(-50%);background:rgba(8,6,13,.7)}
+.marker-wrap{position:relative;height:12px;margin-top:4px}
+.marker{position:absolute;top:0;transform:translateX(-50%);transition:left .7s ease-out}
+.marker::before{content:"";display:block;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:6px solid var(--gold-400)}
+.matchup-grid{margin-top:4px;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.matchup-grid{grid-template-columns:1fr 1fr}}
+.matchup h3{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.matchup ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.matchup li{display:flex;align-items:center;gap:6px;font-size:11px}
+.matchup li img{width:24px;height:16px;border-radius:2px;object-fit:cover;flex-shrink:0}
+.matchup .trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.5)}
+.side-toggle{display:flex;overflow:hidden;border:1px solid var(--void-700);border-radius:5px}
+.side-toggle button{display:flex;align-items:center;gap:6px;padding:4px 12px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-600);transition:all .2s}
+.side-toggle button:hover{background:var(--void-850);color:var(--mist-200)}
+.side-toggle button.enemy.on{background:rgba(242,65,95,.2);color:var(--dire-400)}
+.side-toggle button.ally.on{background:rgba(47,211,154,.2);color:var(--radiant-400)}
+.main-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:1280px){.main-grid{grid-template-columns:minmax(0,1fr) 400px}}
+.right-col{display:flex;flex-direction:column;gap:12px}
+.pool{display:flex;flex-direction:column;padding:12px 16px}
+.pool-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.pool-head h2{margin-right:auto;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.pool-controls{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+@media(min-width:640px){.pool-controls{flex-direction:row;align-items:center}}
+.search{position:relative;flex:1}
+.search svg{position:absolute;top:50%;left:10px;transform:translateY(-50%);color:var(--mist-600);pointer-events:none}
+.search input{height:36px;width:100%;padding:0 32px 0 32px;border:1px solid var(--void-700);border-radius:5px;background:var(--void-900);font-size:14px;color:var(--mist-50);transition:all .2s}
+.search input::placeholder{color:var(--mist-600)}
+.search input:focus{outline:none;border-color:rgba(255,122,47,.7);box-shadow:0 0 0 1px rgba(255,122,47,.3)}
+.search-clear{position:absolute;top:50%;right:8px;transform:translateY(-50%);padding:2px;border-radius:3px;color:var(--mist-600);transition:all .2s}
+.search-clear:hover{color:var(--mist-50)}
+.role-btns{display:flex;flex-wrap:wrap;gap:4px}
+.role-btn{padding:4px 8px;border:1px solid var(--void-700);border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-400);transition:all .2s}
+.role-btn:hover{border-color:var(--void-600);color:var(--mist-200)}
+.role-btn.on{border-color:var(--ember-500);background:rgba(255,122,47,.15);color:var(--ember-400)}
+.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:540px;overflow-y:auto;padding-right:4px}
+@media(min-width:640px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:768px){.pool-grid{grid-template-columns:repeat(6,1fr)}}
+@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(8,1fr)}}
+.hero-cell{position:relative;overflow:hidden;border:1px solid var(--void-750);border-radius:5px;transition:all .2s}
+.hero-cell:hover{border-color:rgba(255,122,47,.6);transform:translateY(-2px)}
+.hero-cell.picked-ally{border-color:rgba(47,211,154,.7);opacity:.95}
+.hero-cell.picked-enemy{border-color:rgba(242,65,95,.7);opacity:.95}
+.hero-cell.inspected{border-color:rgba(242,193,78,.7)}
+.hero-cell img{aspect-ratio:16/10;width:100%;object-fit:cover;transition:all .3s}
+.hero-cell:hover img{transform:scale(1.1)}
+.hero-cell img.dim{filter:saturate(.35)}
+.hero-cell-name{position:absolute;inset-inline:0;bottom:0;padding:16px 4px 2px;background:linear-gradient(to top,var(--void-950),rgba(8,6,13,.9) 30%,transparent);font-size:10px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero-cell-counter{position:absolute;top:2px;left:2px;padding:0 4px;border-radius:3px;background:rgba(47,211,154,.9);font-family:ui-monospace,monospace;font-size:9px;font-weight:700;color:var(--void-950)}
+.hero-cell-info{position:absolute;top:2px;right:2px;padding:0 4px;border-radius:3px;background:rgba(8,6,13,.85);font-family:ui-monospace,monospace;font-size:9px;font-weight:700;color:var(--gold-400);opacity:0;transition:opacity .2s}
+.hero-cell:hover .hero-cell-info{opacity:1}
+.pool-empty{grid-column:1/-1;padding:32px 0;text-align:center;font-size:14px;color:var(--mist-600)}
+.advisor{display:flex;flex-direction:column;overflow:hidden}
+.advisor-tabs{display:flex;border-bottom:1px solid var(--void-750)}
+.advisor-tab{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mist-600);transition:all .2s}
+.advisor-tab:hover{background:var(--void-850);color:var(--mist-200)}
+.advisor-tab.on{color:var(--ember-400)}
+.advisor-tab.on::after{content:"";position:absolute;inset-inline:8px;bottom:0;height:1px;background:linear-gradient(to right,transparent,var(--ember-500),transparent)}
+.advisor-tab .tab-label{display:none}
+@media(min-width:640px){.advisor-tab .tab-label{display:inline}}
+.profile-strip{display:flex;flex-wrap:wrap;gap:4px;padding:8px 12px;border-bottom:1px solid var(--void-750);background:rgba(15,11,24,.4)}
+.profile-strip .lbl{margin-right:4px;align-self:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.tag-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border:1px solid var(--void-700);border-radius:3px;background:var(--void-850);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mist-200)}
+.tag-pill b{font-family:ui-monospace,monospace;color:var(--gold-400)}
+.advisor-body{max-height:620px;overflow-y:auto;padding:12px}
+.empty-hint{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 0;text-align:center;color:var(--mist-600)}
+.empty-hint p{max-width:26ch;font-size:14px}
+.sug{list-style:none;display:flex;flex-direction:column;gap:6px}
+.sug-row{display:flex;gap:10px;padding:8px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.6);transition:all .2s}
+.sug-row:hover{border-color:rgba(255,122,47,.5);background:var(--void-850)}
+.sug-rank{width:16px;flex-shrink:0;margin-top:4px;text-align:center;font-family:ui-monospace,monospace;font-size:11px;color:var(--mist-600)}
+.sug-portrait{width:70px;height:44px;flex-shrink:0;overflow:hidden;border-radius:3px;box-shadow:0 0 0 1px var(--void-700);transition:all .2s;cursor:pointer}
+.sug-portrait:hover{box-shadow:0 0 0 1px rgba(255,122,47,.5)}
+.sug-portrait img{width:100%;height:100%;object-fit:cover}
+.sug-main{min-width:0;flex:1}
+.sug-title{display:flex;align-items:baseline;gap:8px}
+.sug-title h3{min-width:0;flex:1;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sug-title h3 small{display:block;font-size:10px;font-weight:400;color:var(--mist-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sug-score{margin-left:auto;flex-shrink:0;font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--gold-400);font-variant-numeric:tabular-nums}
+.scorebar{height:4px;width:100%;margin:4px 0 6px;overflow:hidden;border-radius:99px;background:var(--void-800)}
+.scorebar i{display:block;height:100%;border-radius:99px;background:linear-gradient(to right,var(--ember-600),var(--gold-400));transition:width .5s}
+.sug-desc{font-size:11px;line-height:1.3;color:var(--mist-400)}
+.sug-meta{margin-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.sug-meta .wr{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.sug-add{margin:auto 0;flex-shrink:0;padding:6px;border:1px solid rgba(47,211,154,.4);border-radius:3px;background:rgba(47,211,154,.1);color:var(--radiant-400);transition:all .2s}
+.sug-add:hover{background:var(--radiant-500);color:var(--void-950)}
+.item-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.item-row{display:flex;gap:10px;padding:8px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.6);transition:border-color .2s}
+.item-row:hover{border-color:rgba(242,193,78,.5)}
+.item-icon{width:46px;height:34px;flex-shrink:0;margin-top:2px;border-radius:3px;box-shadow:0 0 0 1px rgba(242,193,78,.25)}
+.item-icon img{width:100%;height:100%;object-fit:cover}
+.item-main{min-width:0;flex:1}
+.item-title{display:flex;align-items:baseline;gap:8px}
+.item-title h3{min-width:0;flex:1;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-title h3 small{display:block;font-size:10px;font-weight:400;color:var(--mist-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-score{margin-left:auto;flex-shrink:0;font-family:ui-monospace,monospace;font-size:11px;color:var(--gold-400);font-variant-numeric:tabular-nums}
+.item-desc{font-size:11px;line-height:1.3;color:var(--mist-400)}
+.item-vs{margin-top:4px;font-size:11px;color:var(--dire-400)}
+.item-sidebar{width:4px;flex-shrink:0;position:relative;overflow:hidden;border-radius:99px;background:var(--void-800)}
+.item-sidebar i{position:absolute;bottom:0;width:100%;border-radius:99px;background:linear-gradient(to top,var(--ember-600),var(--gold-400));transition:height .5s}
+.threat-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.threat-row{display:flex;gap:10px;padding:8px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.6)}
+.threat-row img{width:70px;height:44px;flex-shrink:0;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px var(--void-700)}
+.threat-main{min-width:0;flex:1}
+.threat-title{display:flex;align-items:center;gap:8px}
+.threat-title h3{min-width:0;flex:1;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--mist-50)}
+.pressure-badge{flex-shrink:0;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.pressure-ok{background:rgba(47,211,154,.15);color:var(--radiant-400)}
+.pressure-hi{background:rgba(242,65,95,.2);color:var(--dire-400)}
+.pressure-mid{background:rgba(242,193,78,.15);color:var(--gold-400)}
+.threat-desc{font-size:11px;line-height:1.3;color:var(--mist-400)}
+.detail{overflow:hidden}
+.detail-hero{position:relative}
+.detail-hero>img{width:100%;height:112px;object-fit:cover;object-position:center 28%}
+@media(min-width:640px){.detail-hero>img{height:128px}}
+.detail-hero .shade{position:absolute;inset:0;background:linear-gradient(to top,var(--void-900),rgba(15,11,24,.4) 50%,transparent)}
+.detail-close{position:absolute;top:8px;right:8px;padding:4px;border-radius:3px;background:rgba(8,6,13,.7);color:var(--mist-200);transition:all .2s;z-index:2}
+.detail-close:hover{background:var(--dire-600);color:#fff}
+.detail-caption{position:absolute;inset-inline:0;bottom:0;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px;padding:12px;z-index:1}
+.detail-caption h2{font-size:18px;font-weight:700;line-height:1.2}
+
+.detail-caption .roles{font-size:11px;color:var(--mist-400)}
+.detail-add{margin-left:auto;display:flex;gap:4px}
+.detail-add button{padding:4px 8px;border:1px solid;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.btn-enemy{border-color:rgba(242,65,95,.5);background:rgba(8,6,13,.7);color:var(--dire-400)}
+.btn-enemy:hover{background:var(--dire-600);color:#fff}
+.btn-ally{border-color:rgba(47,211,154,.5);background:rgba(8,6,13,.7);color:var(--radiant-400)}
+.btn-ally:hover{background:var(--radiant-500);color:var(--void-950)}
+.detail-body{padding:12px;display:flex;flex-direction:column;gap:12px}
+.detail-tags{display:flex;flex-wrap:wrap;gap:4px}
+.detail-block h3{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.detail-chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:flex;align-items:center;gap:6px;padding:2px 6px 2px 2px;border:1px solid;border-radius:3px;font-size:11px;font-weight:500;color:var(--mist-200);transition:all .2s;cursor:pointer}
+.chip:hover{transform:translateY(-1px)}
+.chip img{width:32px;height:20px;border-radius:2px;object-fit:cover}
+.chip span{max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip-item{display:flex;align-items:center;gap:6px;padding:2px 6px 2px 2px;border:1px solid rgba(242,193,78,.25);border-radius:3px;background:rgba(242,193,78,.05);font-size:11px;color:var(--mist-200)}
+.chip-item img{width:28px;height:20px;border-radius:2px;object-fit:cover}
+.chip-item span{max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.detail-empty{font-size:11px;color:var(--mist-600)}
+.lib{padding:12px 16px}
+.lib-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.lib-head h2{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.lib-count{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.lib-form{display:flex;gap:6px;margin-bottom:12px}
+.lib-form input{height:36px;min-width:0;flex:1;padding:0 10px;border:1px solid var(--void-700);border-radius:5px;background:var(--void-900);font-size:14px;color:var(--mist-50);transition:all .2s}
+.lib-form input::placeholder{color:var(--mist-600)}
+.lib-form input:focus{outline:none;border-color:rgba(255,122,47,.7);box-shadow:0 0 0 1px rgba(255,122,47,.3)}
+.lib-list{list-style:none;display:flex;flex-direction:column;gap:6px;max-height:256px;overflow-y:auto;padding-right:4px}
+.lib-item{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.6);transition:border-color .2s}
+.lib-item:hover{border-color:rgba(255,122,47,.4)}
+.lib-item-main{min-width:0;flex:1;text-align:left}
+.lib-item-main h4{font-size:14px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib-lineup{display:flex;align-items:center;gap:4px;margin-top:4px}
+.lib-lineup img{width:24px;height:16px;border-radius:2px;object-fit:cover}
+.lib-time{margin-left:auto;flex-shrink:0;font-size:10px;color:var(--mist-600)}
+.lib-del{flex-shrink:0;padding:4px;border-radius:3px;color:var(--mist-600);opacity:0;transition:all .2s}
+.lib-item:hover .lib-del{opacity:1}
+.lib-del:hover{background:rgba(201,42,70,.2);color:var(--dire-400)}
+.lib-empty{display:flex;align-items:center;gap:8px;padding:12px 0;font-size:12px;color:var(--mist-600)}
+.ph{display:flex;align-items:center;justify-content:center;background:var(--void-800);font-family:var(--font-display);font-size:11px;font-weight:600;color:var(--mist-400);overflow:hidden}
+.hidden{display:none}
+@media(min-width:640px){.sm-inline{display:inline}}
+.slot-click{display:block;width:100%}
+.hero-cell-btn{display:block;width:100%}
+.matchup li img.dim{filter:saturate(.45)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#">
+      <span class="brand-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>
+      </span>
+      <span class="brand-name">Counter<b>Web</b></span>
+    </a>
+    <span class="label-caps">помощник по драфту Dota 2</span>
+  </div>
+</header>
+<div class="wrap">
+  <section class="panel hero anim-fade-in">
+    <img id="spotlight" alt="" aria-hidden="true">
+    <div class="hero-inner">
+      <div class="hero-txt">
+        <p class="label-caps" style="display:flex;align-items:center;gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>
+          Помощник по драфту в реальном времени
+        </p>
+        <h1>The <span style="color:var(--ember-500)">Counter</span> Web</h1>
+        <p class="sub">Отмечайте героев врага по ходу пиков — и сразу видите, кем и чем их наказать. Контрпики, матчапы на линии и предметы обновляются после каждого пика.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><dd id="stat-heroes">0</dd><dt>Героев</dt></div>
+        <div class="stat"><dd id="stat-pairs">0</dd><dt>Связок</dt></div>
+        <div class="stat"><dd id="stat-items">0</dd><dt>Предметов</dt></div>
+      </div>
+      <button class="btn-ghost" id="resetBtn" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Сбросить драфт
+      </button>
+    </div>
+  </section>
+  <section class="panel guide anim-fade-in">
+    <button class="guide-toggle" id="guideToggle" aria-expanded="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <h2>Как пользоваться</h2>
+      <span class="label-caps" style="display:none">Четыре шага и расшифровка всех оценок</span>
+      <span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+    </button>
+    <div class="guide-body" id="guideBody" style="display:none"></div>
+  </section>
+  <div class="board">
+    <span class="vs-badge">VS</span>
+    <section class="panel team-panel team-enemy" id="teamEnemy"></section>
+    <section class="panel team-panel team-ally" id="teamAlly"></section>
+  </div>
+  <section class="panel meter anim-fade-in">
+    <div class="meter-head">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f2c14e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+      <h2>Баланс сил</h2>
+      <span class="meter-verdict" id="meterVerdict" style="color:var(--mist-400)">Пока ровно</span>
+    </div>
+    <div class="meter-body" id="meterBody"></div>
+  </section>
+  <div class="sidebar-row anim-fade-in">
+    <span class="label-caps">Клик по герою добавляет в</span>
+    <div class="side-toggle">
+      <button class="enemy" id="sideEnemy" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/></svg>
+        Команду врага
+      </button>
+      <button class="ally" id="sideAlly" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 2v20"/></svg>
+        Вашу команду
+      </button>
+    </div>
+    <span class="label-caps" style="display:none">Повторный клик убирает героя · кнопка ИНФО открывает полный разбор</span>
+  </div>
+  <div class="main-grid">
+    <section class="panel pool">
+      <div class="pool-head">
+        <h2>Все герои</h2>
+        <span class="label-caps" id="poolCount"></span>
+      </div>
+      <div class="pool-controls">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="poolSearch" type="text" placeholder="Поиск среди 127 героев — по-русски или по-английски…" autocomplete="off">
+          <button class="search-clear" id="poolSearchClear" type="button" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div class="role-btns" id="poolRoles"></div>
+      </div>
+      <div class="pool-grid" id="poolGrid"></div>
+    </section>
+    <div class="right-col">
+      <section class="panel detail anim-slide-down" id="heroDetail" style="display:none"></section>
+      <section class="panel advisor">
+        <div class="advisor-tabs" id="advisorTabs"></div>
+        <div class="profile-strip" id="profileStrip"></div>
+        <div class="advisor-body"><div id="advisorBody"></div></div>
+      </section>
+      <section class="panel lib anim-fade-in">
+        <div class="lib-head">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>
+          <h2>Мои драфты</h2>
+          <span class="lib-count" id="libCount"></span>
+        </div>
+        <form class="lib-form" id="libForm">
+          <input id="libName" type="text" maxlength="60" placeholder="Название драфта…" autocomplete="off">
+          <button class="btn-ember" type="submit">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            Сохранить
+          </button>
+        </form>
+        <ul class="lib-list" id="libList"></ul>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+/* ============ DATA: герои ============ */
+var HERO_RAW = `
+Abaddon|abaddon|offlane,support|tank,regen|51.5
+Alchemist|alchemist|carry,mid|physical,tank,regen|46.9
+Ancient Apparition|ancient_apparition|support|magic|51.0
+Anti-Mage|antimage|carry|physical,mobile,illusion|49.5
+Arc Warden|arc_warden|carry,mid|physical,summon,magic|50.0
+Axe|axe|offlane|tank,disable|52.2
+Bane|bane|support|magic,disable|50.3
+Batrider|batrider|offlane,mid|magic,mobile,disable|43.2
+Beastmaster|beastmaster|offlane|summon,physical|44.4
+Bloodseeker|bloodseeker|carry,offlane|physical,regen|51.7
+Bounty Hunter|bounty_hunter|support,roamer|invis,physical|51.8
+Brewmaster|brewmaster|offlane|summon,tank,disable|50.8
+Bristleback|bristleback|offlane|tank,regen|48.9
+Broodmother|broodmother|offlane,mid|summon,physical|50.0
+Centaur Warrunner|centaur|offlane|tank,disable|51.0
+Chaos Knight|chaos_knight|carry|illusion,physical,disable|50.5
+Chen|chen|support|summon,regen|45.1
+Clinkz|clinkz|carry|physical,invis,summon|49.4
+Clockwork|rattletrap|offlane,support|disable,tank|48.8
+Crystal Maiden|crystal_maiden|support|magic,disable|51.5
+Dark Seer|dark_seer|offlane|illusion,magic,tank|48.6
+Dark Willow|dark_willow|support|magic,disable|47.8
+Dawnbreaker|dawnbreaker|offlane,support|tank,regen,physical|51.7
+Dazzle|dazzle|support|regen,magic|50.9
+Death Prophet|death_prophet|mid,offlane|magic,summon,pusher|47.1
+Disruptor|disruptor|support|magic,disable|49.8
+Doom|doom_bringer|offlane|tank,disable,magic|46.4
+Dragon Knight|dragon_knight|mid,offlane|tank,physical,pusher|49.1
+Drow Ranger|drow_ranger|carry|physical|51.2
+Earth Spirit|earth_spirit|support,roamer|magic,disable,mobile|50.2
+Earthshaker|earthshaker|support,offlane|magic,disable|50.3
+Elder Titan|elder_titan|support,offlane|magic,disable|50.0
+Ember Spirit|ember_spirit|mid|mobile,physical,illusion|49.4
+Enchantress|enchantress|support,offlane|summon,physical|47.8
+Enigma|enigma|offlane,support|summon,disable,magic|49.8
+Faceless Void|faceless_void|carry|physical,disable|49.5
+Grimstroke|grimstroke|support|magic,disable|51.5
+Gyrocopter|gyrocopter|carry|physical,magic|43.1
+Hoodwink|hoodwink|support,mid|magic,mobile,disable|48.1
+Huskar|huskar|offlane,mid|regen,physical,tank|44.9
+Invoker|invoker|mid|magic,disable|51.0
+Io|wisp|support|regen,mobile|50.8
+Jakiro|jakiro|support|magic,pusher|47.6
+Juggernaut|juggernaut|carry|physical,regen,mobile|51.6
+Keeper of the Light|keeper_of_the_light|support|magic|50.7
+Kez|kez|carry,mid|physical,mobile|44.8
+Kunkka|kunkka|mid,offlane|magic,disable,physical|49.1
+Largo|largo|support,offlane|disable,tank,magic|47.5
+Legion Commander|legion_commander|offlane|physical,tank,disable|52.8
+Leshrac|leshrac|mid,offlane|magic,pusher|52.0
+Lich|lich|support|magic|52.1
+Lifestealer|life_stealer|carry|physical,tank,regen|52.4
+Lina|lina|mid,support|magic,burst|49.6
+Lion|lion|support|magic,disable,burst|48.6
+Lone Druid|lone_druid|carry,offlane|summon,physical,pusher|49.0
+Luna|luna|carry|physical,magic|50.0
+Lycan|lycan|carry,offlane|summon,physical,pusher|48.7
+Magnus|magnataur|offlane,mid|disable,physical|48.4
+Marci|marci|support,offlane,carry|physical,disable,mobile|49.5
+Mars|mars|offlane|tank,disable,physical|46.4
+Medusa|medusa|carry|physical,tank|49.7
+Meepo|meepo|mid,carry|physical,summon|50.8
+Mirana|mirana|support,carry,mid|magic,disable,invis|51.1
+Monkey King|monkey_king|carry,mid|physical,mobile,illusion|44.3
+Morphling|morphling|carry,mid|physical,mobile,tank|47.2
+Muerta|muerta|carry,mid|physical,magic|46.4
+Naga Siren|naga_siren|carry|illusion,disable,pusher|47.7
+Nature's Prophet|furion|mid,offlane,support|summon,pusher,mobile|42.8
+Necrophos|necrolyte|mid,offlane|magic,regen,tank|52.2
+Night Stalker|night_stalker|offlane,roamer|physical,tank,disable|52.6
+Nyx Assassin|nyx_assassin|support,roamer|magic,burst,invis|51.9
+Ogre Magi|ogre_magi|support|magic,tank,disable|50.8
+Omniknight|omniknight|support,offlane|regen,tank|50.1
+Oracle|oracle|support|regen,magic|49.5
+Outworld Destroyer|obsidian_destroyer|mid|magic,disable|49.6
+Pangolier|pangolier|mid,offlane,carry|mobile,physical,disable|45.5
+Phantom Assassin|phantom_assassin|carry|physical,mobile|50.9
+Phantom Lancer|phantom_lancer|carry|illusion,physical|51.9
+Phoenix|phoenix|offlane,support|magic,tank|50.8
+Primal Beast|primal_beast|offlane|tank,disable,magic|48.3
+Puck|puck|mid|magic,mobile,disable|47.0
+Pudge|pudge|offlane,support|tank,disable,magic|51.3
+Pugna|pugna|mid,support|magic,pusher|49.7
+Queen of Pain|queenofpain|mid|magic,mobile,burst|46.4
+Razor|razor|mid,carry,offlane|physical,magic|49.9
+Riki|riki|carry,roamer|invis,physical,disable|51.9
+Ringmaster|ringmaster|support|magic,disable|47.6
+Rubick|rubick|support|magic,disable|49.1
+Sand King|sand_king|offlane,support|magic,disable,invis|48.4
+Shadow Demon|shadow_demon|support|magic,illusion,disable|44.8
+Shadow Fiend|nevermore|mid,carry|physical,magic|48.4
+Shadow Shaman|shadow_shaman|support|magic,disable,pusher|51.8
+Silencer|silencer|support,mid|magic,silence|51.0
+Skywrath Mage|skywrath_mage|support,mid|magic,burst|50.1
+Slardar|slardar|offlane,roamer|physical,disable,tank|50.0
+Slark|slark|carry|physical,mobile,invis|49.3
+Snapfire|snapfire|support,offlane|magic,disable|53.4
+Sniper|sniper|carry,mid|physical|49.8
+Spectre|spectre|carry|physical,illusion,tank|54.0
+Spirit Breaker|spirit_breaker|offlane,roamer|physical,disable,tank|51.9
+Storm Spirit|storm_spirit|mid|magic,mobile|46.8
+Sven|sven|carry|physical,disable,tank|50.3
+Techies|techies|support,mid|magic,burst|50.5
+Templar Assassin|templar_assassin|mid,carry|physical,invis|45.9
+Terrorblade|terrorblade|carry|illusion,physical|47.0
+Tidehunter|tidehunter|offlane|tank,disable|50.1
+Timbersaw|shredder|offlane,mid|tank,magic,mobile|44.6
+Tinker|tinker|mid|magic,burst,mobile|46.8
+Tiny|tiny|mid,offlane,carry|physical,disable,burst|44.7
+Treant Protector|treant|support|regen,disable,invis|50.8
+Troll Warlord|troll_warlord|carry|physical|50.4
+Tusk|tusk|support,roamer,offlane|disable,physical|47.5
+Underlord|abyssal_underlord|offlane|tank,magic|50.0
+Undying|undying|support,offlane|tank,regen,summon|52.4
+Ursa|ursa|carry,offlane|physical|47.2
+Vengeful Spirit|vengefulspirit|support|physical,disable|53.1
+Venomancer|venomancer|support,offlane|magic,summon|47.0
+Viper|viper|mid,offlane,carry|magic,physical,tank|48.3
+Visage|visage|support,mid,offlane|summon,physical,magic|52.4
+Void Spirit|void_spirit|mid|magic,mobile,burst|49.1
+Warlock|warlock|support|magic,summon,regen|49.1
+Weaver|weaver|carry,support|physical,invis,mobile|47.2
+Windranger|windrunner|mid,support,offlane|magic,physical,disable|48.2
+Winter Wyvern|winter_wyvern|support|magic,regen,disable|49.1
+Witch Doctor|witch_doctor|support|magic,regen|51.8
+Wraith King|skeleton_king|carry,offlane|physical,tank,summon|54.5
+Zeus|zuus|mid,support|magic,burst|51.6
+`;
+var heroes = HERO_RAW.trim().split('\n').map(function(line) {
+  var p = line.split('|');
+  return { name: p[0], slug: p[1], roles: p[2].split(','), tags: p[3].split(','), winRate: Number(p[4]) };
+});
+var heroByName = {};
+heroes.forEach(function(h) { heroByName[h.name] = h; });
+
+/* ============ DATA: предметы ============ */
+var ITEM_RAW = `
+Black King Bar|black_king_bar|Magic immunity blanks spells, stuns and channels for 5-9s.|defense|magic,disable,burst
+Pipe of Insight|pipe|Team-wide magic barrier plus magic resistance aura.|defense|magic,burst
+Glimmer Cape|glimmer_cape|Magic resistance and a fade to save a focused ally.|defense|magic,burst
+Eternal Shroud|eternal_shroud|Magic resistance that turns incoming spell damage into mana.|defense|magic
+Lotus Orb|lotus_orb|Reflects targeted spells back at the caster and dispels.|defense|disable,magic
+Linken's Sphere|sphere|Blocks one single-target spell every 13 seconds.|defense|disable,magic
+Aeon Disk|aeon_disk|Stasis when you drop low - survives full burst combos.|defense|burst,disable
+Ghost Scepter|ghost|Ethereal form makes you immune to all attacks.|defense|physical
+Blade Mail|blade_mail|Returns damage to whoever focuses you.|defense|burst,physical
+Crimson Guard|crimson_guard|Team-wide physical damage block versus fast attackers.|defense|physical,summon,illusion
+Heart of Tarrasque|heart|Massive HP pool and regeneration to survive burst.|defense|burst,magic
+Wraith Pact|wraith_pact|Team-wide damage reduction aura in fights.|defense|physical,magic
+Pavise|pavise|Barrier that soaks incoming damage on a squishy ally.|defense|burst
+Guardian Greaves|guardian_greaves|Team heal plus dispel in the middle of a fight.|defense|magic,burst
+Holy Locket|holy_locket|Amplifies all healing and gives a burst heal.|defense|burst
+Sange and Yasha|sange_and_yasha|Status resistance shortens every stun on you.|defense|disable
+Kaya and Sange|kaya_and_sange|Spell amp with status resistance for casters.|defense|disable
+Yasha and Kaya|yasha_and_kaya|Movement, spell amp and status resistance.|defense|disable
+Assault Cuirass|assault|Armor and attack speed aura for the whole team.|defense|physical
+Shiva's Guard|shivas_guard|Armor, attack-speed slow aura and healing reduction.|defense|physical,regen
+Vladmir's Offering|vladmir|Lifesteal, armor and magic resistance aura.|defense|physical
+Heaven's Halberd|heavens_halberd|Disarms a right-clicker for up to 5 seconds.|offense|physical,tank
+Monkey King Bar|monkey_king_bar|True strike and bonus damage against evasion.|offense|physical,mobile
+Revenant's Brooch|revenants_brooch|Attacks become spell damage - ignores evasion and armor.|offense|physical,tank
+Silver Edge|silver_edge|Break shuts off passive abilities on hit.|offense|tank,physical,regen
+Nullifier|nullifier|Dispels buffs, mutes items and slows hard.|offense|regen,mobile,illusion
+Diffusal Blade|diffusal_blade|Mana burn plus a reliable single-target slow.|offense|magic,mobile
+Disperser|disperser|Dispels and slows straight through status resistance.|offense|regen,disable,tank
+Orchid Malevolence|orchid|Silence that locks down mobile casters.|offense|mobile,magic
+Bloodthorn|bloodthorn|Silence, true strike and crit amplification.|offense|mobile,magic,physical
+Scythe of Vyse|sheepstick|Hex - the most reliable disable in the game.|offense|mobile,magic
+Abyssal Blade|abyssal_blade|BKB-piercing bash to lock a slippery core down.|offense|mobile,physical
+Skull Basher|basher|Bash chance gives melee heroes real lockdown.|offense|mobile
+Rod of Atos|rod_of_atos|Long-range root for catching escape artists.|offense|mobile
+Gleipnir|gungir|AoE root plus chain lightning versus illusions.|offense|mobile,illusion
+Eul's Scepter of Divinity|cyclone|Cyclone for dispel, setup and interrupting channels.|offense|mobile,disable
+Wind Waker|wind_waker|Cyclone save that dispels and repositions allies.|offense|disable,burst
+Harpoon|harpoon|Pulls you onto a fleeing mobile hero.|offense|mobile
+Hurricane Pike|hurricane_pike|Pushes melee initiators off you and adds range.|offense|physical,mobile
+Force Staff|force_staff|Instant repositioning against initiators and combos.|offense|disable,mobile
+Blink Dagger|blink|Instant gap-close onto backline casters.|offense|magic,burst
+Overwhelming Blink|overwhelming_blink|Blink with an AoE slow that hurts illusions.|offense|illusion,summon
+Spirit Vessel|spirit_vessel|Halves healing and regeneration on the target.|offense|regen,tank
+Eye of Skadi|skadi|Slow, healing reduction and a huge stat block.|offense|regen,physical,mobile
+Satanic|satanic|Unholy lifesteal to out-sustain right-clickers.|offense|physical
+Butterfly|butterfly|Evasion and attack speed against physical cores.|offense|physical
+Mjollnir|mjollnir|Static charge punishes illusions and melee attackers.|offense|illusion,physical
+Battle Fury|bfury|Cleave shreds illusions and summoned units.|offense|illusion,summon
+Radiance|radiance|Burn damage melts illusions, summons and pushers.|offense|illusion,summon,pusher
+Maelstrom|maelstrom|Chain lightning clears illusion armies fast.|offense|illusion,summon
+Crystalys|lesser_crit|Cheap crit to punish squishy cores early.|offense|physical
+Daedalus|greater_crit|Crit damage to burst through tanky lineups.|offense|tank
+Desolator|desolator|Minus armor to break through durable heroes.|offense|tank
+Medallion of Courage|medallion_of_courage|Armor reduction that enables early kills.|offense|tank
+Solar Crest|solar_crest|Armor swing plus evasion for duels.|offense|tank,physical
+Veil of Discord|veil_of_discord|Magic amplification for spell-heavy lineups.|offense|tank
+Ethereal Blade|ethereal_blade|Ethereal target takes amplified magic damage.|offense|physical,tank
+Dagon|dagon_5|Instant burst to delete a squishy support.|offense|burst
+Bloodstone|bloodstone|Spell lifesteal sustain for magic-damage cores.|offense|magic
+Meteor Hammer|meteor_hammer|Channelled AoE stun for pushes and setup.|offense|pusher,summon
+Refresher Orb|refresher|Resets ultimates for a second round of disables.|utility|tank,disable
+Octarine Core|octarine_core|Cooldown reduction and spell lifesteal.|utility|magic
+Aether Lens|aether_lens|Cast range so you never walk into the fight.|utility|physical
+Aghanim's Scepter|ultimate_scepter|Ultimate upgrade - frequently a hard counter tool.|utility|
+Aghanim's Shard|aghanims_shard|Hero-specific upgrade, many are pure counterplay.|utility|
+Boots of Bearing|boots_of_bearing|Team movement and attack speed burst in fights.|utility|pusher
+Town Portal Scroll|tpscroll|The real answer to split pushers and tower dives.|utility|pusher
+Manta Style|manta|Dispels silences, roots and most debuffs on cast.|utility|silence,magic,disable
+Dust of Appearance|dust|Reveals invisible heroes in a large radius.|vision|invis
+Gem of True Sight|gem|Permanent true sight for hunting invisibility.|vision|invis
+Sentry Ward|ward_sentry|Cheap true sight to deny invisibility and wards.|vision|invis,pusher
+Smoke of Deceit|smoke_of_deceit|Move unseen to punish greedy split pushers.|vision|pusher
+Observer Ward|ward_observer|Vision to dodge ganks and track rotations.|vision|mobile,invis
+`;
+var items = ITEM_RAW.trim().split('\n').map(function(line) {
+  var p = line.split('|');
+  return { name: p[0], slug: p[1], description: p[2], category: p[3], counters: p[4] ? p[4].split(',').filter(Boolean) : [] };
+});
+var itemByName = {};
+items.forEach(function(i) { itemByName[i.name] = i; });
+
+/* ============ DATA: русские имена ============ */
+var HERO_RU_RAW = `
+Abaddon|Абаддон
+Alchemist|Алхимик
+Ancient Apparition|Дух Древних
+Anti-Mage|Антимаг
+Arc Warden|Арк Варден
+Axe|Акс
+Bane|Бэйн
+Batrider|Батрайдер
+Beastmaster|Повелитель Зверей
+Bloodseeker|Кровосек
+Bounty Hunter|Охотник за головами
+Brewmaster|Брюмастер
+Bristleback|Бристлбэк
+Broodmother|Бруда
+Centaur Warrunner|Кентавр
+Chaos Knight|Рыцарь Хаоса
+Chen|Чен
+Clinkz|Клинкз
+Clockwork|Клокверк
+Crystal Maiden|Кристальная Дева
+Dark Seer|Тёмный Провидец
+Dark Willow|Тёмная Ива
+Dawnbreaker|Давнбрейкер
+Dazzle|Даззл
+Death Prophet|Пророчица Смерти
+Disruptor|Диструптор
+Doom|Дум
+Dragon Knight|Драконий Рыцарь
+Drow Ranger|Дроу Рейнджер
+Earth Spirit|Дух Земли
+Earthshaker|Эртшейкер
+Elder Titan|Древний Титан
+Ember Spirit|Дух Огня
+Enchantress|Чародейка
+Enigma|Энигма
+Faceless Void|Фейслесс Войд
+Grimstroke|Гримстроук
+Gyrocopter|Гирокоптер
+Hoodwink|Худвинк
+Huskar|Хускар
+Invoker|Инвокер
+Io|Ио
+Jakiro|Джакиро
+Juggernaut|Джаггернаут
+Keeper of the Light|Хранитель Света
+Kez|Кез
+Kunkka|Кунка
+Largo|Ларго
+Legion Commander|Легион Командер
+Leshrac|Лешрак
+Lich|Лич
+Lifestealer|Лайфстилер
+Lina|Лина
+Lion|Лион
+Lone Druid|Одинокий Друид
+Luna|Луна
+Lycan|Ликан
+Magnus|Магнус
+Marci|Марси
+Mars|Марс
+Medusa|Медуза
+Meepo|Мипо
+Mirana|Мирана
+Monkey King|Царь Обезьян
+Morphling|Морфлинг
+Muerta|Муэрта
+Naga Siren|Нага Сирена
+Nature's Prophet|Пророк Природы
+Necrophos|Некрофос
+Night Stalker|Ночной Охотник
+Nyx Assassin|Никс Ассасин
+Ogre Magi|Огр Маги
+Omniknight|Омникнайт
+Oracle|Оракул
+Outworld Destroyer|Аутворлд Дестроер
+Pangolier|Панголир
+Phantom Assassin|Фантом Ассасин
+Phantom Lancer|Фантом Лансер
+Phoenix|Феникс
+Primal Beast|Праймал Бист
+Puck|Пак
+Pudge|Пудж
+Pugna|Пугна
+Queen of Pain|Королева Боли
+Razor|Рейзор
+Riki|Рики
+Ringmaster|Рингмастер
+Rubick|Рубик
+Sand King|Песчаный Король
+Shadow Demon|Теневой Демон
+Shadow Fiend|Шэдоу Фиенд
+Shadow Shaman|Теневой Шаман
+Silencer|Сайленсер
+Skywrath Mage|Скайрат Маг
+Slardar|Слардар
+Slark|Сларк
+Snapfire|Снапфайр
+Sniper|Снайпер
+Spectre|Спектра
+Spirit Breaker|Спирит Брейкер
+Storm Spirit|Дух Грозы
+Sven|Свен
+Techies|Техиес
+Templar Assassin|Темплар Ассасин
+Terrorblade|Террорблейд
+Tidehunter|Тайдхантер
+Timbersaw|Тимберсо
+Tinker|Тинкер
+Tiny|Тини
+Treant Protector|Трент Протектор
+Troll Warlord|Тролль Варлорд
+Tusk|Таск
+Underlord|Андерлорд
+Undying|Андаинг
+Ursa|Урса
+Vengeful Spirit|Мстительный Дух
+Venomancer|Веномансер
+Viper|Вайпер
+Visage|Визаж
+Void Spirit|Дух Пустоты
+Warlock|Варлок
+Weaver|Уивер
+Windranger|Виндрейнджер
+Winter Wyvern|Зимняя Виверна
+Witch Doctor|Витч Доктор
+Wraith King|Рейф Кинг
+Zeus|Зевс
+`;
+function parsePairs(raw) {
+  var out = {};
+  raw.trim().split('\n').forEach(function(line) {
+    var p = line.split('|');
+    if (p[0] && p[1]) out[p[0].trim()] = p[1].trim();
+  });
+  return out;
+}
+var heroNameRu = parsePairs(HERO_RU_RAW);
+function searchHaystack(name) { return ((heroNameRu[name] || name) + ' ' + name).toLowerCase(); }
+
+var ITEM_RU_RAW = `
+Black King Bar|Чёрный королевский скипетр|Магический иммунитет отменяет заклинания, станы и каналы на 5–9 секунд.
+Pipe of Insight|Трубка мудрости|Командный барьер от магии плюс аура сопротивления магии.
+Glimmer Cape|Мерцающий плащ|Сопротивление магии и невидимость, чтобы спасти союзника под фокусом.
+Eternal Shroud|Вечный покров|Сопротивление магии, превращающее полученный урон заклинаниями в ману.
+Lotus Orb|Лотосовая сфера|Отражает нацеленные заклинания обратно в кастера и снимает дебаффы.
+Linken's Sphere|Сфера Линкена|Блокирует одно нацеленное заклинание каждые 13 секунд.
+Aeon Disk|Диск эпох|Стазис на низком запасе здоровья — переживает полный бурст-комбо.
+Ghost Scepter|Призрачный скипетр|Эфирная форма делает вас неуязвимым для любых атак.
+Blade Mail|Клинковая броня|Возвращает урон тому, кто вас фокусит.
+Crimson Guard|Багровый стражник|Командный блок физического урона против быстрых атак.
+Heart of Tarrasque|Сердце Тарраска|Огромный запас здоровья и регенерация, чтобы переживать бурст.
+Wraith Pact|Договор с призраком|Аура снижения урона для всей команды в бою.
+Pavise|Павеза|Барьер, впитывающий урон по хрупкому союзнику.
+Guardian Greaves|Наручи стража|Командное лечение и снятие дебаффов прямо в бою.
+Holy Locket|Святой медальон|Усиливает всё лечение и даёт мгновенный хил.
+Sange and Yasha|Санж и Яша|Сопротивление эффектам сокращает длительность станов на вас.
+Kaya and Sange|Кайя и Санж|Усиление заклинаний плюс сопротивление эффектам для кастеров.
+Yasha and Kaya|Яша и Кайя|Скорость, усиление заклинаний и сопротивление эффектам.
+Assault Cuirass|Кираса натиска|Аура брони и скорости атаки для всей команды.
+Shiva's Guard|Защита Шивы|Броня, аура замедления атаки и снижение лечения.
+Vladmir's Offering|Подношение Владмира|Аура вампиризма, брони и сопротивления магии.
+Heaven's Halberd|Небесная алебарда|Обезоруживает автоатакующего героя до 5 секунд.
+Monkey King Bar|Посох Царя обезьян|Точные удары и доп. урон против уклонения.
+Revenant's Brooch|Брошь ревенанта|Атаки наносят магический урон — игнорируют уклонение и броню.
+Silver Edge|Серебряный клинок|Слом отключает пассивные способности при ударе.
+Nullifier|Нуллификатор|Снимает баффы, блокирует предметы и сильно замедляет.
+Diffusal Blade|Рассеивающий клинок|Сжигание маны плюс надёжное замедление одной цели.
+Disperser|Диспергатор|Снимает баффы и замедляет даже через сопротивление эффектам.
+Orchid Malevolence|Злобная орхидея|Молчание, запирающее мобильных кастеров.
+Bloodthorn|Кровавый шип|Молчание, точные удары и усиление критов.
+Scythe of Vyse|Коса Вайса|Хекс — самый надёжный контроль в игре.
+Abyssal Blade|Клинок бездны|Оглушение сквозь BKB, чтобы поймать скользкого кора.
+Skull Basher|Костолом|Шанс оглушения даёт ближнему бою настоящий контроль.
+Rod of Atos|Жезл Атоса|Дальний корень для отлова героев с побегом.
+Gleipnir|Глейпнир|Массовый корень плюс цепная молния против иллюзий.
+Eul's Scepter of Divinity|Божественный скипетр Эула|Циклон для снятия дебаффов, сетапа и прерывания каналов.
+Wind Waker|Ветрокрут|Циклон-спасение: снимает дебаффы и переставляет союзников.
+Harpoon|Гарпун|Притягивает вас к убегающему мобильному герою.
+Hurricane Pike|Ураганная пика|Отталкивает ближников от вас и добавляет дальность.
+Force Staff|Посох силы|Мгновенное перемещение против инициаторов и комбо.
+Blink Dagger|Кинжал перемещения|Мгновенный прыжок в тыл к кастерам.
+Overwhelming Blink|Подавляющий кинжал|Прыжок с массовым замедлением, больно бьёт по иллюзиям.
+Spirit Vessel|Сосуд духа|Урезает лечение и регенерацию цели вдвое.
+Eye of Skadi|Око Скади|Замедление, снижение лечения и огромные характеристики.
+Satanic|Сатаник|Нечестивый вампиризм, чтобы перестоять автоатакующих.
+Butterfly|Бабочка|Уклонение и скорость атаки против физических коров.
+Mjollnir|Мьёльнир|Статический заряд наказывает иллюзии и ближников.
+Battle Fury|Ярость битвы|Рассекающий удар шинкует иллюзии и призванных существ.
+Radiance|Сияние|Урон от горения плавит иллюзии, призывы и пушеров.
+Maelstrom|Мальстрём|Цепная молния быстро чистит армии иллюзий.
+Crystalys|Кристалис|Дешёвый крит, чтобы наказывать хрупких коров на раннем этапе.
+Daedalus|Дедал|Критический урон, чтобы пробивать толстые составы.
+Desolator|Опустошитель|Минус к броне, чтобы пробить живучих героев.
+Medallion of Courage|Медальон отваги|Снижение брони, открывающее ранние убийства.
+Solar Crest|Солнечный герб|Перенос брони плюс уклонение для дуэлей.
+Veil of Discord|Пелена раздора|Усиление магического урона для составов на заклинаниях.
+Ethereal Blade|Эфирный клинок|Эфирная цель получает усиленный магический урон.
+Dagon|Дагон|Мгновенный бурст, чтобы удалить хрупкого саппорта.
+Bloodstone|Кровавый камень|Вампиризм от заклинаний для магических коров.
+Meteor Hammer|Метеоритный молот|Массовый стан с каналом для пушей и сетапа.
+Refresher Orb|Сфера обновления|Сбрасывает ульты для второго круга контроля.
+Octarine Core|Октариновое ядро|Снижение перезарядки и вампиризм от заклинаний.
+Aether Lens|Эфирная линза|Дальность каста, чтобы не заходить в бой самому.
+Aghanim's Scepter|Скипетр Агханима|Улучшение ульты — часто прямой инструмент контрплея.
+Aghanim's Shard|Осколок Агханима|Улучшение под конкретного героя, многие — чистая контрплея.
+Boots of Bearing|Ботинки предводителя|Командный рывок скорости и скорости атаки в бою.
+Town Portal Scroll|Свиток телепортации|Настоящий ответ на сплитпуш и дайв под вышку.
+Manta Style|Манта|Снимает молчание, корни и большинство дебаффов при использовании.
+Dust of Appearance|Пыль прозрения|Обнаруживает невидимых героев в большом радиусе.
+Gem of True Sight|Камень истинного зрения|Постоянное истинное зрение для охоты на невидимок.
+Sentry Ward|Сигнальный вард|Дешёвое истинное зрение против невидимости и вардов.
+Smoke of Deceit|Дымовая завеса|Двигайтесь незаметно, чтобы наказать жадных сплитпушеров.
+Observer Ward|Наблюдательный вард|Обзор, чтобы уходить от ганков и читать ротации.
+`;
+var itemDescRu = {};
+ITEM_RU_RAW.trim().split('\n').forEach(function(line) {
+  var p = line.split('|');
+  if (!p[0] || !p[2]) return;
+  itemDescRu[p[0].trim()] = p[2].trim();
+});
+function itemDescriptionRu(name, fallback) { return itemDescRu[name] || fallback; }
+
+/* ============ DATA: контрпики ============ */
+function parseTable(raw) {
+  var out = {};
+  raw.trim().split('\n').forEach(function(line) {
+    var p = line.split('|');
+    out[p[0]] = p[1].split(',').filter(Boolean);
+  });
+  return out;
+}
+
+var COUNTERED_BY_RAW = `
+Abaddon|Ancient Apparition,Doom,Necrophos,Silencer,Nyx Assassin,Shadow Demon,Slark
+Alchemist|Ancient Apparition,Viper,Necrophos,Bloodseeker,Nyx Assassin,Lifestealer
+Ancient Apparition|Clockwork,Storm Spirit,Puck,Nyx Assassin,Weaver
+Anti-Mage|Shadow Shaman,Bloodseeker,Legion Commander,Doom,Night Stalker,Meepo
+Arc Warden|Night Stalker,Nyx Assassin,Broodmother,Bane,Ursa
+Axe|Viper,Timbersaw,Bristleback,Razor,Death Prophet
+Bane|Silencer,Storm Spirit,Puck,Nyx Assassin,Lycan
+Batrider|Abaddon,Queen of Pain,Storm Spirit,Viper,Oracle
+Beastmaster|Winter Wyvern,Sven,Leshrac,Kunkka,Earthshaker
+Bloodseeker|Abaddon,Medusa,Oracle,Winter Wyvern,Anti-Mage
+Bounty Hunter|Zeus,Slardar,Bristleback,Nature's Prophet,Oracle
+Brewmaster|Leshrac,Sven,Earthshaker,Skywrath Mage,Outworld Destroyer
+Bristleback|Silencer,Viper,Ursa,Doom,Nyx Assassin,Bane,Shadow Shaman,Disruptor
+Broodmother|Axe,Timbersaw,Earthshaker,Grimstroke,Batrider
+Centaur Warrunner|Lifestealer,Underlord,Viper,Ursa,Necrophos
+Chaos Knight|Sand King,Earthshaker,Winter Wyvern,Leshrac,Axe
+Chen|Enchantress,Clinkz,Axe,Legion Commander,Bloodseeker
+Clinkz|Zeus,Slardar,Bounty Hunter,Spectre,Bane
+Clockwork|Lifestealer,Juggernaut,Abaddon,Slark,Puck
+Crystal Maiden|Riki,Nyx Assassin,Storm Spirit,Spirit Breaker,Clinkz,Rubick,Lifestealer
+Dark Seer|Anti-Mage,Oracle,Bristleback,Timbersaw,Puck
+Dark Willow|Silencer,Axe,Nyx Assassin,Storm Spirit,Slark
+Dawnbreaker|Nyx Assassin,Lifestealer,Ancient Apparition,Viper,Necrophos
+Dazzle|Ancient Apparition,Axe,Doom,Nyx Assassin,Necrophos
+Death Prophet|Ancient Apparition,Bloodseeker,Pugna,Anti-Mage,Viper
+Disruptor|Abaddon,Pangolier,Juggernaut,Slark,Storm Spirit
+Doom|Oracle,Medusa,Abaddon,Lifestealer,Slark
+Dragon Knight|Viper,Elder Titan,Timbersaw,Ursa,Bristleback
+Drow Ranger|Clockwork,Spirit Breaker,Storm Spirit,Nyx Assassin,Mars,Riki,Spectre
+Earth Spirit|Silencer,Ancient Apparition,Bristleback,Timbersaw,Storm Spirit,Oracle,Axe
+Earthshaker|Silencer,Sniper,Storm Spirit,Nyx Assassin,Drow Ranger,Rubick,Lycan
+Elder Titan|Silencer,Nyx Assassin,Puck,Slark,Storm Spirit,Winter Wyvern
+Ember Spirit|Bloodseeker,Legion Commander,Ancient Apparition,Bane,Doom,Shadow Fiend
+Enchantress|Timbersaw,Sven,Leshrac,Centaur Warrunner,Death Prophet,Winter Wyvern,Lycan
+Enigma|Rubick,Storm Spirit,Nyx Assassin,Puck,Templar Assassin,Silencer
+Faceless Void|Winter Wyvern,Shadow Demon,Oracle,Silencer,Rubick,Shadow Shaman,Bloodseeker
+Grimstroke|Anti-Mage,Nyx Assassin,Storm Spirit,Slark,Silencer,Oracle,Spectre
+Gyrocopter|Ancient Apparition,Nyx Assassin,Slark,Riki,Storm Spirit,Bane,Spectre
+Hoodwink|Silencer,Nyx Assassin,Storm Spirit,Slark,Bristleback,Clockwork,Weaver
+Huskar|Ancient Apparition,Necrophos,Viper,Pugna,Templar Assassin,Winter Wyvern,Oracle,Bloodseeker
+Invoker|Nyx Assassin,Night Stalker,Storm Spirit,Riki,Templar Assassin,Bane,Broodmother
+Io|Ancient Apparition,Doom,Necrophos,Pugna,Skywrath Mage,Oracle,Undying
+Jakiro|Anti-Mage,Storm Spirit,Nyx Assassin,Slark,Riki,Silencer,Spectre
+Juggernaut|Ancient Apparition,Axe,Necrophos,Viper,Bane,Rubick,Pugna
+Keeper of the Light|Silencer,Nyx Assassin,Storm Spirit,Slark,Spirit Breaker,Bane
+Kez|Axe,Bristleback,Viper,Timbersaw,Legion Commander,Clockwork,Broodmother
+Kunkka|Anti-Mage,Storm Spirit,Puck,Silencer,Slark,Rubick,Weaver
+Largo|Lion,Lina,Zeus,Ancient Apparition,Silencer
+Legion Commander|Puck,Storm Spirit,Winter Wyvern,Shadow Demon,Ancient Apparition,Oracle,Axe,Bane
+Leshrac|Nyx Assassin,Anti-Mage,Pugna,Storm Spirit,Bristleback,Rubick,Lifestealer
+Lich|Anti-Mage,Storm Spirit,Nyx Assassin,Riki,Slark,Ancient Apparition,Axe
+Lifestealer|Ancient Apparition,Necrophos,Viper,Timbersaw,Razor,Nyx Assassin,Slardar
+Lina|Meepo,Nyx Assassin,Storm Spirit,Bristleback,Timbersaw,Abaddon,Pugna
+Lion|Anti-Mage,Storm Spirit,Nyx Assassin,Bristleback,Riki,Abaddon,Spectre
+Lone Druid|Axe,Legion Commander,Bristleback,Necrophos,Winter Wyvern,Silencer,Broodmother
+Luna|Ancient Apparition,Nyx Assassin,Riki,Storm Spirit,Slark,Abaddon,Spectre
+Lycan|Timbersaw,Necrophos,Bane,Leshrac,Winter Wyvern,Oracle,Axe
+Magnus|Silencer,Anti-Mage,Storm Spirit,Sniper,Nyx Assassin,Winter Wyvern,Weaver
+Marci|Silencer,Axe,Bristleback,Viper,Timbersaw,Ursa
+Mars|Silencer,Anti-Mage,Storm Spirit,Necrophos,Viper,Abaddon,Lifestealer
+Medusa|Anti-Mage,Doom,Nyx Assassin,Lion,Silencer,Ancient Apparition,Slark
+Meepo|Axe,Sven,Earthshaker,Leshrac,Timbersaw,Kunkka,Bane,Sand King
+Mirana|Sniper,Bristleback,Zeus,Slardar,Storm Spirit,Bane,Spectre
+Monkey King|Ursa,Bristleback,Timbersaw,Axe,Winter Wyvern,Bane,Beastmaster
+Morphling|Ancient Apparition,Nyx Assassin,Doom,Bane,Templar Assassin,Spectre
+Muerta|Silencer,Nyx Assassin,Storm Spirit,Slark,Anti-Mage,Bane,Bloodseeker
+Naga Siren|Timbersaw,Leshrac,Sand King,Earthshaker,Kunkka,Axe,Shadow Shaman,Luna
+Nature's Prophet|Bristleback,Timbersaw,Axe,Ursa,Spectre,Bane
+Necrophos|Ancient Apparition,Anti-Mage,Silencer,Nyx Assassin,Bristleback,Abaddon,Pugna
+Night Stalker|Silencer,Viper,Necrophos,Bristleback,Timbersaw,Bane,Undying
+Nyx Assassin|Bristleback,Timbersaw,Zeus,Slardar,Necrophos,Abaddon,Windranger
+Ogre Magi|Anti-Mage,Storm Spirit,Silencer,Necrophos,Slark,Bane,Weaver
+Omniknight|Ancient Apparition,Doom,Necrophos,Nyx Assassin,Pugna,Oracle,Medusa
+Oracle|Ancient Apparition,Nyx Assassin,Silencer,Storm Spirit,Slark,Clockwork,Spectre
+Outworld Destroyer|Nyx Assassin,Anti-Mage,Silencer,Puck,Storm Spirit,Spectre
+Pangolier|Silencer,Bane,Axe,Viper,Bristleback,Winter Wyvern,Shadow Fiend
+Phantom Assassin|Bristleback,Timbersaw,Axe,Viper,Earthshaker,Mars,Shadow Shaman,Slardar,Pugna,Lion,Shadow Demon
+Phantom Lancer|Axe,Leshrac,Sand King,Earthshaker,Timbersaw,Kunkka,Rubick,Lifestealer
+Phoenix|Ancient Apparition,Silencer,Anti-Mage,Storm Spirit,Nyx Assassin,Axe
+Primal Beast|Viper,Necrophos,Timbersaw,Silencer,Bristleback,Ogre Magi,Ursa
+Puck|Bloodseeker,Legion Commander,Bane,Doom,Night Stalker,Broodmother
+Pudge|Anti-Mage,Storm Spirit,Necrophos,Viper,Puck,Silencer,Axe
+Pugna|Anti-Mage,Nyx Assassin,Storm Spirit,Silencer,Slark,Bane,Spectre
+Queen of Pain|Bloodseeker,Silencer,Legion Commander,Bane,Nyx Assassin,Spectre
+Razor|Anti-Mage,Storm Spirit,Nyx Assassin,Timbersaw,Silencer,Winter Wyvern,Lifestealer
+Riki|Zeus,Slardar,Bounty Hunter,Bristleback,Necrophos,Bane,Spectre
+Ringmaster|Silencer,Nyx Assassin,Anti-Mage,Storm Spirit,Slark,Clockwork,Ursa
+Rubick|Nyx Assassin,Silencer,Storm Spirit,Slark,Riki,Bane,Broodmother
+Sand King|Weaver,Clockwork,Spectre,Lifestealer,Zeus,Enchantress,Medusa,Anti-Mage
+Shadow Demon|Anti-Mage,Nyx Assassin,Storm Spirit,Slark,Silencer,Rubick
+Shadow Fiend|Storm Spirit,Puck,Queen of Pain,Nyx Assassin,Void Spirit,Bane,Spectre
+Shadow Shaman|Anti-Mage,Storm Spirit,Nyx Assassin,Slark,Riki,Abaddon,Axe
+Silencer|Anti-Mage,Storm Spirit,Nyx Assassin,Slark,Bristleback,Rubick,Spectre
+Skywrath Mage|Anti-Mage,Storm Spirit,Nyx Assassin,Riki,Bristleback,Abaddon,Pugna
+Slardar|Viper,Necrophos,Silencer,Bristleback,Timbersaw,Winter Wyvern,Spectre
+Slark|Bloodseeker,Bounty Hunter,Zeus,Ancient Apparition,Necrophos,Slardar,Bane
+Snapfire|Anti-Mage,Storm Spirit,Nyx Assassin,Silencer,Slark,Clockwork,Weaver
+Sniper|Clockwork,Spirit Breaker,Storm Spirit,Nyx Assassin,Riki,Underlord,Spectre,Phantom Assassin,Mirana
+Spectre|Clinkz,Weaver,Bloodseeker,Terrorblade,Broodmother,Viper,Shadow Shaman,Underlord,Abaddon
+Spirit Breaker|Puck,Storm Spirit,Medusa,Windranger,Oracle,Bane
+Storm Spirit|Ancient Apparition,Anti-Mage,Silencer,Bloodseeker,Doom,Bane,Spectre
+Sven|Winter Wyvern,Lich,Jakiro,Timbersaw,Viper,Bane,Spectre
+Techies|Zeus,Bristleback,Necrophos,Nature's Prophet,Slark,Abaddon,Spectre
+Templar Assassin|Zeus,Bristleback,Timbersaw,Razor,Necrophos,Bane,Slardar
+Terrorblade|Timbersaw,Leshrac,Sand King,Earthshaker,Shadow Demon,Oracle,Bane,Spectre
+Tidehunter|Silencer,Anti-Mage,Storm Spirit,Necrophos,Viper,Oracle,Medusa
+Timbersaw|Meepo,Lycan,Broodmother,Ursa,Chaos Knight,Silencer,Viper,Bane,Shadow Shaman,Disruptor
+Tinker|Storm Spirit,Anti-Mage,Nyx Assassin,Night Stalker,Zeus,Clockwork,Spectre
+Tiny|Anti-Mage,Storm Spirit,Silencer,Bristleback,Necrophos,Rubick,Weaver
+Treant Protector|Anti-Mage,Storm Spirit,Nyx Assassin,Silencer,Slark,Winter Wyvern
+Troll Warlord|Bristleback,Timbersaw,Axe,Viper,Razor,Rubick,Slardar
+Tusk|Silencer,Anti-Mage,Storm Spirit,Bristleback,Necrophos,Bane,Spectre
+Underlord|Viper,Timbersaw,Anti-Mage,Silencer,Necrophos,Oracle,Medusa
+Undying|Viper,Razor,Sniper,Drow Ranger,Anti-Mage,Oracle,Medusa
+Ursa|Bane,Winter Wyvern,Lich,Crystal Maiden,Shadow Demon,Viper,Windranger
+Vengeful Spirit|Anti-Mage,Storm Spirit,Nyx Assassin,Silencer,Slark,Bane,Spectre
+Venomancer|Anti-Mage,Storm Spirit,Abaddon,Juggernaut,Slark,Pugna
+Viper|Nyx Assassin,Storm Spirit,Anti-Mage,Puck,Lion,Abaddon,Lifestealer
+Visage|Sven,Leshrac,Earthshaker,Kunkka,Timbersaw,Winter Wyvern,Weaver
+Void Spirit|Silencer,Bloodseeker,Legion Commander,Bane,Ancient Apparition,Broodmother
+Warlock|Anti-Mage,Nyx Assassin,Storm Spirit,Silencer,Slark,Abaddon,Bloodseeker
+Weaver|Zeus,Bounty Hunter,Slardar,Bristleback,Ancient Apparition,Bane,Bloodseeker
+Windranger|Anti-Mage,Storm Spirit,Nyx Assassin,Silencer,Bristleback,Clockwork,Spectre
+Winter Wyvern|Anti-Mage,Storm Spirit,Nyx Assassin,Silencer,Ancient Apparition,Abaddon,Medusa
+Witch Doctor|Anti-Mage,Storm Spirit,Nyx Assassin,Ancient Apparition,Slark,Clockwork,Spectre
+Wraith King|Anti-Mage,Doom,Necrophos,Viper,Ancient Apparition,Abaddon,Axe
+Zeus|Anti-Mage,Nyx Assassin,Storm Spirit,Riki,Clockwork,Ancient Apparition,Spectre
+`;
+var ALSO_COUNTERS_RAW = `
+Alchemist|Meepo,Broodmother,Phantom Lancer,Naga Siren,Terrorblade
+Arc Warden|Sniper,Drow Ranger,Phantom Assassin,Ursa,Troll Warlord
+Brewmaster|Legion Commander,Meepo,Phantom Lancer,Naga Siren,Broodmother
+Chen|Broodmother,Meepo,Nature's Prophet,Anti-Mage,Spectre
+Dark Seer|Anti-Mage,Phantom Assassin,Terrorblade,Juggernaut,Legion Commander
+Dark Willow|Ursa,Slark,Legion Commander,Juggernaut,Riki
+Dawnbreaker|Crystal Maiden,Sniper,Zeus,Broodmother,Meepo
+Dazzle|Phantom Assassin,Legion Commander,Ursa,Slark,Bloodseeker
+Dragon Knight|Broodmother,Meepo,Nature's Prophet,Phantom Lancer,Templar Assassin
+Earth Spirit|Storm Spirit,Puck,Queen of Pain,Weaver,Crystal Maiden
+Ember Spirit|Phantom Lancer,Naga Siren,Meepo,Terrorblade,Broodmother
+Enigma|Phantom Lancer,Naga Siren,Terrorblade,Meepo,Broodmother,Lycan
+Faceless Void|Enigma,Witch Doctor,Bane,Legion Commander,Crystal Maiden
+Gyrocopter|Phantom Lancer,Naga Siren,Meepo,Broodmother,Terrorblade
+Hoodwink|Ursa,Slark,Legion Commander,Juggernaut,Pudge
+Huskar|Zeus,Lina,Leshrac,Skywrath Mage,Death Prophet
+Invoker|Phantom Lancer,Naga Siren,Meepo,Broodmother,Nature's Prophet
+Io|Ursa,Legion Commander,Bloodseeker,Phantom Assassin
+Keeper of the Light|Ursa,Slark,Legion Commander,Broodmother,Meepo
+Kez|Sniper,Crystal Maiden,Zeus
+Largo|Crystal Maiden,Sniper,Drow Ranger
+Lone Druid|Medusa,Spectre,Terrorblade,Anti-Mage
+Magnus|Phantom Lancer,Naga Siren,Meepo,Broodmother,Terrorblade
+Marci|Sniper,Drow Ranger,Crystal Maiden,Zeus,Shadow Fiend
+Monkey King|Crystal Maiden,Sniper,Drow Ranger,Shadow Fiend
+Morphling|Sniper,Drow Ranger,Templar Assassin,Clinkz
+Muerta|Phantom Assassin,Ursa,Sniper,Juggernaut,Troll Warlord
+Naga Siren|Enigma,Tidehunter,Magnus,Warlock,Legion Commander
+Omniknight|Phantom Assassin,Ursa,Sniper,Drow Ranger,Troll Warlord,Juggernaut
+Phantom Lancer|Legion Commander,Ursa,Doom,Riki,Bloodseeker
+Phoenix|Phantom Lancer,Naga Siren,Meepo,Broodmother,Huskar
+Primal Beast|Crystal Maiden,Zeus,Sniper,Enigma,Witch Doctor
+Pudge|Crystal Maiden,Zeus,Sniper,Shadow Fiend,Witch Doctor
+Ringmaster|Ursa,Slark,Legion Commander
+Snapfire|Ursa,Slark,Legion Commander,Broodmother,Meepo
+Techies|Meepo,Broodmother,Nature's Prophet,Chen,Lone Druid
+Tidehunter|Phantom Lancer,Naga Siren,Meepo,Terrorblade,Broodmother
+Tinker|Sniper,Crystal Maiden,Drow Ranger,Spectre,Medusa
+Tiny|Crystal Maiden,Witch Doctor,Phantom Lancer,Naga Siren,Meepo
+Treant Protector|Broodmother,Nature's Prophet,Death Prophet,Meepo,Riki
+Troll Warlord|Sniper,Drow Ranger,Anti-Mage,Juggernaut,Ursa
+Tusk|Crystal Maiden,Sniper,Zeus,Shadow Fiend,Witch Doctor
+Vengeful Spirit|Enigma,Tidehunter,Faceless Void,Legion Commander,Anti-Mage
+Venomancer|Riki,Bounty Hunter,Clinkz,Slark,Broodmother
+Visage|Crystal Maiden,Sniper,Zeus,Nature's Prophet
+Warlock|Phantom Lancer,Naga Siren,Meepo,Terrorblade,Broodmother
+Witch Doctor|Bristleback,Pudge,Underlord,Broodmother
+Wraith King|Legion Commander,Ursa,Bloodseeker,Riki
+`;
+var LANE_WINS_RAW = `
+Alchemist|Meepo
+Axe|Meepo,Broodmother,Phantom Lancer
+Bane|Broodmother,Timbersaw
+Batrider|Meepo,Broodmother,Timbersaw
+Bristleback|Meepo,Sven
+Broodmother|Anti-Mage,Spectre,Naga Siren
+Clinkz|Timbersaw
+Crystal Maiden|Ursa,Monkey King
+Dark Seer|Meepo,Sven,Chaos Knight
+Doom|Timbersaw,Bristleback,Alchemist
+Drow Ranger|Timbersaw
+Earth Spirit|Shadow Fiend
+Ember Spirit|Shadow Fiend
+Enchantress|Timbersaw,Centaur Warrunner
+Grimstroke|Sven,Chaos Knight
+Gyrocopter|Phantom Lancer,Naga Siren
+Huskar|Meepo,Timbersaw
+Invoker|Meepo
+Jakiro|Sven,Chaos Knight
+Keeper of the Light|Timbersaw,Bristleback
+Leshrac|Meepo
+Lich|Sven,Ursa
+Lina|Meepo
+Luna|Meepo
+Mars|Sniper,Drow Ranger
+Naga Siren|Timbersaw
+Nature's Prophet|Sven,Chaos Knight
+Necrophos|Axe,Bristleback,Timbersaw
+Oracle|Terrorblade
+Phantom Assassin|Timbersaw
+Phantom Lancer|Timbersaw
+Puck|Shadow Fiend,Invoker
+Queen of Pain|Shadow Fiend
+Razor|Meepo,Timbersaw,Bristleback,Dragon Knight
+Rubick|Timbersaw
+Sand King|Sniper,Luna
+Shadow Demon|Terrorblade
+Shadow Fiend|Tinker
+Slardar|Spectre,Phantom Assassin
+Snapfire|Sven,Ursa
+Storm Spirit|Shadow Fiend,Invoker
+Sven|Meepo
+Techies|Meepo
+Terrorblade|Timbersaw
+Tidehunter|Phantom Assassin,Ursa
+Timbersaw|Meepo,Lycan,Broodmother
+Tinker|Meepo
+Underlord|Sniper,Drow Ranger
+Ursa|Axe,Timbersaw,Centaur Warrunner,Mars,Primal Beast
+Viper|Meepo,Timbersaw,Bristleback,Alchemist
+Void Spirit|Shadow Fiend
+Winter Wyvern|Sven,Luna
+Zeus|Tinker
+`;
+var ITEMS_VS_RAW = `
+Abaddon|Spirit Vessel,Shiva's Guard,Silver Edge,Nullifier
+Alchemist|Spirit Vessel,Eye of Skadi,Heaven's Halberd,Desolator
+Ancient Apparition|Black King Bar,Pipe of Insight,Blink Dagger,Eul's Scepter of Divinity
+Anti-Mage|Orchid Malevolence,Scythe of Vyse,Bloodthorn,Battle Fury,Rod of Atos,Diffusal Blade
+Arc Warden|Battle Fury,Mjollnir,Silver Edge,Gleipnir
+Axe|Ghost Scepter,Hurricane Pike,Linken's Sphere,Force Staff
+Bane|Linken's Sphere,Manta Style,Black King Bar,Lotus Orb,Eul's Scepter of Divinity
+Batrider|Linken's Sphere,Lotus Orb,Black King Bar,Force Staff
+Beastmaster|Crimson Guard,Radiance,Battle Fury,Linken's Sphere
+Bloodseeker|Eul's Scepter of Divinity,Ghost Scepter,Heaven's Halberd,Spirit Vessel
+Bounty Hunter|Sentry Ward,Dust of Appearance,Gem of True Sight,Solar Crest
+Brewmaster|Radiance,Battle Fury,Black King Bar,Shiva's Guard,Monkey King Bar
+Bristleback|Silver Edge,Spirit Vessel,Ethereal Blade,Revenant's Brooch
+Broodmother|Crimson Guard,Battle Fury,Radiance,Sentry Ward
+Centaur Warrunner|Silver Edge,Spirit Vessel,Heaven's Halberd,Blade Mail
+Chaos Knight|Battle Fury,Mjollnir,Crimson Guard,Radiance
+Chen|Battle Fury,Radiance,Maelstrom,Spirit Vessel
+Clinkz|Sentry Ward,Dust of Appearance,Crimson Guard,Gem of True Sight
+Clockwork|Linken's Sphere,Hurricane Pike,Black King Bar,Force Staff
+Crystal Maiden|Black King Bar,Blink Dagger,Glimmer Cape,Force Staff,Eul's Scepter of Divinity,Blade Mail
+Dark Seer|Battle Fury,Mjollnir,Black King Bar,Pipe of Insight
+Dark Willow|Black King Bar,Manta Style,Linken's Sphere,Pipe of Insight
+Dawnbreaker|Silver Edge,Spirit Vessel,Heaven's Halberd,Shiva's Guard
+Dazzle|Spirit Vessel,Nullifier,Shiva's Guard,Silver Edge
+Death Prophet|Black King Bar,Pipe of Insight,Spirit Vessel,Blade Mail
+Disruptor|Black King Bar,Manta Style,Linken's Sphere,Aeon Disk
+Doom|Linken's Sphere,Lotus Orb,Aeon Disk,Manta Style
+Dragon Knight|Silver Edge,Heaven's Halberd,Spirit Vessel,Desolator
+Drow Ranger|Heaven's Halberd,Blink Dagger,Crimson Guard,Satanic,Ghost Scepter
+Earth Spirit|Black King Bar,Aeon Disk,Manta Style,Pipe of Insight
+Earthshaker|Black King Bar,Aeon Disk,Manta Style,Force Staff
+Elder Titan|Black King Bar,Pipe of Insight,Blink Dagger,Aeon Disk
+Ember Spirit|Orchid Malevolence,Scythe of Vyse,Bloodthorn,Shiva's Guard
+Enchantress|Battle Fury,Radiance,Blink Dagger,Maelstrom
+Enigma|Black King Bar,Aeon Disk,Battle Fury,Eul's Scepter of Divinity
+Faceless Void|Black King Bar,Aeon Disk,Ghost Scepter,Heaven's Halberd
+Grimstroke|Black King Bar,Manta Style,Linken's Sphere,Aeon Disk
+Gyrocopter|Heaven's Halberd,Blade Mail,Eye of Skadi,Pipe of Insight
+Hoodwink|Black King Bar,Manta Style,Blink Dagger,Sentry Ward
+Huskar|Spirit Vessel,Heaven's Halberd,Ghost Scepter,Shiva's Guard
+Invoker|Black King Bar,Blink Dagger,Pipe of Insight,Aeon Disk,Manta Style
+Io|Spirit Vessel,Nullifier,Shiva's Guard,Orchid Malevolence
+Jakiro|Black King Bar,Pipe of Insight,Blink Dagger,Manta Style
+Juggernaut|Spirit Vessel,Heaven's Halberd,Ghost Scepter,Eye of Skadi
+Keeper of the Light|Black King Bar,Blink Dagger,Manta Style,Pipe of Insight
+Kez|Heaven's Halberd,Ghost Scepter,Crimson Guard,Force Staff
+Kunkka|Black King Bar,Aeon Disk,Manta Style,Linken's Sphere
+Largo|Black King Bar,Nullifier,Spirit Vessel,Aeon Disk
+Legion Commander|Linken's Sphere,Eul's Scepter of Divinity,Lotus Orb,Ghost Scepter,Wind Waker
+Leshrac|Black King Bar,Pipe of Insight,Glimmer Cape,Blade Mail
+Lich|Black King Bar,Pipe of Insight,Manta Style,Blink Dagger
+Lifestealer|Eye of Skadi,Heaven's Halberd,Spirit Vessel,Shiva's Guard
+Lina|Black King Bar,Blade Mail,Glimmer Cape,Aeon Disk,Pipe of Insight
+Lion|Black King Bar,Linken's Sphere,Blade Mail,Aeon Disk
+Lone Druid|Crimson Guard,Battle Fury,Radiance,Heaven's Halberd
+Luna|Eye of Skadi,Heaven's Halberd,Pipe of Insight,Crimson Guard
+Lycan|Crimson Guard,Radiance,Battle Fury,Heaven's Halberd
+Magnus|Black King Bar,Aeon Disk,Manta Style,Linken's Sphere
+Marci|Heaven's Halberd,Ghost Scepter,Force Staff,Crimson Guard
+Mars|Black King Bar,Aeon Disk,Force Staff,Heaven's Halberd
+Medusa|Diffusal Blade,Silver Edge,Desolator,Nullifier,Shiva's Guard
+Meepo|Battle Fury,Radiance,Mjollnir,Overwhelming Blink
+Mirana|Sentry Ward,Black King Bar,Manta Style,Dust of Appearance
+Monkey King|Silver Edge,Mjollnir,Crimson Guard,Sentry Ward,Eye of Skadi
+Morphling|Spirit Vessel,Nullifier,Diffusal Blade,Scythe of Vyse
+Muerta|Heaven's Halberd,Black King Bar,Ghost Scepter,Eye of Skadi
+Naga Siren|Battle Fury,Mjollnir,Radiance,Crimson Guard,Black King Bar
+Nature's Prophet|Town Portal Scroll,Battle Fury,Radiance,Rod of Atos
+Necrophos|Spirit Vessel,Nullifier,Aeon Disk,Black King Bar,Shiva's Guard,Blade Mail
+Night Stalker|Ghost Scepter,Heaven's Halberd,Force Staff,Crimson Guard
+Nyx Assassin|Sentry Ward,Black King Bar,Aeon Disk,Dust of Appearance
+Ogre Magi|Black King Bar,Blade Mail,Pipe of Insight,Nullifier
+Omniknight|Spirit Vessel,Nullifier,Shiva's Guard,Silver Edge
+Oracle|Spirit Vessel,Nullifier,Shiva's Guard,Orchid Malevolence
+Outworld Destroyer|Black King Bar,Manta Style,Pipe of Insight,Orchid Malevolence
+Pangolier|Black King Bar,Ghost Scepter,Heaven's Halberd,Scythe of Vyse
+Phantom Assassin|Monkey King Bar,Heaven's Halberd,Blade Mail,Ghost Scepter,Crimson Guard,Silver Edge,Bloodthorn,Solar Crest
+Phantom Lancer|Battle Fury,Mjollnir,Radiance,Crimson Guard,Gleipnir
+Phoenix|Black King Bar,Spirit Vessel,Pipe of Insight,Blink Dagger
+Primal Beast|Black King Bar,Aeon Disk,Force Staff,Silver Edge
+Puck|Orchid Malevolence,Scythe of Vyse,Rod of Atos,Bloodthorn,Manta Style
+Pudge|Force Staff,Ghost Scepter,Blink Dagger,Linken's Sphere
+Pugna|Black King Bar,Pipe of Insight,Blink Dagger,Manta Style
+Queen of Pain|Orchid Malevolence,Black King Bar,Rod of Atos,Scythe of Vyse,Bloodthorn
+Razor|Black King Bar,Heaven's Halberd,Force Staff,Pipe of Insight
+Riki|Sentry Ward,Dust of Appearance,Gem of True Sight,Eul's Scepter of Divinity
+Ringmaster|Black King Bar,Manta Style,Linken's Sphere,Aeon Disk
+Rubick|Black King Bar,Manta Style,Linken's Sphere,Blink Dagger
+Sand King|Sentry Ward,Black King Bar,Aeon Disk,Pipe of Insight
+Shadow Demon|Manta Style,Black King Bar,Linken's Sphere,Battle Fury
+Shadow Fiend|Ghost Scepter,Crimson Guard,Heaven's Halberd,Force Staff
+Shadow Shaman|Black King Bar,Linken's Sphere,Manta Style,Blink Dagger
+Silencer|Manta Style,Black King Bar,Eul's Scepter of Divinity,Guardian Greaves
+Skywrath Mage|Black King Bar,Glimmer Cape,Pipe of Insight,Manta Style,Blade Mail
+Slardar|Ghost Scepter,Force Staff,Heaven's Halberd,Linken's Sphere
+Slark|Spirit Vessel,Sentry Ward,Heaven's Halberd,Eye of Skadi,Ghost Scepter,Orchid Malevolence
+Snapfire|Black King Bar,Pipe of Insight,Manta Style,Aeon Disk
+Sniper|Blink Dagger,Crimson Guard,Satanic,Heaven's Halberd,Ghost Scepter
+Spectre|Silver Edge,Battle Fury,Heaven's Halberd,Mjollnir,Eye of Skadi
+Spirit Breaker|Linken's Sphere,Hurricane Pike,Ghost Scepter,Force Staff
+Storm Spirit|Orchid Malevolence,Scythe of Vyse,Diffusal Blade,Bloodthorn,Rod of Atos,Manta Style
+Sven|Eye of Skadi,Heaven's Halberd,Shiva's Guard,Crimson Guard,Ghost Scepter,Abyssal Blade
+Techies|Black King Bar,Aeon Disk,Pipe of Insight,Sentry Ward
+Templar Assassin|Sentry Ward,Heaven's Halberd,Crimson Guard,Ghost Scepter,Solar Crest
+Terrorblade|Battle Fury,Mjollnir,Radiance,Silver Edge,Crimson Guard
+Tidehunter|Black King Bar,Aeon Disk,Silver Edge,Manta Style
+Timbersaw|Silver Edge,Spirit Vessel,Rod of Atos,Revenant's Brooch
+Tinker|Aeon Disk,Blink Dagger,Black King Bar,Rod of Atos
+Tiny|Black King Bar,Aeon Disk,Ghost Scepter,Heaven's Halberd
+Treant Protector|Sentry Ward,Black King Bar,Nullifier,Spirit Vessel
+Troll Warlord|Monkey King Bar,Heaven's Halberd,Eye of Skadi,Shiva's Guard,Ghost Scepter,Abyssal Blade
+Tusk|Black King Bar,Force Staff,Ghost Scepter,Linken's Sphere
+Underlord|Black King Bar,Pipe of Insight,Silver Edge,Spirit Vessel
+Undying|Spirit Vessel,Battle Fury,Silver Edge,Force Staff
+Ursa|Eye of Skadi,Ghost Scepter,Heaven's Halberd,Shiva's Guard,Force Staff
+Vengeful Spirit|Black King Bar,Linken's Sphere,Ghost Scepter,Force Staff
+Venomancer|Black King Bar,Pipe of Insight,Battle Fury,Manta Style
+Viper|Black King Bar,Pipe of Insight,Blink Dagger,Force Staff
+Visage|Battle Fury,Radiance,Crimson Guard,Maelstrom
+Void Spirit|Orchid Malevolence,Scythe of Vyse,Black King Bar,Rod of Atos
+Warlock|Black King Bar,Battle Fury,Linken's Sphere,Spirit Vessel,Nullifier
+Weaver|Sentry Ward,Dust of Appearance,Heaven's Halberd,Spirit Vessel,Orchid Malevolence
+Windranger|Monkey King Bar,Black King Bar,Manta Style,Force Staff
+Winter Wyvern|Black King Bar,Nullifier,Spirit Vessel,Manta Style
+Witch Doctor|Black King Bar,Spirit Vessel,Pipe of Insight,Blink Dagger,Eul's Scepter of Divinity
+Wraith King|Diffusal Blade,Battle Fury,Spirit Vessel,Silver Edge,Heaven's Halberd
+Zeus|Black King Bar,Pipe of Insight,Glimmer Cape,Blade Mail,Aeon Disk
+`;
+var counteredBy = parseTable(COUNTERED_BY_RAW);
+Object.keys(parseTable(ALSO_COUNTERS_RAW)).forEach(function(counter) {
+  parseTable(ALSO_COUNTERS_RAW)[counter].forEach(function(victim) {
+    var list = (counteredBy[victim] = counteredBy[victim] || []);
+    if (list.indexOf(counter) === -1) list.push(counter);
+  });
+});
+var laneWins = parseTable(LANE_WINS_RAW);
+var itemsVs = parseTable(ITEMS_VS_RAW);
+var totalCounterPairs = 0;
+Object.keys(counteredBy).forEach(function(k) { totalCounterPairs += counteredBy[k].length; });
+
+var TAG_LABELS = {
+  magic: 'Магический урон', physical: 'Физический урон', tank: 'Живучий', mobile: 'Мобильный',
+  illusion: 'Иллюзии', summon: 'Призывы', invis: 'Невидимость', regen: 'Восстановление',
+  disable: 'Контроль', burst: 'Бурст', pusher: 'Пушер', silence: 'Молчание'
+};
+var TAG_HINTS = {
+  magic: 'Наносит урон заклинаниями — против него берут сопротивление магии.',
+  physical: 'Убивает автоатаками — против него берут броню и уклонение.',
+  tank: 'Много здоровья и брони — нужен минус к броне или чистый урон.',
+  mobile: 'Легко убегает и прыгает — нужен надёжный контроль.',
+  illusion: 'Создаёт копии — нужен урон по площади и рассекающие удары.',
+  summon: 'Призывает существ — тоже решается уроном по площади.',
+  invis: 'Уходит в невидимость — нужны варды, пыль или камень.',
+  regen: 'Быстро восстанавливается — нужно снижение лечения.',
+  disable: 'Много станов и контроля — спасает BKB и сопротивление эффектам.',
+  burst: 'Убивает одним комбо — нужен запас здоровья и спасающие предметы.',
+  pusher: 'Ломает вышки и линии — нужен обзор и быстрый ответ на карте.',
+  silence: 'Затыкает заклинания — нужны предметы, снимающие дебаффы.'
+};
+
+var CDN = 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/';
+function heroPortrait(slug, size) {
+  return CDN + 'heroes/' + (size === 'lg' ? slug : 'crops/' + slug) + '.png';
+}
+function itemIcon(slug) { return CDN + 'items/' + slug + '.png'; }
+function initials(name) {
+  return name.split(/[\s-]+/).slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
+}
+function heroImg(name, cls, size) {
+  var h = heroByName[name];
+  if (!h) return '<div class="ph ' + cls + '">' + initials(name) + '</div>';
+  return '<img src="' + heroPortrait(h.slug, size || 'sm') + '" alt="' + name + '" loading="lazy" draggable="false" data-name="' + name + '" class="' + cls + '">';
+}
+function itemImg(name, cls) {
+  var i = itemByName[name];
+  if (!i) return '<div class="ph ' + cls + '">' + initials(name) + '</div>';
+  return '<img src="' + itemIcon(i.slug) + '" alt="' + name + '" loading="lazy" draggable="false" class="' + cls + '">';
+}
+document.addEventListener('error', function(e) {
+  var t = e.target;
+  if (t && t.tagName === 'IMG') {
+    var name = t.getAttribute('data-name');
+    var ph = document.createElement('div');
+    ph.className = 'ph ' + t.className;
+    ph.textContent = name ? initials(name) : '?';
+    ph.style.background = 'var(--void-800)';
+    if (t.parentNode) t.parentNode.replaceChild(ph, t);
+  }
+}, true);
+/* ============ ДВИЖОК ============ */
+var WEIGHT_LANE = 1.5;
+var WEIGHT_RISK = 0.8;
+var WEIGHT_WINRATE = 0.12;
+
+function counterWeight(hero, counter) {
+  var index = (counteredBy[hero] || []).indexOf(counter);
+  if (index === -1) return 0;
+  if (index === 0) return 3;
+  if (index < 3) return 2.5;
+  return 2;
+}
+
+/* Рейтинг контрпиков: герои, лайн-преимущества, минус риск, поправка на винрейт. */
+function suggestHeroes(enemies, allies, options) {
+  allies = allies || [];
+  options = options || {};
+  var role = options.role || null;
+  var limit = options.limit != null ? options.limit : 8;
+  if (enemies.length === 0) return [];
+
+  var taken = {};
+  enemies.forEach(function(n) { taken[n] = 1; });
+  allies.forEach(function(n) { taken[n] = 1; });
+
+  var suggestions = heroes
+    .filter(function(hero) { return !taken[hero.name]; })
+    .filter(function(hero) { return role ? hero.roles.indexOf(role) !== -1 : true; })
+    .map(function(hero) {
+      var beats = [], lanes = [], risk = [];
+      var score = 0;
+
+      enemies.forEach(function(enemy) {
+        var weight = counterWeight(enemy, hero.name);
+        if (weight > 0) { score += weight; beats.push(enemy); }
+        if ((laneWins[hero.name] || []).indexOf(enemy) !== -1) {
+          score += WEIGHT_LANE;
+          lanes.push(enemy);
+        }
+        var back = counterWeight(hero.name, enemy);
+        if (back > 0) { score -= back * WEIGHT_RISK; risk.push(enemy); }
+      });
+
+      score += (hero.winRate - 50) * WEIGHT_WINRATE;
+      return { hero: hero, score: score, beats: beats, lanes: lanes, risk: risk };
+    })
+    .filter(function(s) { return s.beats.length > 0 || s.lanes.length > 0; })
+    .sort(function(a, b) { return b.score - a.score || b.hero.winRate - a.hero.winRate; });
+
+  return suggestions.slice(0, limit);
+}
+
+/* Профиль архетипов состава: сколько раз встречается каждый тег. */
+function lineupProfile(lineup) {
+  var profile = {};
+  (lineup || []).forEach(function(name) {
+    var h = heroByName[name];
+    if (!h) return;
+    (h.tags || []).forEach(function(tag) {
+      profile[tag] = (profile[tag] || 0) + 1;
+    });
+  });
+  return profile;
+}
+
+/* Предметы против состава: явные пары плюс архетипные подборы. */
+function suggestItems(enemies, limit) {
+  limit = limit != null ? limit : 10;
+  if (enemies.length === 0) return [];
+
+  var scores = {};
+  function bump(itemName, amount, enemy) {
+    if (!itemByName[itemName]) return;
+    var entry = scores[itemName] || (scores[itemName] = { score: 0, against: {} });
+    entry.score += amount;
+    if (enemy) entry.against[enemy] = 1;
+  }
+
+  enemies.forEach(function(enemy) {
+    (itemsVs[enemy] || []).forEach(function(itemName, index) {
+      bump(itemName, index === 0 ? 3.2 : 3, enemy);
+    });
+  });
+
+  var profile = lineupProfile(enemies);
+  items.forEach(function(item) {
+    (item.counters || []).forEach(function(tag) {
+      var count = profile[tag] || 0;
+      if (count >= 2) bump(item.name, 1.1 * count);
+      else if (count === 1) bump(item.name, 0.5);
+    });
+  });
+
+  return Object.keys(scores)
+    .map(function(name) {
+      var entry = scores[name];
+      return {
+        item: itemByName[name],
+        score: entry.score,
+        against: Object.keys(entry.against)
+      };
+    })
+    .sort(function(a, b) { return b.score - a.score || b.against.length - a.against.length; })
+    .slice(0, limit);
+}
+
+/* Для каждого своего пика — какие герои врага его наказывают. */
+function analyzeThreats(allies, enemies) {
+  return allies
+    .map(function(name) {
+      var hero = heroByName[name];
+      var threats = (counteredBy[name] || []).filter(function(c) { return enemies.indexOf(c) !== -1; });
+      var pressure = threats.reduce(function(sum, t) { return sum + counterWeight(name, t); }, 0);
+      return { hero: hero, threats: threats, pressure: pressure };
+    })
+    .filter(function(report) { return Boolean(report.hero); })
+    .sort(function(a, b) { return b.pressure - a.pressure; });
+}
+
+/* Баланс сил: кто кого пере-контрит в сумме. */
+function draftAdvantage(allies, enemies) {
+  var edges = [], liabilities = [];
+  var allyScore = 0, enemyScore = 0;
+
+  allies.forEach(function(ally) {
+    enemies.forEach(function(enemy) {
+      var ours = counterWeight(enemy, ally);
+      if (ours > 0) { allyScore += ours; edges.push({ hero: ally, over: enemy, weight: ours }); }
+      var theirs = counterWeight(ally, enemy);
+      if (theirs > 0) { enemyScore += theirs; liabilities.push({ hero: enemy, over: ally, weight: theirs }); }
+      if ((laneWins[ally] || []).indexOf(enemy) !== -1) allyScore += WEIGHT_LANE;
+      if ((laneWins[enemy] || []).indexOf(ally) !== -1) enemyScore += WEIGHT_LANE;
+    });
+  });
+
+  var total = allyScore + enemyScore;
+  return {
+    allyScore: allyScore,
+    enemyScore: enemyScore,
+    balance: total === 0 ? 0 : (allyScore - enemyScore) / total,
+    edges: edges.sort(function(a, b) { return b.weight - a.weight; }).slice(0, 4),
+    liabilities: liabilities.sort(function(a, b) { return b.weight - a.weight; }).slice(0, 4)
+  };
+}
+
+/* Всё для разбора одного героя. */
+function heroMatchups(name) {
+  return {
+    counteredBy: counteredBy[name] || [],
+    counters: heroes.filter(function(h) { return (counteredBy[h.name] || []).indexOf(name) !== -1; }).map(function(h) { return h.name; }),
+    laneWins: laneWins[name] || [],
+    items: itemsVs[name] || []
+  };
+}
+/* ============ ИКОНКИ ============ */
+function svg(paths, size) {
+  size = size || 14;
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
+}
+var ICON_PLUS = svg('<path d="M5 12h14"/><path d="M12 5v14"/>');
+var ICON_X = svg('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
+var ICON_TRASH = svg('<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>');
+var ICON_SWORDS = svg('<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/>');
+var ICON_CROSSHAIR = svg('<circle cx="12" cy="12" r="9"/><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/>');
+var ICON_ALERT = svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>');
+var ICON_TARGET = svg('<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>');
+var ICON_SKULL = svg('<path d="m12.5 17-.5-1-.5 1h1z"/><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/>');
+var ICON_SCALE = svg('<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>');
+var ICON_INFO = svg('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>');
+var ICON_SAVE = svg('<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/>');
+var ICON_BOOKMARK = svg('<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>');
+
+/* ============ СОСТОЯНИЕ ============ */
+var TEAM_SIZE = 5;
+var ROLES = ['carry', 'mid', 'offlane', 'support', 'roamer'];
+var ROLE_LABELS = { carry: 'Керри', mid: 'Мид', offlane: 'Оффлейн', support: 'Саппорт', roamer: 'Роумер' };
+
+var allies = [];
+var enemies = [];
+var activeSide = 'enemy';
+var inspected = null;
+var advisorTab = 'counters';
+var advisorRole = null;
+var poolSearch = '';
+var poolRole = null;
+var guideOpen = null;
+
+var $ = function(id) { return document.getElementById(id); };
+
+/* ============ ТОСТЫ ============ */
+function toast(msg, isError) {
+  var el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;padding:10px 16px;border-radius:5px;font-size:13px;font-weight:600;background:var(--void-800);border:1px solid ' + (isError ? 'rgba(242,65,95,.55)' : 'rgba(47,211,154,.55)') + ';color:var(--mist-50);box-shadow:0 8px 30px -8px rgba(0,0,0,.7);animation:slide-up .3s ease-out both';
+  document.body.appendChild(el);
+  setTimeout(function() {
+    el.style.transition = 'opacity .4s, transform .4s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-50%) translateY(8px)';
+  }, 2200);
+  setTimeout(function() { el.remove(); }, 2700);
+}
+
+/* ============ БИБЛИОТЕКА ============ */
+var LIB_KEY = 'counterweb.drafts';
+var libMemory = null;
+function readDrafts() {
+  if (libMemory) return libMemory;
+  try { return JSON.parse(localStorage.getItem(LIB_KEY)) || []; } catch (e) { return []; }
+}
+function writeDrafts(list) {
+  libMemory = list;
+  try { localStorage.setItem(LIB_KEY, JSON.stringify(list)); } catch (e) {}
+}
+function relativeTime(iso) {
+  var diff = Date.now() - new Date(iso).getTime();
+  var mins = Math.round(diff / 60000);
+  if (mins < 1) return 'только что';
+  if (mins < 60) return mins + ' мин назад';
+  var hours = Math.round(mins / 60);
+  if (hours < 24) return hours + ' ч назад';
+  return Math.round(hours / 24) + ' дн назад';
+}
+
+/* ============ ДРАФТ-ЛОГИКА ============ */
+function addTo(side, name) {
+  var other = side === 'ally' ? enemies : allies;
+  if (other.indexOf(name) !== -1) return;
+  if (side === 'ally') {
+    if (allies.indexOf(name) !== -1 || allies.length >= TEAM_SIZE) return;
+    allies = allies.concat(name);
+    if (allies.length >= TEAM_SIZE) activeSide = 'enemy';
+  } else {
+    if (enemies.indexOf(name) !== -1 || enemies.length >= TEAM_SIZE) return;
+    enemies = enemies.concat(name);
+    if (enemies.length >= TEAM_SIZE) activeSide = 'ally';
+  }
+  render();
+}
+function pick(name) { addTo(activeSide, name); }
+function removeHero(side, name) {
+  if (side === 'ally') allies = allies.filter(function(n) { return n !== name; });
+  else enemies = enemies.filter(function(n) { return n !== name; });
+  render();
+}
+function clearSide(side) {
+  if (side === 'ally') allies = [];
+  else enemies = [];
+  render();
+}
+function resetAll() {
+  allies = [];
+  enemies = [];
+  inspected = null;
+  activeSide = 'enemy';
+  render();
+}
+function setInspected(name) {
+  inspected = name;
+  renderDetail();
+  renderPool();
+}
+function setActiveSide(side) {
+  activeSide = side;
+  renderSidebar();
+  renderDraft();
+  renderPool();
+}
+function loadDraft(id) {
+  var drafts = readDrafts();
+  var d = drafts.filter(function(x) { return x.id === id; })[0];
+  if (!d) return;
+  allies = d.allies || [];
+  enemies = d.enemies || [];
+  inspected = null;
+  activeSide = enemies.length >= TEAM_SIZE ? 'ally' : 'enemy';
+  render();
+}
+
+/* ============ УТИЛИТЫ ============ */
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function heroesTaken() {
+  var set = {};
+  enemies.forEach(function(n) { set[n] = 1; });
+  allies.forEach(function(n) { set[n] = 1; });
+  return set;
+}
+function tagPill(tag) {
+  return '<span class="tag-pill" title="' + escapeHtml(TAG_HINTS[tag] || '') + '">' + TAG_LABELS[tag] + '</span>';
+}
+
+/* ============ РЕНДЕР: ШАПКА ============ */
+function renderHero() {
+  var spotlight = enemies[enemies.length - 1] || allies[allies.length - 1] || null;
+  var img = $('spotlight');
+  if (spotlight && heroByName[spotlight]) {
+    img.style.display = 'block';
+    img.src = heroPortrait(heroByName[spotlight].slug, 'lg');
+  } else {
+    img.style.display = 'none';
+    img.removeAttribute('src');
+  }
+  $('resetBtn').disabled = (allies.length + enemies.length) === 0;
+}
+
+/* ============ РЕНДЕР: ГАЙД ============ */
+var STEPS = [
+  { icon: ICON_SKULL, title: '1. Отметьте врагов', text: 'По ходу пиков нажимайте на героев соперника — они попадают в «Команду врага». Повторный клик убирает героя.' },
+  { icon: ICON_SWORDS, title: '2. Смотрите контрпики', text: 'Во вкладке «Контрпики» список сразу пересчитывается. Зелёный плюс добавляет героя в вашу команду.' },
+  { icon: ICON_CROSSHAIR, title: '3. Проверьте предметы и угрозы', text: '«Предметы» — что покупать против этого состава. «Угрозы» — кого из ваших героев враг наказывает.' },
+  { icon: ICON_SAVE, title: '4. Сохраните состав', text: 'Готовый драфт можно назвать и сохранить, чтобы вернуться к нему в следующей игре.' }
+];
+var SCORE_ROWS = [
+  { label: 'Главный контрпик', value: '+3,0', text: 'Герой стоит первым в списке контрпиков против врага — самый жёсткий ответ.', tone: 'color:var(--radiant-400)' },
+  { label: 'Сильный контрпик', value: '+2,5', text: 'Второе или третье место в списке — по-прежнему очень неприятен врагу.', tone: 'color:var(--radiant-400)' },
+  { label: 'Обычный контрпик', value: '+2,0', text: 'Просто известное преимущество в матчапе.', tone: 'color:var(--radiant-400)' },
+  { label: 'Победа на линии', value: '+1,5', text: 'Отдельно доминирует на линии против кого-то из врагов.', tone: 'color:var(--arcane-400)' },
+  { label: 'Обратный риск', value: '−0,8 за каждого', text: 'Штраф, если враг тоже контрит этого героя — обмен пиками работает в обе стороны.', tone: 'color:var(--dire-400)' },
+  { label: 'Поправка на винрейт', value: '±0,12 за 1%', text: 'Небольшой сдвиг по общей статистике побед — разводит героев с равными оценками.', tone: 'color:var(--gold-400)' }
+];
+var LEGEND = [
+  { badge: '+2', cls: 'background:var(--radiant-500);color:var(--void-950)', text: 'На портрете в списке героев: скольких врагов из текущего состава этот герой контрит.' },
+  { badge: 'ИНФО', cls: 'background:var(--void-950);color:var(--gold-400);border:1px solid var(--void-700)', text: 'Открывает полный разбор героя: кто его контрит, кого контрит он, линии и предметы.' },
+  { badge: '7,4', cls: 'background:var(--void-850);color:var(--gold-400);border:1px solid rgba(242,193,78,.3)', text: 'Итоговая оценка контрпика. Оранжевая полоска под ней — то же значение относительно лидера списка.' }
+];
+var SEEN_KEY = 'counterweb.guide-seen';
+
+function renderGuideBody() {
+  var steps = STEPS.map(function(s) {
+    return '<div class="guide-card">' +
+      '<h4><span style="color:var(--ember-500)">' + s.icon + '</span>' + s.title + '</h4>' +
+      '<p>' + s.text + '</p></div>';
+  }).join('');
+  var score = SCORE_ROWS.map(function(r) {
+    return '<div class="score-row"><span class="score-val" style="' + r.tone + '">' + r.value + '</span>' +
+      '<span><b style="color:var(--mist-200)">' + r.label + '</b><span style="display:block;color:var(--mist-400)">' + r.text + '</span></span></div>';
+  }).join('');
+  var legend = LEGEND.map(function(l) {
+    return '<div class="legend-row"><span class="legend-badge" style="' + l.cls + '">' + l.badge + '</span>' +
+      '<span style="color:var(--mist-400)">' + l.text + '</span></div>';
+  }).join('');
+  var tags = Object.keys(TAG_LABELS).map(function(tag) {
+    return '<div style="font-size:11px;line-height:1.5"><b style="color:var(--mist-200)">' + TAG_LABELS[tag] + '</b>' +
+      '<span style="display:block;color:var(--mist-400)">' + TAG_HINTS[tag] + '</span></div>';
+  }).join('');
+  $('guideBody').innerHTML =
+    '<div class="guide-steps">' + steps + '</div>' +
+    '<div class="guide-grid2">' +
+      '<div class="guide-panel">' +
+        '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_SWORDS + '</span> Из чего складывается оценка</h4>' +
+        score +
+        '<p style="margin-top:8px;padding-top:8px;border-top:1px solid var(--void-750);font-size:11px;color:var(--mist-600)">Оценки суммируются по всем героям врага. Абсолютное число не важно — важен порядок: чем выше герой в списке, тем больше проблем он создаёт этому составу.</p>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:12px">' +
+        '<div class="guide-panel">' +
+          '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_INFO + '</span> Обозначения на экране</h4>' +
+          legend +
+        '</div>' +
+        '<div class="guide-panel">' +
+          '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_SCALE + '</span> Баланс сил</h4>' +
+          '<p style="font-size:11px;color:var(--mist-400)">Полоса складывает давление контрпиков в обе стороны: <b style="color:var(--radiant-400)">зелёная часть</b> — насколько ваш состав неприятен врагу, <b style="color:var(--dire-400)">красная</b> — наоборот. Золотой указатель показывает итог. Он честен только при заполненных обеих сторонах: на двух-трёх пиках перевес почти ничего не значит.</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="guide-panel">' +
+      '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_CROSSHAIR + '</span> Архетипы врага и что с ними делать</h4>' +
+      '<div class="tag-grid">' + tags + '</div>' +
+      '<p style="margin-top:8px;padding-top:8px;border-top:1px solid var(--void-750);font-size:11px;color:var(--mist-600)">Строка «Профиль врага» над вкладками считает эти архетипы в составе соперника — именно по ней подбираются предметы.</p>' +
+    '</div>';
+}
+function toggleGuide(force) {
+  if (force === true || force === false) guideOpen = force;
+  else {
+    guideOpen = !guideOpen;
+    try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {}
+  }
+  var body = $('guideBody');
+  body.style.display = guideOpen ? '' : 'none';
+  $('guideToggle').setAttribute('aria-expanded', guideOpen ? 'true' : 'false');
+  $('guideToggle').querySelector('.chev').classList.toggle('open', guideOpen);
+}
+
+/* ============ РЕНДЕР: ДРАФТ-ДОСКА ============ */
+function renderDraft() {
+  $('teamEnemy').innerHTML = teamPanel('enemy');
+  $('teamAlly').innerHTML = teamPanel('ally');
+}
+function teamPanel(side) {
+  var picks = side === 'ally' ? allies : enemies;
+  var label = side === 'ally' ? 'Ваша команда' : 'Команда врага';
+  var hint = side === 'ally' ? 'Свет' : 'Тьма';
+  var active = activeSide === side;
+  var icon = side === 'ally'
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--radiant-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 2v20"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--dire-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/></svg>';
+
+  var slots = picks.map(function(name, i) {
+    return '<div class="slot ' + side + ' anim-pop-in" style="animation-delay:' + (i * 45) + 'ms">' +
+      '<button type="button" class="slot-click" data-action="inspect" data-name="' + name + '" title="Подробнее: ' + name + '">' +
+        heroImg(name, 'slot-img') +
+        '<span class="slot-name">' + name + '</span>' +
+      '</button>' +
+      '<button type="button" class="slot-x" data-action="remove" data-side="' + side + '" data-name="' + name + '" title="Убрать: ' + name + '">' + ICON_X + '</button>' +
+      '</div>';
+  }).join('');
+
+  var empty = TEAM_SIZE - picks.length;
+  for (var i = 0; i < empty; i++) {
+    slots += '<div class="slot-empty' + (active && i === 0 ? ' anim-glow' : '') + '">' + ICON_PLUS + '</div>';
+  }
+
+  return '<div class="team-header">' + icon +
+    '<h2>' + label + '</h2>' +
+    '<span class="label-caps hidden sm-inline">' + hint + '</span>' +
+    '<span class="team-count">' + picks.length + '/' + TEAM_SIZE + '</span>' +
+    (picks.length > 0
+      ? '<button type="button" class="team-clear" data-action="clear" data-side="' + side + '" title="Очистить: ' + label.toLowerCase() + '">' + ICON_TRASH + '</button>'
+      : '') +
+    '</div>' +
+    '<div class="slots">' + slots + '</div>';
+}
+
+/* ============ РЕНДЕР: БАЛАНС СИЛ ============ */
+function meterVerdict(balance, hasData) {
+  if (!hasData) return { label: 'Пока ровно', tone: 'var(--mist-400)' };
+  if (balance >= 0.45) return { label: 'Вы доминируете', tone: 'var(--radiant-400)' };
+  if (balance >= 0.15) return { label: 'Перевес у вас', tone: 'var(--radiant-400)' };
+  if (balance > -0.15) return { label: 'Равный матчап', tone: 'var(--gold-400)' };
+  if (balance > -0.45) return { label: 'Перевес у врага', tone: 'var(--dire-400)' };
+  return { label: 'Враг доминирует', tone: 'var(--dire-400)' };
+}
+function renderMeter() {
+  var report = draftAdvantage(allies, enemies);
+  var hasData = report.allyScore + report.enemyScore > 0;
+  var v = meterVerdict(report.balance, hasData);
+  var verdictEl = $('meterVerdict');
+  verdictEl.textContent = v.label;
+  verdictEl.style.color = v.tone;
+
+  var markerPct = 50 + report.balance * 50;
+  var allyPct = hasData ? (report.allyScore / (report.allyScore + report.enemyScore)) * 100 : 50;
+
+  var html =
+    '<div class="meter-scale"><span style="color:var(--dire-400)">' + report.enemyScore.toFixed(1) + '</span>' +
+      '<span class="label-caps">Давление контрпиков</span>' +
+      '<span style="color:var(--radiant-400)">' + report.allyScore.toFixed(1) + '</span></div>' +
+    '<div class="bar">' +
+      '<div class="bar-left" style="width:' + (100 - allyPct) + '%"></div>' +
+      '<div class="bar-right" style="width:' + allyPct + '%"></div>' +
+      '<div class="bar-mid"></div>' +
+    '</div>' +
+    '<div class="marker-wrap"><div class="marker" style="left:' + markerPct + '%"></div></div>';
+
+  if (hasData) {
+    var grid = '<div class="matchup-grid">';
+    if (report.edges.length > 0) {
+      grid += '<div class="matchup"><h3 style="color:var(--radiant-400)">Ваши преимущества</h3><ul>' +
+        report.edges.map(matchupRow).join('') + '</ul></div>';
+    }
+    if (report.liabilities.length > 0) {
+      grid += '<div class="matchup"><h3 style="color:var(--dire-400)">Преимущества врага</h3><ul>' +
+        report.liabilities.map(matchupRow).join('') + '</ul></div>';
+    }
+    grid += '</div>';
+    html += grid;
+  } else {
+    html += '<p style="margin-top:8px;font-size:11px;color:var(--mist-600)">Выберите героев с обеих сторон, чтобы взвесить драфт.</p>';
+  }
+  $('meterBody').innerHTML = html;
+}
+function matchupRow(entry) {
+  return '<li>' +
+    heroImg(entry.hero, '') +
+    '<span class="trunc" style="color:var(--mist-200)">' + entry.hero + '</span>' +
+    '<span style="color:var(--mist-600)">›</span>' +
+    heroImg(entry.over, 'dim') +
+    '<span class="trunc" style="color:var(--mist-400)">' + entry.over + '</span></li>';
+}
+
+/* ============ РЕНДЕР: САЙДБАР ============ */
+function renderSidebar() {
+  $('sideEnemy').classList.toggle('on', activeSide === 'enemy');
+  $('sideEnemy').classList.toggle('enemy', true);
+  $('sideAlly').classList.toggle('on', activeSide === 'ally');
+  $('sideAlly').classList.toggle('ally', true);
+}
+
+/* ============ РЕНДЕР: ПУЛ ГЕРОЕВ ============ */
+function renderPool() {
+  var grid = $('poolGrid');
+  var prevTop = grid.scrollTop;
+  var q = poolSearch.trim().toLowerCase();
+  var visible = heroes.filter(function(hero) {
+    if (poolRole && hero.roles.indexOf(poolRole) === -1) return false;
+    if (!q) return true;
+    return searchHaystack(hero.name).indexOf(q) !== -1;
+  });
+  $('poolCount').textContent = visible.length + ' из ' + heroes.length;
+
+  $('poolRoles').innerHTML = ROLES.map(function(r) {
+    return '<button type="button" class="role-btn' + (poolRole === r ? ' on' : '') + '" data-action="pool-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
+  }).join('');
+
+  var taken = heroesTaken();
+  grid.innerHTML = visible.map(poolCell).join('') +
+    (visible.length === 0 ? '<p class="pool-empty">Ни один герой не подходит под «' + escapeHtml(poolSearch) + '».</p>' : '');
+  grid.scrollTop = prevTop;
+
+  $('poolSearchClear').style.display = poolSearch ? '' : 'none';
+}
+function poolCell(hero, i) {
+  var isAlly = allies.indexOf(hero.name) !== -1;
+  var isEnemy = enemies.indexOf(hero.name) !== -1;
+  var picked = isAlly || isEnemy;
+  var counters = enemies.filter(function(e) { return counterWeight(e, hero.name) > 0; }).length;
+
+  var cls = 'hero-cell anim-slide-up';
+  if (isAlly) cls += ' picked-ally';
+  else if (isEnemy) cls += ' picked-enemy';
+  else if (inspected === hero.name) cls += ' inspected';
+
+  var action = picked ? 'remove' : 'pick';
+  var title = picked
+    ? 'Убрать ' + hero.name + ' из драфта'
+    : 'Добавить ' + hero.name + (activeSide === 'ally' ? ' в вашу команду' : ' в команду врага');
+
+  return '<div class="' + cls + '" style="animation-delay:' + (Math.min(i, 24) * 12) + 'ms">' +
+    '<button type="button" data-action="' + action + '"' + (picked ? ' data-side="' + (isAlly ? 'ally' : 'enemy') + '"' : '') + ' data-name="' + hero.name + '" class="hero-cell-btn" title="' + title + '">' +
+      heroImg(hero.name, picked ? 'dim' : '') +
+      '<span class="hero-cell-name">' + hero.name + '</span>' +
+    '</button>' +
+    (counters > 0 && !picked
+      ? '<span class="hero-cell-counter" title="Контрит ' + counters + (counters === 1 ? ' пик' : ' пика') + ' врага">+' + counters + '</span>'
+      : '') +
+    '<button type="button" class="hero-cell-info" data-action="inspect" data-name="' + hero.name + '" title="Разбор матчапов: ' + hero.name + '">ИНФО</button>' +
+    '</div>';
+}
+
+/* ============ РЕНДЕР: ДЕТАЛИ ГЕРОЯ ============ */
+function renderDetail() {
+  var box = $('heroDetail');
+  if (!inspected || !heroByName[inspected]) {
+    box.style.display = 'none';
+    box.innerHTML = '';
+    return;
+  }
+  var hero = heroByName[inspected];
+  var m = heroMatchups(inspected);
+  var roles = hero.roles.map(function(r) { return ROLE_LABELS[r]; }).join(' · ');
+
+  function heroRow(names, toneBorder, toneBg, emptyLabel) {
+    if (names.length === 0) return '<p class="detail-empty">' + emptyLabel + '</p>';
+    return '<div class="detail-chips">' + names.map(function(n, i) {
+      return '<button type="button" class="chip anim-pop-in" data-action="inspect" data-name="' + n + '" style="animation-delay:' + (Math.min(i, 16) * 20) + 'ms;border-color:' + toneBorder + ';background:' + toneBg + '" title="Подробнее: ' + n + '">' +
+        heroImg(n, 'chip-img') + '<span>' + n + '</span></button>';
+    }).join('') + '</div>';
+  }
+
+  var itemsHtml = m.items.length === 0
+    ? '<p class="detail-empty">Особых предметов против него нет.</p>'
+    : '<div class="detail-chips">' + m.items.map(function(item, i) {
+        return '<span class="chip-item anim-pop-in" style="animation-delay:' + (Math.min(i, 16) * 20) + 'ms" title="' + item + '">' +
+          itemImg(item, 'chip-item-img') + '<span>' + item + '</span></span>';
+      }).join('') + '</div>';
+
+  box.style.display = '';
+  box.innerHTML =
+    '<div class="detail-hero">' +
+      heroImg(inspected, 'detail-banner', 'lg') +
+      '<div class="shade"></div>' +
+      '<button type="button" class="detail-close" data-action="close-detail" title="Закрыть">' + ICON_X + '</button>' +
+      '<div class="detail-caption">' +
+        '<div><h2>' + inspected + '</h2>' +
+        '<span class="roles">' + roles + ' · <span style="font-family:monospace;color:var(--gold-400)">' + hero.winRate + '%</span> побед</span></div>' +
+        '<div class="detail-add">' +
+          '<button type="button" class="btn-enemy" data-action="add" data-side="enemy" data-name="' + hero.name + '">+ Врагу</button>' +
+          '<button type="button" class="btn-ally" data-action="add" data-side="ally" data-name="' + hero.name + '">+ Себе</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="detail-body">' +
+      '<div class="detail-tags">' + hero.tags.map(tagPill).join('') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--dire-400)">Его контрят</h3>' + heroRow(m.counteredBy, 'rgba(242,65,95,.3)', 'rgba(242,65,95,.05)', 'Жёстких контрпиков не найдено.') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--radiant-400)">Сам контрит</h3>' + heroRow(m.counters, 'rgba(47,211,154,.3)', 'rgba(47,211,154,.05)', 'Нет героев, которых он контрит.') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--arcane-400)">Выигрывает линию против</h3>' + heroRow(m.laneWins, 'rgba(122,103,245,.3)', 'rgba(122,103,245,.05)', 'Данных по линии нет.') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--gold-400)">Предметы против него</h3>' + itemsHtml + '</div>' +
+    '</div>';
+}
+
+/* ============ РЕНДЕР: СОВЕТНИК ============ */
+function renderAdvisor() {
+  var tabs = [
+    { id: 'counters', label: 'Контрпики', icon: ICON_SWORDS },
+    { id: 'items', label: 'Предметы', icon: ICON_CROSSHAIR },
+    { id: 'threats', label: 'Угрозы', icon: ICON_ALERT }
+  ];
+  $('advisorTabs').innerHTML = tabs.map(function(t) {
+    return '<button type="button" class="advisor-tab' + (advisorTab === t.id ? ' on' : '') + '" data-action="tab" data-tab="' + t.id + '">' + t.icon + '<span class="tab-label">' + t.label + '</span></button>';
+  }).join('');
+
+  var profile = lineupProfile(enemies);
+  var strip = '';
+  if (enemies.length > 0 && Object.keys(profile).length > 0) {
+    var pills = Object.keys(profile).sort(function(a, b) { return profile[b] - profile[a]; }).slice(0, 6).map(function(tag) {
+      return '<span class="tag-pill anim-pop-in">' + TAG_LABELS[tag] + ' <b>×' + profile[tag] + '</b></span>';
+    }).join('');
+    strip = '<span class="lbl">Профиль врага</span>' + pills;
+  }
+  $('profileStrip').innerHTML = strip;
+
+  var body = $('advisorBody');
+  if (advisorTab === 'counters') body.innerHTML = advisorCounters();
+  else if (advisorTab === 'items') body.innerHTML = advisorItems();
+  else body.innerHTML = advisorThreats();
+}
+function emptyHint(text) {
+  return '<div class="empty-hint">' + ICON_TARGET + '<p>' + text + '</p></div>';
+}
+function advisorRoleButtons() {
+  return '<button type="button" class="role-btn' + (advisorRole === null ? ' on' : '') + '" data-action="advisor-role" data-role="">Любая роль</button>' +
+    ROLES.map(function(r) {
+      return '<button type="button" class="role-btn' + (advisorRole === r ? ' on' : '') + '" data-action="advisor-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
+    }).join('');
+}
+function advisorCounters() {
+  var suggestions = suggestHeroes(enemies, allies, { role: advisorRole, limit: 10 });
+  if (enemies.length === 0) return emptyHint('Добавьте героев в команду врага — и здесь появятся лучшие контрпики.');
+  if (suggestions.length === 0) return emptyHint('Для этого фильтра сильных контрпиков нет. Попробуйте другую роль.');
+  var maxScore = suggestions[0].score;
+  var rows = suggestions.map(function(s, i) {
+    var pct = maxScore > 0 ? Math.max(6, Math.round((s.score / maxScore) * 100)) : 0;
+    var desc = [];
+    if (s.beats.length) desc.push('<span style="color:var(--radiant-400);font-weight:600">Бьёт</span> ' + s.beats.join(', '));
+    if (s.lanes.length) desc.push('<span style="color:var(--arcane-400);font-weight:600">Линия</span> ' + s.lanes.join(', '));
+    if (s.risk.length) desc.push('<span style="color:var(--dire-400);font-weight:600">Риск</span> ' + s.risk.join(', '));
+    var roles = s.hero.roles.slice(0, 2).map(function(r) {
+      return '<span style="flex-shrink:0;padding:0 4px;border:1px solid var(--void-700);border-radius:3px;font-size:10px;color:var(--mist-400)">' + ROLE_LABELS[r] + '</span>';
+    }).join('');
+    return '<li class="sug-row anim-slide-up" style="animation-delay:' + (i * 35) + 'ms">' +
+      '<span class="sug-rank">' + (i + 1) + '</span>' +
+      '<button type="button" class="sug-portrait" data-action="inspect" data-name="' + s.hero.name + '" title="Разбор матчапов: ' + s.hero.name + '">' + heroImg(s.hero.name, 'sug-portrait-img') + '</button>' +
+      '<div class="sug-main">' +
+        '<div class="sug-title"><h3>' + s.hero.name + '</h3><span class="sug-score">' + s.score.toFixed(1) + '</span></div>' +
+        '<div class="scorebar"><i style="width:' + pct + '%"></i></div>' +
+        '<p class="sug-desc">' + desc.join(' · ') + '</p>' +
+        '<div class="sug-meta"><span class="wr">' + s.hero.winRate + '% побед</span>' + roles + '</div>' +
+      '</div>' +
+      '<button type="button" class="sug-add" data-action="add-ally" data-name="' + s.hero.name + '" title="Добавить ' + s.hero.name + ' в вашу команду">' + ICON_PLUS + '</button>' +
+      '</li>';
+  }).join('');
+  return '<div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px">' + advisorRoleButtons() + '</div><ol class="sug">' + rows + '</ol>';
+}
+function advisorItems() {
+  if (enemies.length === 0) return emptyHint('Соберите состав врага — и увидите, какие предметы наказывают его сильнее всего.');
+  var picks = suggestItems(enemies, 12);
+  var maxItem = picks.length ? picks[0].score : 0;
+  var rows = picks.map(function(s, i) {
+    var pct = maxItem > 0 ? Math.max(8, Math.round((s.score / maxItem) * 100)) : 0;
+    return '<li class="item-row anim-slide-up" style="animation-delay:' + (i * 30) + 'ms">' +
+      '<div class="item-icon">' + itemImg(s.item.name, '') + '</div>' +
+      '<div class="item-main">' +
+        '<div class="item-title"><h3>' + s.item.name + '</h3><span class="item-score">' + s.score.toFixed(1) + '</span></div>' +
+        '<p class="item-desc">' + itemDescriptionRu(s.item.name, s.item.description) + '</p>' +
+        (s.against.length > 0 ? '<p class="item-vs">против: ' + s.against.join(', ') + '</p>' : '') +
+      '</div>' +
+      '<div class="item-sidebar"><i style="height:' + pct + '%"></i></div>' +
+      '</li>';
+  }).join('');
+  return '<ul class="item-list">' + rows + '</ul>';
+}
+function advisorThreats() {
+  if (allies.length === 0) return emptyHint('Добавьте свои пики — и увидите, какие герои врага их наказывают.');
+  var threats = analyzeThreats(allies, enemies);
+  var rows = threats.map(function(t, i) {
+    var badge, cls;
+    if (t.pressure === 0) { badge = 'В порядке'; cls = 'pressure-ok'; }
+    else if (t.pressure >= 4) { badge = 'Высокий риск'; cls = 'pressure-hi'; }
+    else { badge = 'Осторожно'; cls = 'pressure-mid'; }
+    var desc = t.threats.length > 0
+      ? 'Его контрят: ' + t.threats.join(', ')
+      : 'Ни один пик врага не контрит этого героя.';
+    var tags = '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px">' + t.hero.tags.slice(0, 3).map(tagPill).join('') + '</div>';
+    return '<li class="threat-row anim-slide-up" style="animation-delay:' + (i * 35) + 'ms">' +
+      heroImg(t.hero.name, 'threat-img') +
+      '<div class="threat-main">' +
+        '<div class="threat-title"><h3>' + t.hero.name + '</h3><span class="pressure-badge ' + cls + '">' + badge + '</span></div>' +
+        '<p class="threat-desc">' + desc + '</p>' +
+        tags +
+      '</div>' +
+      '</li>';
+  }).join('');
+  return '<ul class="threat-list">' + rows + '</ul>';
+}
+
+/* ============ РЕНДЕР: БИБЛИОТЕКА ============ */
+function renderLibrary() {
+  var drafts = readDrafts();
+  $('libCount').textContent = 'сохранено: ' + drafts.length;
+  if (drafts.length === 0) {
+    $('libList').innerHTML = '<div class="lib-empty">' + ICON_BOOKMARK + '<span>Пока ничего не сохранено — соберите состав и дайте ему название.</span></div>';
+    return;
+  }
+  $('libList').innerHTML = drafts.map(function(d, i) {
+    function lineup(names) {
+      if (!names || names.length === 0) return '<span style="font-size:10px;color:var(--mist-600)">—</span>';
+      return names.map(function(n) { return heroImg(n, 'lib-img'); }).join('');
+    }
+    return '<li class="lib-item anim-slide-up" style="animation-delay:' + (i * 30) + 'ms">' +
+      '<button type="button" class="lib-item-main" data-action="load" data-id="' + d.id + '" title="Загрузить этот драфт">' +
+        '<h4>' + d.name + '</h4>' +
+        '<span class="lib-lineup">' + lineup(d.enemies) +
+          '<span style="font-size:10px;color:var(--mist-600)">против</span>' +
+          lineup(d.allies) + '</span>' +
+      '</button>' +
+      '<span class="lib-time">' + relativeTime(d.updatedAt) + '</span>' +
+      '<button type="button" class="lib-del" data-action="delete" data-id="' + d.id + '" title="Удалить драфт">' + ICON_TRASH + '</button>' +
+      '</li>';
+  }).join('');
+}
+
+/* ============ РЕНДЕР: ВСЁ ============ */
+function render() {
+  renderHero();
+  renderDraft();
+  renderMeter();
+  renderSidebar();
+  renderPool();
+  renderDetail();
+  renderAdvisor();
+  renderLibrary();
+}
+
+/* ============ СОБЫТИЯ ============ */
+document.addEventListener('click', function(e) {
+  var el = e.target.closest ? e.target.closest('[data-action]') : null;
+  if (!el) return;
+  var action = el.getAttribute('data-action');
+  var name = el.getAttribute('data-name');
+  var side = el.getAttribute('data-side');
+  switch (action) {
+    case 'pick': pick(name); break;
+    case 'remove': removeHero(side, name); break;
+    case 'add': addTo(side, name); break;
+    case 'add-ally': addTo('ally', name); break;
+    case 'inspect': setInspected(name); break;
+    case 'close-detail': setInspected(null); break;
+    case 'clear': clearSide(side); break;
+    case 'tab': advisorTab = el.getAttribute('data-tab'); renderAdvisor(); break;
+    case 'advisor-role': advisorRole = el.getAttribute('data-role') || null; renderAdvisor(); break;
+    case 'pool-role': poolRole = poolRole === el.getAttribute('data-role') ? null : el.getAttribute('data-role'); renderPool(); break;
+    case 'load': loadDraft(el.getAttribute('data-id')); break;
+    case 'delete':
+      var drafts = readDrafts().filter(function(d) { return d.id !== el.getAttribute('data-id'); });
+      writeDrafts(drafts);
+      renderLibrary();
+      break;
+  }
+});
+document.addEventListener('dblclick', function(e) {
+  var el = e.target.closest ? e.target.closest('[data-action="pick"],[data-action="remove"]') : null;
+  if (el) setInspected(el.getAttribute('data-name'));
+});
+
+$('poolSearch').addEventListener('input', function() {
+  poolSearch = this.value;
+  renderPool();
+});
+$('poolSearchClear').addEventListener('click', function() {
+  poolSearch = '';
+  $('poolSearch').value = '';
+  renderPool();
+  $('poolSearch').focus();
+});
+$('sideEnemy').addEventListener('click', function() { setActiveSide('enemy'); });
+$('sideAlly').addEventListener('click', function() { setActiveSide('ally'); });
+$('resetBtn').addEventListener('click', resetAll);
+$('guideToggle').addEventListener('click', function() { toggleGuide(); });
+$('libForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (allies.length + enemies.length === 0) {
+    toast('Сначала выберите хотя бы одного героя', true);
+    return;
+  }
+  var drafts = readDrafts();
+  drafts.unshift({
+    id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    name: ($('libName').value.trim()) || ('Драфт ' + (drafts.length + 1)),
+    allies: allies,
+    enemies: enemies,
+    updatedAt: new Date().toISOString()
+  });
+  writeDrafts(drafts);
+  $('libName').value = '';
+  renderLibrary();
+  toast('Драфт сохранён');
+});
+
+/* ============ ИНИЦИАЛИЗАЦИЯ ============ */
+$('stat-heroes').textContent = heroes.length;
+$('stat-pairs').textContent = totalCounterPairs;
+$('stat-items').textContent = items.length;
+try {
+  guideOpen = !localStorage.getItem(SEEN_KEY);
+} catch (e) {
+  guideOpen = true;
+}
+toggleGuide(guideOpen);
+renderGuideBody();
+render();
+
+</script>
+</body>
+</html>
