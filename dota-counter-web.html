@@ -518,6 +518,62 @@ body::before{content:"";position:fixed;inset:-50%;width:200%;height:200%;backgro
 .tabpage{display:block;opacity:0;transform:translateY(10px);pointer-events:none;position:absolute;inset:0;width:100%}.tabpage.on{opacity:1;transform:translateY(0);pointer-events:auto;position:relative}
 
 body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),transparent 45%),radial-gradient(ellipse at 70% 80%,rgba(122,103,245,.09),transparent 45%),radial-gradient(ellipse at 50% 50%,rgba(47,211,154,.05),transparent 50%)}
+
+/* ============ ПЛАВАЮЩИЕ ЧАСТИЦЫ ============ */
+@keyframes particle-float{0%{transform:translateY(0) translateX(0) scale(1);opacity:.3}50%{transform:translateY(-18px) translateX(4px) scale(1.6);opacity:.6}100%{transform:translateY(0) translateX(0) scale(1);opacity:.3}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--ember-500);opacity:0;animation:particle-float linear infinite}
+.particle:nth-child(1){left:8%;top:15%;width:3px;height:3px;animation-duration:12s;animation-delay:0s;background:rgba(255,122,47,.35)}
+.particle:nth-child(2){left:22%;top:45%;width:2px;height:2px;animation-duration:18s;animation-delay:2s;background:rgba(122,103,245,.3)}
+.particle:nth-child(3){left:55%;top:25%;width:4px;height:4px;animation-duration:14s;animation-delay:4s;background:rgba(47,211,154,.25)}
+.particle:nth-child(4){left:72%;top:60%;width:3px;height:3px;animation-duration:16s;animation-delay:1s;background:rgba(255,122,47,.3)}
+.particle:nth-child(5){left:88%;top:35%;width:2px;height:2px;animation-duration:20s;animation-delay:3s;background:rgba(155,140,255,.28)}
+.particle:nth-child(6){left:40%;top:70%;width:3px;height:3px;animation-duration:13s;animation-delay:6s;background:rgba(242,193,78,.25)}
+.particle:nth-child(7){left:65%;top:10%;width:2px;height:2px;animation-duration:17s;animation-delay:5s;background:rgba(255,122,47,.22)}
+.particle:nth-child(8){left:35%;top:82%;width:4px;height:4px;animation-duration:15s;animation-delay:8s;background:rgba(47,211,154,.2)}
+.particle:nth-child(9){left:92%;top:78%;width:3px;height:3px;animation-duration:19s;animation-delay:7s;background:rgba(122,103,245,.26)}
+.particle:nth-child(10){left:15%;top:55%;width:2px;height:2px;animation-duration:21s;animation-delay:9s;background:rgba(255,122,47,.2)}
+
+/* ============ СТАГГЕР-СЕТКА ============ */
+.pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:2px}
+.pool-grid .hero-cell{animation:hero-cell-in .35s ease-out both}
+@keyframes hero-cell-in{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ============ HERO HOVER TOOLTIP ============ */
+.hero-tip{position:fixed;z-index:300;pointer-events:none;background:linear-gradient(135deg,var(--void-850),var(--void-900));border:1px solid var(--void-700);border-radius:8px;padding:10px 12px;box-shadow:0 12px 40px -10px rgba(0,0,0,.7);opacity:0;transition:opacity .18s;min-width:180px;max-width:220px}
+.hero-tip.show{opacity:1}
+.hero-tip h4{font-size:13px;margin:0 0 4px}
+.hero-tip .tip-roles{font-size:11px;color:var(--mist-400);margin-bottom:6px}
+.hero-tip .tip-winrate{display:flex;align-items:center;gap:6px;font-size:11px}
+.hero-tip .tip-bar{flex:1;height:3px;border-radius:2px;background:var(--void-700);overflow:hidden}
+.hero-tip .tip-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--radiant-500),var(--gold-400));border-radius:2px;transition:width .4s}
+
+/* ============ LOADING BAR ============ */
+.loadbar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--ember-500),var(--gold-400),var(--radiant-400));background-size:200% 100%;animation:loadbar-move 1.8s ease infinite;transition:width .3s;pointer-events:none}
+@keyframes loadbar-move{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.loadbar.done{animation:none;background:var(--radiant-500);width:100%;transition:width .3s,background .5s}
+
+/* ============ EMPTY STATE ============ */
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px 16px;text-align:center;color:var(--mist-50)}
+.empty-state svg{opacity:.35;animation:float-anim 3s ease-in-out infinite}
+.empty-state h4{font-size:14px;color:var(--mist-400);font-weight:600}
+.empty-state p{font-size:12px;color:var(--mist-600);max-width:30ch;line-height:1.6}
+
+/* ============ KEYBOARD HINT ============ */
+.kbd{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;border:1px solid var(--void-700);border-radius:3px;background:var(--void-850);font-size:10px;font-family:ui-monospace,monospace;color:var(--mist-400);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+
+/* ============ NOISE TEXTURE ============ */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px}
+
+/* ============ RESPONSIVE POOL GRID ============ */
+@media(max-width:640px){.pool-grid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:1px}.auth-modal{width:95%}.guide-grid6{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}}
+@media(min-width:641px) and (max-width:900px){.pool-grid{grid-template-columns:repeat(auto-fill,minmax(48px,1fr))}}
+
+/* ============ ENHANCED SCROLLBAR ============ */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--void-700);border-radius:99px;border:2px solid var(--void-850)}
+::-webkit-scrollbar-thumb:hover{background:var(--mist-400)}
 .hero-cell-btn{display:block;width:100%}
 .matchup li img.dim{filter:saturate(.45)}
 </style>
@@ -685,6 +741,19 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
       <div id="helpBody"></div>
     </section>
   </div>
+</div>
+
+<div class="loadbar" id="loadBar"></div>
+<div class="particles" aria-hidden="true">
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  <div class="particle"></div>
+</div>
+<div class="hero-tip" id="heroTip">
+  <h4 id="heroTipName"></h4>
+  <div class="tip-roles" id="heroTipRoles"></div>
+  <div class="tip-winrate"><span>Winrate</span><span class="tip-bar"><i id="heroTipBar" style="width:0%"></i></span><span id="heroTipWin" style="font-family:ui-monospace,monospace;font-size:11px;color:var(--gold-400)">—</span></div>
 </div>
 
 <div class="auth-backdrop" id="authBackdrop" hidden>
@@ -5113,10 +5182,153 @@ $('stat-pairs').textContent = totalCounterPairs;
 $('stat-items').textContent = items.length;
 $('pgCountGuides').textContent = Object.keys(HERO_GUIDES).length;
 $('pgCountCompare').textContent = heroes.length;
-renderGuideBody();
-render();
-initAuth();
-initPremium();
+/* ============ ПОДВАГ / ЗАГРУЗКА ============ */
+(function initLoadBar() {
+  var bar = document.getElementById('loadBar');
+  if (!bar) return;
+  var p = Math.min(85, 15 + Math.random() * 30);
+  bar.style.width = p + '%';
+  setTimeout(function() {
+    bar.style.width = '100%';
+    bar.classList.add('done');
+    setTimeout(function() { bar.remove(); }, 400);
+  }, 100);
+})();
+
+/* ============ ГЕРО ТУЛТИП ============ */
+var HeroTip = {
+  tip: null, nameEl: null, rolesEl: null, barEl: null, winEl: null,
+  init: function() {
+    this.tip = document.getElementById('heroTip');
+    this.nameEl = document.getElementById('heroTipName');
+    this.rolesEl = document.getElementById('heroTipRoles');
+    this.barEl = document.getElementById('heroTipBar');
+    this.winEl = document.getElementById('heroTipWin');
+    if (!this.tip) return;
+    document.addEventListener('mouseover', function(e) {
+      var cell = e.target.closest ? e.target.closest('.hero-cell') : null;
+      if (!cell || !cell.dataset.name) return;
+      HeroTip.show(cell);
+    }, true);
+    document.addEventListener('mouseout', function(e) {
+      var cell = e.target.closest ? e.target.closest('.hero-cell') : null;
+      if (!cell) return;
+      HeroTip.hide();
+    }, true);
+    document.addEventListener('mousemove', function(e) {
+      if (!HeroTip.tip || !HeroTip.tip.classList.contains('show')) return;
+      var x = Math.min(e.clientX + 14, window.innerWidth - 240);
+      var y = Math.min(e.clientY + 14, window.innerHeight - 80);
+      HeroTip.tip.style.left = x + 'px';
+      HeroTip.tip.style.top = y + 'px';
+    });
+  },
+  show: function(cell) {
+    var name = cell.dataset.name;
+    var h = heroByName[name];
+    if (!h) return;
+    this.nameEl.textContent = name;
+    this.rolesEl.textContent = h.roles.map(function(r) { return ROLE_LABELS[r]; }).join(' · ');
+    var wr = parseFloat(h.winRate);
+    this.winEl.textContent = wr.toFixed(1) + '%';
+    this.barEl.style.width = Math.min(100, wr) + '%';
+    this.tip.classList.add('show');
+  },
+  hide: function() {
+    if (this.tip) this.tip.classList.remove('show');
+  }
+};
+
+/* ============ КЛАВИАТУРА ============ */
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  switch (e.key) {
+    case 'Escape':
+      if (!$('authBackdrop').hidden) { closeAuth(); return; }
+      if (inspected) { setInspected(null); return; }
+      if ($('poolSearch').value) { $('poolSearch').value = ''; poolSearch = ''; renderPool(); }
+      break;
+    case '/':
+      if ($('poolSearch').value) { $('poolSearch').focus(); return; }
+      break;
+    case '1': activateTab('pageDraft'); break;
+    case '2': activateTab('pageGuides'); break;
+    case '3': activateTab('pageCompare'); break;
+    case '4': activateTab('pageHelp'); break;
+  }
+});
+function activateTab(pageId) {
+  var tab = $('tabBtn' + pageId.charAt(4).toUpperCase() + pageId.slice(5));
+  if (tab) tab.click();
+}
+
+/* ============ СТАГГЕР АНИМАЦИЯ ============ */
+function initStagger() {
+  document.querySelectorAll('.pool-grid .hero-cell').forEach(function(cell, i) {
+    cell.style.animationDelay = (i * 18) + 'ms';
+  });
+}
+
+/* ============ УЛУЧШЕННЫЕ EMPTY-STATE ============ */
+function emptyDraftSVG() {
+  return '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mist-600)"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="M16 16l4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="m7 17-4 4"/></svg>';
+}
+function emptyBookSVG() {
+  return '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mist-600)"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
+}
+function emptySearchSVG() {
+  return '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mist-600)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+}
+function emptyTeamSVG() {
+  return '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mist-600)"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>';
+}
+
+/* ============ PULSE RIPPLE ON BUTTON CLICK ============ */
+document.addEventListener('mousedown', function(e) {
+  var btn = e.target.closest ? e.target.closest('.btn-ember, .btn-ghost') : null;
+  if (!btn) return;
+  var ripple = document.createElement('span');
+  ripple.className = 'ripple-el';
+  ripple.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,.2);transform:scale(0);animation:ripple-expand .5s ease-out forwards;pointer-events:none;';
+  var rect = btn.getBoundingClientRect();
+  var size = Math.max(rect.width, rect.height) * 2;
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+  btn.style.position = btn.style.position || 'relative';
+  btn.style.overflow = 'hidden';
+  btn.appendChild(ripple);
+  setTimeout(function() { ripple.remove(); }, 550);
+});
+
+/* ripple-el keyframe — injected once */
+(function ensureRippleKeyframe() {
+  if (document.getElementById('ripple-style')) return;
+  var s = document.createElement('style');
+  s.id = 'ripple-style';
+  s.textContent = '@keyframes ripple-expand{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:0}}';
+  document.head.appendChild(s);
+})();
+
+/* ============ PREMIУМ INIT ============ */
+document.addEventListener('DOMContentLoaded', function() {
+  HeroTip.init();
+  initStagger();
+  setTimeout(initStagger, 500);
+  setTimeout(initStagger, 1500);
+});
+
+/* override render to keep stagger + particles alive */
+var _premRender = render;
+render = function() {
+  _premRender();
+  setTimeout(function() {
+    initStagger();
+    HeroTip.hide();
+    /* re-attach drag & drop */
+    if (window.__ddInited) enableDragDrop();
+  }, 60);
+};
 
 /* ============ ПРЕМИУМ-ФУНКЦИИ ============ */
 function initPremium() {
@@ -5256,6 +5468,12 @@ render = function() {
     initComparisonAnimations();
   }, 50);
 };
+
+/* ============ ИНИЦИАЛИЗАЦИЯ ============ */
+renderGuideBody();
+render();
+initAuth();
+initPremium();
 
 </script>
 </body>
