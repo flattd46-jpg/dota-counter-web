@@ -382,6 +382,144 @@ Witch Doctor|Bristleback,Pudge,Underlord,Broodmother
 Wraith King|Legion Commander,Ursa,Bloodseeker,Riki
 `;
 
+/**
+ * Hero synergy: `hero|allies it works especially well with`.
+ *
+ * These are combo partnerships — spells that set each other up (vacuum into
+ * ultimates, global gank duos, save-and-sustain pairs, push cores). The draft
+ * engine uses them to recommend picks that strengthen your OWN draft, not just
+ * counter the enemy's.
+ */
+const SYNERGY_WITH = `
+Abaddon|Io,Tusk,Ursa,Legion Commander
+Alchemist|Dazzle,Witch Doctor,Oracle,Io
+Ancient Apparition|Necrophos,Juggernaut,Huskar
+Anti-Mage|Io,Treant Protector,Spectre
+Arc Warden|Zeus,Nature's Prophet,Spectre
+Axe|Dark Seer,Magnus,Io,Tiny
+Bane|Mirana,Lina,Lion,Pudge
+Batrider|Magnus,Dark Seer,Tiny
+Beastmaster|Chen,Enchantress,Lycan,Lone Druid
+Bloodseeker|Spectre,Nature's Prophet,Zeus,Io
+Bounty Hunter|Slardar,Spirit Breaker,Night Stalker
+Brewmaster|Enigma,Faceless Void,Magnus
+Bristleback|Keeper of the Light,Crystal Maiden,Warlock
+Broodmother|Dark Seer,Enchantress,Chen
+Centaur Warrunner|Tusk,Tiny,Magnus,Undying
+Chaos Knight|Io,Magnus,Dark Seer,Wraith King
+Chen|Beastmaster,Enchantress,Lycan,Lone Druid,Visage
+Clinkz|Bounty Hunter,Nyx Assassin,Riki
+Clockwork|Pudge,Mirana,Earthshaker
+Crystal Maiden|Juggernaut,Ursa,Troll Warlord,Medusa,Luna
+Dark Seer|Magnus,Sven,Tiny,Phantom Lancer,Ember Spirit,Slark,Meepo
+Dark Willow|Pudge,Techies,Mars
+Dawnbreaker|Spectre,Nature's Prophet,Io,Skywrath Mage
+Dazzle|Huskar,Ursa,Legion Commander,Juggernaut,Troll Warlord
+Death Prophet|Necrophos,Silencer,Undying,Chen
+Disruptor|Kunkka,Earthshaker,Enigma,Tidehunter
+Doom|Shadow Fiend,Necrophos,Queen of Pain
+Dragon Knight|Magnus,Dark Seer,Tiny,Sven
+Drow Ranger|Vengeful Spirit,Medusa,Windranger,Visage
+Earth Spirit|Storm Spirit,Ember Spirit,Void Spirit
+Earthshaker|Tiny,Meepo,Broodmother,Phantom Lancer,Naga Siren
+Elder Titan|Enigma,Tidehunter,Magnus,Faceless Void
+Ember Spirit|Magnus,Dark Seer,Sven,Earth Spirit
+Enchantress|Beastmaster,Lycan,Chen,Lone Druid
+Enigma|Faceless Void,Tidehunter,Magnus,Sand King,Tiny
+Faceless Void|Enigma,Skywrath Mage,Lich,Invoker,Winter Wyvern,Magnus
+Grimstroke|Lich,Winter Wyvern,Ancient Apparition,Medusa
+Gyrocopter|Io,Magnus,Dark Seer,Tiny
+Hoodwink|Pudge,Mirana,Techies
+Huskar|Dazzle,Oracle,Witch Doctor,Warlock,Omniknight
+Invoker|Faceless Void,Enigma,Tidehunter,Magnus,Sand King
+Io|Gyrocopter,Tiny,Chaos Knight,Phantom Assassin,Lifestealer,Alchemist
+Jakiro|Tidehunter,Enigma,Magnus,Sand King
+Juggernaut|Crystal Maiden,Lich,Witch Doctor,Dark Seer,Sven
+Keeper of the Light|Bristleback,Timbersaw,Tinker,Io
+Kez|Magnus,Dark Seer,Tiny
+Kunkka|Disruptor,Magnus,Tidehunter,Earthshaker
+Largo|Lina,Bane,Lion
+Legion Commander|Oracle,Dazzle,Winter Wyvern,Omniknight,Pugna
+Leshrac|Enigma,Tidehunter,Magnus,Faceless Void
+Lich|Faceless Void,Skywrath Mage,Medusa,Troll Warlord
+Lifestealer|Io,Storm Spirit,Ember Spirit,Magnus
+Lina|Bane,Lion,Mirana,Pudge
+Lion|Lina,Bane,Mirana,Pudge
+Lone Druid|Chen,Beastmaster,Enchantress,Lycan
+Luna|Crystal Maiden,Magnus,Dark Seer,Enigma
+Lycan|Chen,Beastmaster,Enchantress,Visage
+Magnus|Sven,Tiny,Ember Spirit,Phantom Assassin,Slark,Juggernaut,Luna,Meepo
+Marci|Tusk,Ursa,Tiny,Sven
+Mars|Pudge,Techies,Underlord,Axe
+Medusa|Lich,Winter Wyvern,Crystal Maiden,Drow Ranger,Shadow Demon
+Meepo|Magnus,Dark Seer,Earthshaker,Sven
+Mirana|Bane,Lina,Lion,Pudge
+Monkey King|Io,Magnus,Dark Seer,Tusk
+Morphling|Io,Tiny,Earthshaker
+Muerta|Vengeful Spirit,Drow Ranger,Slardar
+Naga Siren|Earthshaker,Enigma,Magnus,Tidehunter
+Nature's Prophet|Zeus,Spectre,Bloodseeker,Io
+Necrophos|Ancient Apparition,Death Prophet,Silencer,Undying
+Night Stalker|Spectre,Bloodseeker,Spirit Breaker,Bounty Hunter
+Nyx Assassin|Bounty Hunter,Slardar,Spirit Breaker
+Ogre Magi|Juggernaut,Ursa,Troll Warlord
+Omniknight|Huskar,Dazzle,Legion Commander,Juggernaut
+Oracle|Huskar,Legion Commander,Terrorblade,Medusa,Phantom Assassin
+Outworld Destroyer|Silencer,Necrophos,Death Prophet
+Pangolier|Dark Seer,Magnus,Kunkka
+Phantom Assassin|Magnus,Dark Seer,Vengeful Spirit,Oracle,Dazzle
+Phantom Lancer|Magnus,Dark Seer,Io,Enchantress
+Phoenix|Enigma,Faceless Void,Tidehunter,Winter Wyvern
+Primal Beast|Tusk,Tiny,Magnus,Undying
+Puck|Mirana,Lina,Bane,Queen of Pain
+Pudge|Mirana,Lina,Bane,Clockwork,Dark Willow
+Pugna|Legion Commander,Oracle,Dazzle,Necrophos
+Queen of Pain|Bane,Shadow Fiend,Doom,Mirana
+Razor|Slardar,Vengeful Spirit,Drow Ranger
+Riki|Bounty Hunter,Nyx Assassin,Slardar,Spectre
+Ringmaster|Pudge,Mars,Techies
+Rubick|Enigma,Magnus,Tidehunter,Faceless Void
+Sand King|Magnus,Tiny,Earthshaker,Enigma,Faceless Void
+Shadow Demon|Medusa,Troll Warlord,Luna
+Shadow Fiend|Doom,Enigma,Magnus,Dark Seer
+Shadow Shaman|Pudge,Legion Commander,Ursa,Troll Warlord
+Silencer|Necrophos,Death Prophet,Outworld Destroyer,Storm Spirit
+Skywrath Mage|Faceless Void,Legion Commander,Enigma,Tidehunter
+Slardar|Bounty Hunter,Spirit Breaker,Nyx Assassin,Bloodseeker
+Slark|Magnus,Dark Seer,Tusk,Io
+Snapfire|Sven,Ursa,Troll Warlord,Magnus
+Sniper|Vengeful Spirit,Drow Ranger,Medusa,Troll Warlord
+Spectre|Zeus,Nature's Prophet,Bloodseeker,Io,Night Stalker
+Spirit Breaker|Spectre,Night Stalker,Bloodseeker,Bounty Hunter
+Storm Spirit|Lifestealer,Io,Earth Spirit,Silencer
+Sven|Magnus,Dark Seer,Tiny,Enigma,Io
+Techies|Pudge,Clockwork,Mars,Treant Protector
+Templar Assassin|Vengeful Spirit,Slardar,Bloodseeker
+Terrorblade|Oracle,Shadow Demon,Io,Dark Seer
+Tidehunter|Enigma,Faceless Void,Magnus,Sand King,Invoker
+Timbersaw|Keeper of the Light,Io,Dark Seer
+Tinker|Keeper of the Light,Nature's Prophet,Zeus
+Tiny|Magnus,Io,Earthshaker,Dark Seer,Sven
+Treant Protector|Nature's Prophet,Zeus,Spectre,Techies
+Troll Warlord|Crystal Maiden,Lich,Dazzle,Vengeful Spirit
+Tusk|Slark,Ursa,Juggernaut,Sven,Tiny,Marci
+Underlord|Pudge,Techies,Mars,Skywrath Mage
+Undying|Necrophos,Death Prophet,Tidehunter,Ancient Apparition
+Ursa|Crystal Maiden,Tusk,Dazzle,Witch Doctor,Lich
+Vengeful Spirit|Drow Ranger,Medusa,Sniper,Troll Warlord,Templar Assassin
+Venomancer|Tidehunter,Enigma,Magnus,Gyrocopter
+Viper|Slardar,Necrophos,Dragon Knight
+Visage|Chen,Beastmaster,Enchantress,Drow Ranger,Lycan
+Void Spirit|Earth Spirit,Storm Spirit,Ember Spirit
+Warlock|Huskar,Tidehunter,Enigma,Magnus
+Weaver|Bounty Hunter,Nyx Assassin,Nature's Prophet
+Windranger|Drow Ranger,Vengeful Spirit,Medusa
+Winter Wyvern|Faceless Void,Legion Commander,Lich,Skywrath Mage
+Witch Doctor|Huskar,Ursa,Dazzle,Troll Warlord,Juggernaut
+Wraith King|Io,Magnus,Dark Seer,Undying
+Zeus|Spectre,Nature's Prophet,Bloodseeker,Io
+`;
+
 function parseTable(raw: string): Record<string, string[]> {
   const out: Record<string, string[]> = {};
   for (const line of raw.trim().split('\n')) {
@@ -407,6 +545,19 @@ export const laneWins = parseTable(LANE_WINS);
 
 /** hero -> items that punish it. */
 export const itemsVs = parseTable(ITEMS_VS);
+
+/** hero -> allies it synergises with. */
+export const synergyWith = parseTable(SYNERGY_WITH);
+
+/**
+ * How well `hero` pairs with `ally`, based on whether either lists the other
+ * in its synergy table. Returns 0 when there is no known partnership.
+ */
+export function synergyWeight(hero: string, ally: string): number {
+  if (synergyWith[hero]?.includes(ally)) return 1;
+  if (synergyWith[ally]?.includes(hero)) return 1;
+  return 0;
+}
 
 /**
  * How strongly `counter` beats `hero`, based on its rank in the hero's

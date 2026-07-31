@@ -1,6 +1,12 @@
 ﻿import { heroes, heroByName } from './heroes';
 import { items, itemByName } from './items';
-import { counterWeight, counteredBy, itemsVs, laneWins } from './counters';
+import {
+  counterWeight,
+  counteredBy,
+  itemsVs,
+  laneWins,
+  synergyWith,
+} from './counters';
 import type { Hero, Item, Role, Tag } from './types';
 
 export interface HeroSuggestion {
@@ -13,6 +19,8 @@ export interface HeroSuggestion {
   lanes: string[];
   /** Enemies that counter this hero back (the risk of picking it). */
   risk: string[];
+  /** Allies this hero pairs well with (combo synergy). */
+  synergy: string[];
 }
 
 export interface ItemSuggestion {
@@ -33,13 +41,15 @@ export interface ThreatReport {
 const WEIGHT_LANE = 1.5;
 const WEIGHT_RISK = 0.8;
 const WEIGHT_WINRATE = 0.12;
+const WEIGHT_SYNERGY = 1.3;
 
 /**
  * Rank every unpicked hero against the enemy lineup.
  *
  * Scoring: direct counter relations (weighted by how hard the counter is),
- * plus lane advantages, minus how badly the enemy can punish the pick back,
- * plus a small nudge from the hero's public win rate as a tie-breaker.
+ * plus lane advantages, plus synergy with your own picks, minus how badly the
+ * enemy can punish the pick back, plus a small nudge from the hero's public
+ * win rate as a tie-breaker.
  */
 export function suggestHeroes(
   enemies: string[],
@@ -47,7 +57,7 @@ export function suggestHeroes(
   options: { role?: Role | null; limit?: number } = {}
 ): HeroSuggestion[] {
   const { role = null, limit = 8 } = options;
-  if (enemies.length === 0) return [];
+  if (enemies.length === 0 && allies.length === 0) return [];
 
   const taken = new Set([...enemies, ...allies]);
 
@@ -58,6 +68,7 @@ export function suggestHeroes(
       const beats: string[] = [];
       const lanes: string[] = [];
       const risk: string[] = [];
+      const synergy: string[] = [];
       let score = 0;
 
       for (const enemy of enemies) {
@@ -77,10 +88,17 @@ export function suggestHeroes(
         }
       }
 
+      for (const ally of allies) {
+        if (synergyWith[hero.name]?.includes(ally)) {
+          score += WEIGHT_SYNERGY;
+          synergy.push(ally);
+        }
+      }
+
       score += (hero.winRate - 50) * WEIGHT_WINRATE;
-      return { hero, score, beats, lanes, risk };
+      return { hero, score, beats, lanes, risk, synergy };
     })
-    .filter((s) => s.beats.length > 0 || s.lanes.length > 0)
+    .filter((s) => s.beats.length > 0 || s.lanes.length > 0 || s.synergy.length > 0)
     .sort((a, b) => b.score - a.score || b.hero.winRate - a.hero.winRate);
 
   return suggestions.slice(0, limit);
@@ -209,6 +227,9 @@ export function heroMatchups(name: string) {
       .filter((h) => (counteredBy[h.name] ?? []).includes(name))
       .map((h) => h.name),
     laneWins: laneWins[name] ?? [],
+    synergy: heroes
+      .filter((h) => (synergyWith[h.name] ?? []).includes(name))
+      .map((h) => h.name),
     items: itemsVs[name] ?? [],
   };
 }

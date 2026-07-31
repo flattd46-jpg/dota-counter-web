@@ -141,6 +141,17 @@ export default function HeroDetail({
         </div>
 
         <div>
+          <h3 className="label-caps mb-1.5 text-violet-500">Хорошо сочетается с</h3>
+          <HeroRow
+            names={m.synergy}
+            onInspect={onInspect}
+            tone="border-violet-500/30 bg-violet-500/5 text-mist-200 hover:border-violet-500/70"
+            emptyLabel="Специальных комбинаций не отмечено."
+          />
+        </div>
+
+
+        <div>
           <h3 className="label-caps mb-1.5 text-gold-400">Предметы против него</h3>
           {m.items.length === 0 ? (
             <p className="text-[11px] text-mist-600">Особых предметов против него нет.</p>

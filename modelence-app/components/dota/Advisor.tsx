@@ -142,9 +142,9 @@ export default function Advisor({
               ))}
             </div>
 
-            {enemies.length === 0 ? (
+            {enemies.length === 0 && allies.length === 0 ? (
               <EmptyHint>
-                Добавьте героев в команду врага — и здесь появятся лучшие контрпики.
+                Добавьте героев в команду врага — и здесь появятся лучшие контрпики. Или соберите свою команду, чтобы увидеть синергию.
               </EmptyHint>
             ) : suggestions.length === 0 ? (
               <EmptyHint>
@@ -197,9 +197,16 @@ export default function Advisor({
                             {s.lanes.join(', ')}
                           </>
                         )}
-                        {s.risk.length > 0 && (
+                        {s.synergy.length > 0 && (
                           <>
                             {(s.beats.length > 0 || s.lanes.length > 0) && ' · '}
+                            <span className="font-semibold text-violet-500">Синергия</span>{' '}
+                            {s.synergy.join(', ')}
+                          </>
+                        )}
+                        {s.risk.length > 0 && (
+                          <>
+                            {(s.beats.length > 0 || s.lanes.length > 0 || s.synergy.length > 0) && ' · '}
                             <span className="font-semibold text-dire-400">Риск</span>{' '}
                             {s.risk.join(', ')}
                           </>

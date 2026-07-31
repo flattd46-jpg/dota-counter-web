@@ -15,7 +15,7 @@
   --gold-400:#f2c14e;
   --radiant-500:#2fd39a; --radiant-400:#5ae3b4;
   --dire-600:#c92a46; --dire-500:#f2415f; --dire-400:#ff6d84;
-  --arcane-400:#9b8cff; --arcane-500:#7a67f5;
+  --arcane-400:#9b8cff; --arcane-500:#7a67f5; --violet-500:#8b5cf6;
   --mist-50:#f7f3fb; --mist-200:#d6cbe6; --mist-400:#a394ba; --mist-600:#6d5f83;
   --font-display:"Cinzel",Georgia,serif; --font-sans:"Barlow",ui-sans-serif,system-ui,sans-serif;
 }
@@ -1249,6 +1249,135 @@ Witch Doctor|Black King Bar,Spirit Vessel,Pipe of Insight,Blink Dagger,Eul's Sce
 Wraith King|Diffusal Blade,Battle Fury,Spirit Vessel,Silver Edge,Heaven's Halberd
 Zeus|Black King Bar,Pipe of Insight,Glimmer Cape,Blade Mail,Aeon Disk
 `;
+var SYNERGY_WITH_RAW = `
+Abaddon|Io,Tusk,Ursa,Legion Commander
+Alchemist|Dazzle,Witch Doctor,Oracle,Io
+Ancient Apparition|Necrophos,Juggernaut,Huskar
+Anti-Mage|Io,Treant Protector,Spectre
+Arc Warden|Zeus,Nature's Prophet,Spectre
+Axe|Dark Seer,Magnus,Io,Tiny
+Bane|Mirana,Lina,Lion,Pudge
+Batrider|Magnus,Dark Seer,Tiny
+Beastmaster|Chen,Enchantress,Lycan,Lone Druid
+Bloodseeker|Spectre,Nature's Prophet,Zeus,Io
+Bounty Hunter|Slardar,Spirit Breaker,Night Stalker
+Brewmaster|Enigma,Faceless Void,Magnus
+Bristleback|Keeper of the Light,Crystal Maiden,Warlock
+Broodmother|Dark Seer,Enchantress,Chen
+Centaur Warrunner|Tusk,Tiny,Magnus,Undying
+Chaos Knight|Io,Magnus,Dark Seer,Wraith King
+Chen|Beastmaster,Enchantress,Lycan,Lone Druid,Visage
+Clinkz|Bounty Hunter,Nyx Assassin,Riki
+Clockwork|Pudge,Mirana,Earthshaker
+Crystal Maiden|Juggernaut,Ursa,Troll Warlord,Medusa,Luna
+Dark Seer|Magnus,Sven,Tiny,Phantom Lancer,Ember Spirit,Slark,Meepo
+Dark Willow|Pudge,Techies,Mars
+Dawnbreaker|Spectre,Nature's Prophet,Io,Skywrath Mage
+Dazzle|Huskar,Ursa,Legion Commander,Juggernaut,Troll Warlord
+Death Prophet|Necrophos,Silencer,Undying,Chen
+Disruptor|Kunkka,Earthshaker,Enigma,Tidehunter
+Doom|Shadow Fiend,Necrophos,Queen of Pain
+Dragon Knight|Magnus,Dark Seer,Tiny,Sven
+Drow Ranger|Vengeful Spirit,Medusa,Windranger,Visage
+Earth Spirit|Storm Spirit,Ember Spirit,Void Spirit
+Earthshaker|Tiny,Meepo,Broodmother,Phantom Lancer,Naga Siren
+Elder Titan|Enigma,Tidehunter,Magnus,Faceless Void
+Ember Spirit|Magnus,Dark Seer,Sven,Earth Spirit
+Enchantress|Beastmaster,Lycan,Chen,Lone Druid
+Enigma|Faceless Void,Tidehunter,Magnus,Sand King,Tiny
+Faceless Void|Enigma,Skywrath Mage,Lich,Invoker,Winter Wyvern,Magnus
+Grimstroke|Lich,Winter Wyvern,Ancient Apparition,Medusa
+Gyrocopter|Io,Magnus,Dark Seer,Tiny
+Hoodwink|Pudge,Mirana,Techies
+Huskar|Dazzle,Oracle,Witch Doctor,Warlock,Omniknight
+Invoker|Faceless Void,Enigma,Tidehunter,Magnus,Sand King
+Io|Gyrocopter,Tiny,Chaos Knight,Phantom Assassin,Lifestealer,Alchemist
+Jakiro|Tidehunter,Enigma,Magnus,Sand King
+Juggernaut|Crystal Maiden,Lich,Witch Doctor,Dark Seer,Sven
+Keeper of the Light|Bristleback,Timbersaw,Tinker,Io
+Kez|Magnus,Dark Seer,Tiny
+Kunkka|Disruptor,Magnus,Tidehunter,Earthshaker
+Largo|Lina,Bane,Lion
+Legion Commander|Oracle,Dazzle,Winter Wyvern,Omniknight,Pugna
+Leshrac|Enigma,Tidehunter,Magnus,Faceless Void
+Lich|Faceless Void,Skywrath Mage,Medusa,Troll Warlord
+Lifestealer|Io,Storm Spirit,Ember Spirit,Magnus
+Lina|Bane,Lion,Mirana,Pudge
+Lion|Lina,Bane,Mirana,Pudge
+Lone Druid|Chen,Beastmaster,Enchantress,Lycan
+Luna|Crystal Maiden,Magnus,Dark Seer,Enigma
+Lycan|Chen,Beastmaster,Enchantress,Visage
+Magnus|Sven,Tiny,Ember Spirit,Phantom Assassin,Slark,Juggernaut,Luna,Meepo
+Marci|Tusk,Ursa,Tiny,Sven
+Mars|Pudge,Techies,Underlord,Axe
+Medusa|Lich,Winter Wyvern,Crystal Maiden,Drow Ranger,Shadow Demon
+Meepo|Magnus,Dark Seer,Earthshaker,Sven
+Mirana|Bane,Lina,Lion,Pudge
+Monkey King|Io,Magnus,Dark Seer,Tusk
+Morphling|Io,Tiny,Earthshaker
+Muerta|Vengeful Spirit,Drow Ranger,Slardar
+Naga Siren|Earthshaker,Enigma,Magnus,Tidehunter
+Nature's Prophet|Zeus,Spectre,Bloodseeker,Io
+Necrophos|Ancient Apparition,Death Prophet,Silencer,Undying
+Night Stalker|Spectre,Bloodseeker,Spirit Breaker,Bounty Hunter
+Nyx Assassin|Bounty Hunter,Slardar,Spirit Breaker
+Ogre Magi|Juggernaut,Ursa,Troll Warlord
+Omniknight|Huskar,Dazzle,Legion Commander,Juggernaut
+Oracle|Huskar,Legion Commander,Terrorblade,Medusa,Phantom Assassin
+Outworld Destroyer|Silencer,Necrophos,Death Prophet
+Pangolier|Dark Seer,Magnus,Kunkka
+Phantom Assassin|Magnus,Dark Seer,Vengeful Spirit,Oracle,Dazzle
+Phantom Lancer|Magnus,Dark Seer,Io,Enchantress
+Phoenix|Enigma,Faceless Void,Tidehunter,Winter Wyvern
+Primal Beast|Tusk,Tiny,Magnus,Undying
+Puck|Mirana,Lina,Bane,Queen of Pain
+Pudge|Mirana,Lina,Bane,Clockwork,Dark Willow
+Pugna|Legion Commander,Oracle,Dazzle,Necrophos
+Queen of Pain|Bane,Shadow Fiend,Doom,Mirana
+Razor|Slardar,Vengeful Spirit,Drow Ranger
+Riki|Bounty Hunter,Nyx Assassin,Slardar,Spectre
+Ringmaster|Pudge,Mars,Techies
+Rubick|Enigma,Magnus,Tidehunter,Faceless Void
+Sand King|Magnus,Tiny,Earthshaker,Enigma,Faceless Void
+Shadow Demon|Medusa,Troll Warlord,Luna
+Shadow Fiend|Doom,Enigma,Magnus,Dark Seer
+Shadow Shaman|Pudge,Legion Commander,Ursa,Troll Warlord
+Silencer|Necrophos,Death Prophet,Outworld Destroyer,Storm Spirit
+Skywrath Mage|Faceless Void,Legion Commander,Enigma,Tidehunter
+Slardar|Bounty Hunter,Spirit Breaker,Nyx Assassin,Bloodseeker
+Slark|Magnus,Dark Seer,Tusk,Io
+Snapfire|Sven,Ursa,Troll Warlord,Magnus
+Sniper|Vengeful Spirit,Drow Ranger,Medusa,Troll Warlord
+Spectre|Zeus,Nature's Prophet,Bloodseeker,Io,Night Stalker
+Spirit Breaker|Spectre,Night Stalker,Bloodseeker,Bounty Hunter
+Storm Spirit|Lifestealer,Io,Earth Spirit,Silencer
+Sven|Magnus,Dark Seer,Tiny,Enigma,Io
+Techies|Pudge,Clockwork,Mars,Treant Protector
+Templar Assassin|Vengeful Spirit,Slardar,Bloodseeker
+Terrorblade|Oracle,Shadow Demon,Io,Dark Seer
+Tidehunter|Enigma,Faceless Void,Magnus,Sand King,Invoker
+Timbersaw|Keeper of the Light,Io,Dark Seer
+Tinker|Keeper of the Light,Nature's Prophet,Zeus
+Tiny|Magnus,Io,Earthshaker,Dark Seer,Sven
+Treant Protector|Nature's Prophet,Zeus,Spectre,Techies
+Troll Warlord|Crystal Maiden,Lich,Dazzle,Vengeful Spirit
+Tusk|Slark,Ursa,Juggernaut,Sven,Tiny,Marci
+Underlord|Pudge,Techies,Mars,Skywrath Mage
+Undying|Necrophos,Death Prophet,Tidehunter,Ancient Apparition
+Ursa|Crystal Maiden,Tusk,Dazzle,Witch Doctor,Lich
+Vengeful Spirit|Drow Ranger,Medusa,Sniper,Troll Warlord,Templar Assassin
+Venomancer|Tidehunter,Enigma,Magnus,Gyrocopter
+Viper|Slardar,Necrophos,Dragon Knight
+Visage|Chen,Beastmaster,Enchantress,Drow Ranger,Lycan
+Void Spirit|Earth Spirit,Storm Spirit,Ember Spirit
+Warlock|Huskar,Tidehunter,Enigma,Magnus
+Weaver|Bounty Hunter,Nyx Assassin,Nature's Prophet
+Windranger|Drow Ranger,Vengeful Spirit,Medusa
+Winter Wyvern|Faceless Void,Legion Commander,Lich,Skywrath Mage
+Witch Doctor|Huskar,Ursa,Dazzle,Troll Warlord,Juggernaut
+Wraith King|Io,Magnus,Dark Seer,Undying
+Zeus|Spectre,Nature's Prophet,Bloodseeker,Io
+`;
 var counteredBy = parseTable(COUNTERED_BY_RAW);
 Object.keys(parseTable(ALSO_COUNTERS_RAW)).forEach(function(counter) {
   parseTable(ALSO_COUNTERS_RAW)[counter].forEach(function(victim) {
@@ -1258,6 +1387,7 @@ Object.keys(parseTable(ALSO_COUNTERS_RAW)).forEach(function(counter) {
 });
 var laneWins = parseTable(LANE_WINS_RAW);
 var itemsVs = parseTable(ITEMS_VS_RAW);
+var synergyWith = parseTable(SYNERGY_WITH_RAW);
 var totalCounterPairs = 0;
 Object.keys(counteredBy).forEach(function(k) { totalCounterPairs += counteredBy[k].length; });
 
@@ -1314,6 +1444,7 @@ document.addEventListener('error', function(e) {
 var WEIGHT_LANE = 1.5;
 var WEIGHT_RISK = 0.8;
 var WEIGHT_WINRATE = 0.12;
+var WEIGHT_SYNERGY = 1.3;
 
 function counterWeight(hero, counter) {
   var index = (counteredBy[hero] || []).indexOf(counter);
@@ -1323,13 +1454,13 @@ function counterWeight(hero, counter) {
   return 2;
 }
 
-/* Рейтинг контрпиков: герои, лайн-преимущества, минус риск, поправка на винрейт. */
+/* Рейтинг контрпиков: герои, лайн-преимущества, минус риск, плюс синергия с пиками, поправка на винрейт. */
 function suggestHeroes(enemies, allies, options) {
   allies = allies || [];
   options = options || {};
   var role = options.role || null;
   var limit = options.limit != null ? options.limit : 8;
-  if (enemies.length === 0) return [];
+  if (enemies.length === 0 && allies.length === 0) return [];
 
   var taken = {};
   enemies.forEach(function(n) { taken[n] = 1; });
@@ -1339,7 +1470,7 @@ function suggestHeroes(enemies, allies, options) {
     .filter(function(hero) { return !taken[hero.name]; })
     .filter(function(hero) { return role ? hero.roles.indexOf(role) !== -1 : true; })
     .map(function(hero) {
-      var beats = [], lanes = [], risk = [];
+      var beats = [], lanes = [], risk = [], synergy = [];
       var score = 0;
 
       enemies.forEach(function(enemy) {
@@ -1353,10 +1484,17 @@ function suggestHeroes(enemies, allies, options) {
         if (back > 0) { score -= back * WEIGHT_RISK; risk.push(enemy); }
       });
 
+      allies.forEach(function(ally) {
+        if ((synergyWith[hero.name] || []).indexOf(ally) !== -1) {
+          score += WEIGHT_SYNERGY;
+          synergy.push(ally);
+        }
+      });
+
       score += (hero.winRate - 50) * WEIGHT_WINRATE;
-      return { hero: hero, score: score, beats: beats, lanes: lanes, risk: risk };
+      return { hero: hero, score: score, beats: beats, lanes: lanes, risk: risk, synergy: synergy };
     })
-    .filter(function(s) { return s.beats.length > 0 || s.lanes.length > 0; })
+    .filter(function(s) { return s.beats.length > 0 || s.lanes.length > 0 || s.synergy.length > 0; })
     .sort(function(a, b) { return b.score - a.score || b.hero.winRate - a.hero.winRate; });
 
   return suggestions.slice(0, limit);
@@ -1461,6 +1599,7 @@ function heroMatchups(name) {
     counteredBy: counteredBy[name] || [],
     counters: heroes.filter(function(h) { return (counteredBy[h.name] || []).indexOf(name) !== -1; }).map(function(h) { return h.name; }),
     laneWins: laneWins[name] || [],
+    synergy: heroes.filter(function(h) { return (synergyWith[h.name] || []).indexOf(name) !== -1; }).map(function(h) { return h.name; }),
     items: itemsVs[name] || []
   };
 }
@@ -1897,6 +2036,7 @@ function renderDetail() {
       '<div class="detail-block"><h3 style="color:var(--dire-400)">Его контрят</h3>' + heroRow(m.counteredBy, 'rgba(242,65,95,.3)', 'rgba(242,65,95,.05)', 'Жёстких контрпиков не найдено.') + '</div>' +
       '<div class="detail-block"><h3 style="color:var(--radiant-400)">Сам контрит</h3>' + heroRow(m.counters, 'rgba(47,211,154,.3)', 'rgba(47,211,154,.05)', 'Нет героев, которых он контрит.') + '</div>' +
       '<div class="detail-block"><h3 style="color:var(--arcane-400)">Выигрывает линию против</h3>' + heroRow(m.laneWins, 'rgba(122,103,245,.3)', 'rgba(122,103,245,.05)', 'Данных по линии нет.') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--violet-500)">Хорошо сочетается с</h3>' + heroRow(m.synergy, 'rgba(139,92,246,.3)', 'rgba(139,92,246,.05)', 'Специальных комбинаций не отмечено.') + '</div>' +
       '<div class="detail-block"><h3 style="color:var(--gold-400)">Предметы против него</h3>' + itemsHtml + '</div>' +
     '</div>';
 }
@@ -1938,7 +2078,7 @@ function advisorRoleButtons() {
 }
 function advisorCounters() {
   var suggestions = suggestHeroes(enemies, allies, { role: advisorRole, limit: 10 });
-  if (enemies.length === 0) return emptyHint('Добавьте героев в команду врага — и здесь появятся лучшие контрпики.');
+  if (enemies.length === 0 && allies.length === 0) return emptyHint('Добавьте героев в команду врага — и здесь появятся лучшие контрпики. Или соберите свою команду, чтобы увидеть синергию.');
   if (suggestions.length === 0) return emptyHint('Для этого фильтра сильных контрпиков нет. Попробуйте другую роль.');
   var maxScore = suggestions[0].score;
   var rows = suggestions.map(function(s, i) {
@@ -1946,6 +2086,7 @@ function advisorCounters() {
     var desc = [];
     if (s.beats.length) desc.push('<span style="color:var(--radiant-400);font-weight:600">Бьёт</span> ' + s.beats.join(', '));
     if (s.lanes.length) desc.push('<span style="color:var(--arcane-400);font-weight:600">Линия</span> ' + s.lanes.join(', '));
+    if (s.synergy.length) desc.push('<span style="color:var(--violet-500);font-weight:600">Синергия</span> ' + s.synergy.join(', '));
     if (s.risk.length) desc.push('<span style="color:var(--dire-400);font-weight:600">Риск</span> ' + s.risk.join(', '));
     var roles = s.hero.roles.slice(0, 2).map(function(r) {
       return '<span style="flex-shrink:0;padding:0 4px;border:1px solid var(--void-700);border-radius:3px;font-size:10px;color:var(--mist-400)">' + ROLE_LABELS[r] + '</span>';
