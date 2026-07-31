@@ -4060,6 +4060,7 @@ function mergeCloudDrafts(cloud) {
     .sort(function(a, b) { return String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')); });
   writeDrafts(merged);
   renderLibrary();
+  render();
 }
 
 function pushDrafts() {
@@ -4106,17 +4107,19 @@ function authErrorMessage(err) {
 function initAuth() {
   if (!authAvailable()) { renderAuth(); return; }
   sbClient.auth.onAuthStateChange(function(event, session) {
-    var prev = authUser;
+    var wasLoggedIn = !!authUser;
     authUser = session ? session.user : null;
     renderAuth();
-    if (authUser && !prev) { authPulled = true; pullDrafts(); }
-    if (!authUser && prev) setSyncStatus('');
+    if (wasLoggedIn !== !!authUser) render();
+    if (authUser && !authPulled) { authPulled = true; pullDrafts(); }
+    if (!authUser) setSyncStatus('');
   });
   renderAuth();
   sbClient.auth.getSession().then(function(res) {
     if (res.data && res.data.session) {
       authUser = res.data.session.user;
       renderAuth();
+      render();
       if (!authPulled) { authPulled = true; pullDrafts(); }
     }
   });
