@@ -272,6 +272,9 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .guide-hero-info img{width:88px;height:54px;border-radius:4px;object-fit:cover}
 .guide-hero-info h3{font-size:16px;color:var(--mist-50)}
 .guide-hero-info .roles{font-size:11px;color:var(--mist-400)}
+.guide-db{margin-top:6px}
+.btn-db{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border:1px solid rgba(242,193,78,.4);border-radius:4px;background:rgba(242,193,78,.08);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-400);transition:all .2s;text-decoration:none}
+.btn-db:hover{background:var(--gold-400);color:var(--void-950)}
 .guide-section{margin-top:12px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.5);overflow:hidden}
 .guide-section>h4{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid var(--void-750);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mist-200)}
 .guide-section .gs-body{padding:12px;font-size:12px;line-height:1.55;color:var(--mist-400)}
@@ -355,6 +358,12 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .pressure-hi{background:rgba(242,65,95,.2);color:var(--dire-400)}
 .pressure-mid{background:rgba(242,193,78,.15);color:var(--gold-400)}
 .threat-desc{font-size:11px;line-height:1.3;color:var(--mist-400)}
+.lane-warn{display:flex;gap:6px;align-items:flex-start;padding:6px 8px;border:1px solid rgba(242,193,78,.35);border-radius:4px;background:rgba(242,193,78,.06);font-size:11px;color:var(--gold-400);line-height:1.4}
+.lane-warn svg{flex-shrink:0;margin-top:1px}
+.lane-warn.lane-ok{border-color:rgba(47,211,154,.35);background:rgba(47,211,154,.06);color:var(--radiant-400)}
+.lane-count{margin-left:auto;flex-shrink:0;padding:1px 6px;border-radius:99px;background:var(--void-800);font-family:ui-monospace,monospace;font-size:10px;color:var(--gold-400)}
+.lane-lineup{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.lane-lineup img{width:48px;height:30px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px var(--void-700)}
 .detail{overflow:hidden}
 .detail-hero{position:relative}
 .detail-hero>img{width:100%;height:112px;object-fit:cover;object-position:center 28%}
@@ -440,6 +449,10 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
       Сравнение
       <span class="pg-count" id="pgCountCompare"></span>
     </button>
+    <button type="button" class="pagetab" id="tabBtnHelp" data-tabpage="pageHelp" role="tab" aria-selected="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      Инструкция
+    </button>
   </div>
   <div class="tabpage on" id="pageDraft">
   <section class="panel hero anim-fade-in">
@@ -462,15 +475,6 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
         Сбросить драфт
       </button>
     </div>
-  </section>
-  <section class="panel guide anim-fade-in">
-    <button class="guide-toggle" id="guideToggle" aria-expanded="false">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      <h2>Как пользоваться</h2>
-      <span class="label-caps" style="display:none">Четыре шага и расшифровка всех оценок</span>
-      <span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
-    </button>
-    <div class="guide-body" id="guideBody" style="display:none"></div>
   </section>
   <div class="board">
     <span class="vs-badge">VS</span>
@@ -568,6 +572,11 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
           <div id="guideBody2"></div>
         </div>
       </div>
+    </section>
+  </div>
+  <div class="tabpage" id="pageHelp">
+    <section class="panel anim-fade-in" style="padding:12px 16px">
+      <div id="helpBody"></div>
     </section>
   </div>
 </div>
@@ -2192,6 +2201,1366 @@ var HERO_GUIDES = {
     tips: {
       'Anti-Mage': 'Solar Guardian спасает от его фокуса.'
     }
+  },
+'Abaddon': {
+    skills: [1,2,3,1,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Mist Coil', 'Aphotic Shield', 'Curse of Avernus', 'Borrowed Time'],
+    items: [
+      { m: '0:00', item: 'Tranquil Boots', why: 'Скорость и реген для активных ротаций.' },
+      { m: '8:00', item: 'Vanguard', why: 'Танкует линию и держит фокус на себе.' },
+      { m: '16:00', item: 'Phase Boots', why: 'Догоняет и бьёт с Curse of Avernus.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Под BKB Aphotic Shield не снимают и он дольше живёт.' },
+      { m: '32:00', item: 'Heart of Tarrasque', why: 'Огромный запас здоровья под Borrowed Time.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Break съедает ману — не влетайте первым. Щит вешайте на фокуса, а не на себя.',
+      'Skywrath Mage': 'Магический бурст убивает за пару секунд — держите Aphotic Shield наготове.',
+      'Phantom Assassin': 'Borrowed Time спасает от её бурста, но дайте щит союзнику до её прыжка.'
+    }
+  },
+  'Alchemist': {
+    skills: [1,3,1,3,1,4,1,3,1,3,4,3,2,2,2,4,2,2],
+    skillNames: ['Acid Spray', 'Unstable Concoction', 'Greevil\'s Greed', 'Chemical Rage'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание и фарм под Greevil\'s Greed.' },
+      { m: '8:00', item: 'Radiance', why: 'Самая быстрая раданка в игре — снежный ком фарма.' },
+      { m: '16:00', item: 'Sange and Yasha', why: 'Скорость атаки и живучесть в драках.' },
+      { m: '24:00', item: 'Assault Cuirass', why: 'Броня под Chemical Rage, пушит здания.' },
+      { m: '32:00', item: 'Heart of Tarrasque', why: 'Реген с раданкой и бесконечная выносливость.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Фармит быстрее вас — прессингуйте и не давайте ему леса.',
+      'Phantom Assassin': 'Дожимайте до лейта и играйте от радана; не стойте под её бурст.',
+      'Necrophos': 'Heartstoppper Aura мешает фарму — покупайте реген пораньше.'
+    }
+  },
+  'Ancient Apparition': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Cold Feet', 'Ice Vortex', 'Chilling Touch', 'Ice Blast'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на рунах и линии.' },
+      { m: '8:00', item: 'Tranquil Boots', why: 'Реген для позиции в задней линии.' },
+      { m: '14:00', item: 'Aether Lens', why: 'Дальность Ice Blast и Ice Vortex из укрытия.' },
+      { m: '22:00', item: 'Force Staff', why: 'Спасение от инициации и доводка дистанции.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от бурста — вы успеете кастануть ульту.' }
+    ],
+    tips: {
+      'Alchemist': 'Ice Blast отменяет его реген после Chemical Rage — убивайте до конца боя.',
+      'Huskar': 'Глобальная анти-хилка против его Berserker\'s Blood — держите ульту для него.',
+      'Morphling': 'Не дайте Morphling сбежать — Cold Feet после его Waveform.'
+    }
+  },
+  'Arc Warden': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Flux', 'Magnetic Field', 'Spark Wraith', 'Tempest Double'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон на линию.' },
+      { m: '7:00', item: 'Bottle', why: 'Контроль рун и маны.' },
+      { m: '12:00', item: 'Boots of Travel', why: 'Мгновенные ротации с двойником.' },
+      { m: '20:00', item: 'Maelstrom', why: 'Двойник фармит параллельно — молнии по площади.' },
+      { m: '30:00', item: 'Eye of Skadi', why: 'Замедление и бурст с двумя копиями себя.' }
+    ],
+    tips: {
+      'Naga Siren': 'Иллюзии не любят Flux — не тратьте его в пустоту.',
+      'Storm Spirit': 'Flux не даёт ему убежать Ball Lightning. Ставьте Spark Wraith на его зоны приземления.',
+      'Phantom Lancer': 'Magnetic Field защищает от иллюзий, но бейте настоящего — следите за уроном.'
+    }
+  },
+  'Bane': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Enfeeble', 'Brain Sap', 'Nightmare', 'Fiend\'s Grip'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для агрессивных действий.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо Nightmare + Grip.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность контроля из-за союзников.' },
+      { m: '24:00', item: 'Aghanim\'s Scepter', why: 'Grip бьёт нескольких врагов сразу.' },
+      { m: '32:00', item: 'Lotus Orb', why: 'Отражает контроль и снимает молчания.' }
+    ],
+    tips: {
+      'Skywrath Mage': 'Он дизейблит вас с дистанции — Enfeeble на него до того, как он скастует.',
+      'Anti-Mage': 'Nightmare прерывает его Blink-фарм, но ловите без союзников рядом.',
+      'Tiny': 'Fiend\'s Grip по нему после его Avalanche+Toss — и его бурст уже не страшен.'
+    }
+  },
+  'Batrider': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Sticky Napalm', 'Flamebreak', 'Firefly', 'Flaming Lasso'],
+    items: [
+      { m: '0:00', item: 'Stout Shield', why: 'Торговля ударами на линии.' },
+      { m: '6:00', item: 'Boots of Speed', why: 'Скорость для Firefly ротаций.' },
+      { m: '12:00', item: 'Blink Dagger', why: 'Главный сетап: Blink + Lasso к команде.' },
+      { m: '20:00', item: 'Force Staff', why: 'Доводка Lasso и спасение себя.' },
+      { m: '28:00', item: 'Black King Bar', why: 'Тащите цель под фокус, не получая контроль.' }
+    ],
+    tips: {
+      'Crystal Maiden': 'Она мягкая — тащите её Lasso каждое ульту союзника.',
+      'Anti-Mage': 'Ловите его Blink-позиции; он без маны — идеальная цель.',
+      'Shadow Fiend': 'Тащите его до его Requiem — он не успеет кастануть.'
+    }
+  },
+  'Beastmaster': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Wild Axes', 'Call of the Wild', 'Drums of Slom', 'Primal Roar'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на призыв кабана и топоров.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и добивание под призывами.' },
+      { m: '14:00', item: 'Blink Dagger', why: 'Blink + Primal Roar — ключевая инициация.' },
+      { m: '22:00', item: 'Assault Cuirass', why: 'Ауры для кабана и команды.' },
+      { m: '30:00', item: 'Aghanim\'s Shard', why: 'Птица для обзора и давления линий.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Wild Axes снимают его Blink-навык? Нет — ловите Roar после его прыжка.',
+      'Storm Spirit': 'Primal Roar до его Ball Lightning — и он не сбежит.',
+      'Tinker': 'Давите обзором и Roar — он не успеет Rearm.'
+    }
+  },
+  'Bloodseeker': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Bloodrage', 'Blood Rite', 'Thirst', 'Rupture'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов и фарм.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость с Thirst — догоняете всех.' },
+      { m: '14:00', item: 'Blade Mail', why: 'Rupture + Blade Mail ломает вражеский бурст.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный фокус под ультой.' },
+      { m: '30:00', item: 'Butterfly', why: 'Атака и уклонение в лейте.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Rupture полностью его останавливает — не дайте уйти Ball Lightning.',
+      'Anti-Mage': 'Thirst видит его на низком ХП — не выпускайте из леса.',
+      'Phantom Assassin': 'Bloodrage на неё усиливает ваш урон; ловите её без Blink.'
+    }
+  },
+  'Bounty Hunter': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Shuriken Toss', 'Jinada', 'Shadow Walk', 'Track'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Варды на руны и карту.' },
+      { m: '6:00', item: 'Phase Boots', why: 'Скорость и крит Jinada по цели.' },
+      { m: '12:00', item: 'Desolator', why: 'Снятие брони под Track.' },
+      { m: '20:00', item: 'Black King Bar', why: 'Выживание в задней линии врага.' },
+      { m: '30:00', item: 'Nullifier', why: 'Отменяет предметы спасения у цели Track.' }
+    ],
+    tips: {
+      'Crystal Maiden': 'Track на саппортов приносит золото всей команде — охотьтесь за ней.',
+      'Anti-Mage': 'Shadow Walk + Jinada снимают его ману и добивают.',
+      'Sniper': 'Он в задней линии — ваш главный приоритет для Track и убийств.'
+    }
+  },
+  'Brewmaster': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Thunder Clap', 'Cinder Brew', 'Drunken Brawler', 'Primal Split'],
+    items: [
+      { m: '0:00', item: 'Stout Shield', why: 'Линия против милишников.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и добивание.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Thunder Clap + Primal Split.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Доживание до сплита и после.' },
+      { m: '32:00', item: 'Refresher Orb', why: 'Два Primal Split за бой — редкость, но ужас.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Панды ловят его после Blink — стите его земляной пандой.',
+      'Storm Spirit': 'Thunder Clap снижает его скорость и не даёт уйти.',
+      'Shadow Fiend': 'Сплит после его Requiem — добиваете пандами.'
+    }
+  },
+  'Bristleback': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Viscous Nasal Goo', 'Quill Spray', 'Bristleback', 'Warpath'],
+    items: [
+      { m: '0:00', item: 'Ring of Health', why: 'Реген под фокусом линии.' },
+      { m: '8:00', item: 'Vanguard', why: 'Танкует и щипает на линии.' },
+      { m: '16:00', item: 'Aghanim\'s Shard', why: 'Quill Spray по всем направлениям.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный разгон Warpath.' },
+      { m: '32:00', item: 'Heart of Tarrasque', why: 'Неубиваемый танк под щитами.' }
+    ],
+    tips: {
+      'Phantom Assassin': 'Поворачивайтесь к ней спиной — Bristleback снижает её криты.',
+      'Troll Warlord': 'Гу и Quill дают ей меньше атаковать — торгуйте и отходите.',
+      'Drow Ranger': 'Она давит с дистанции — перекрывайте её ауру и закрывайтесь спиной.'
+    }
+  },
+  'Broodmother': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Spin Web', 'Silken Bola', 'Insatiable Hunger', 'Spawn Spiderlings'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на пауков.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость в паутине.' },
+      { m: '14:00', item: 'Soul Ring', why: 'Мана для спама призыва пауков.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Ломает оборону башен под пауками.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Выживание после пуша.' }
+    ],
+    tips: {
+      'Sniper': 'Он не выбежит из паутины — пауки и Insatiable Hunger рвут его.',
+      'Crystal Maiden': 'Ставьте паутину на её линии — она не успевает уйти.',
+      'Anti-Mage': 'Пауки против Blink — давление линий не даёт ему фармить.'
+    }
+  },
+  'Centaur Warrunner': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Hoof Stomp', 'Double Edge', 'Retaliate', 'Stampede'],
+    items: [
+      { m: '0:00', item: 'Ring of Health', why: 'Реген под обменом ударами.' },
+      { m: '8:00', item: 'Vanguard', why: 'Танкует линию и держит фокус.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Stomp — инициация боя.' },
+      { m: '24:00', item: 'Heart of Tarrasque', why: 'Double Edge без потери здоровья.' },
+      { m: '32:00', item: 'Blade Mail', why: 'Враги платят за атаки по вам.' }
+    ],
+    tips: {
+      'Troll Warlord': 'Blade Mail + Double Edge разрывают её — не давайте атаковать вблизи.',
+      'Phantom Assassin': 'Retaliate наказывает её прыжки — принимайте урон спиной.',
+      'Slark': 'Stomp после его Pounce — не дайте ему уйти.'
+    }
+  },
+  'Chaos Knight': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Chaos Bolt', 'Reality Rift', 'Chaos Strike', 'Phantasm'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Атака и скорость.' },
+      { m: '16:00', item: 'Armlet of Mordiggian', why: 'Максимум силы под Phantasm.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный фокус под иллюзиями.' },
+      { m: '32:00', item: 'Assault Cuirass', why: 'Броня для иллюзий и снятие брони врага.' }
+    ],
+    tips: {
+      'Drow Ranger': 'Phantasm + Reality Rift переезжают её до того, как она снимет ауру.',
+      'Anti-Mage': 'Reality Rift ловит его после Blink — иллюзии бьют по нему.',
+      'Tiny': 'Chaos Bolt под его комбо не даёт ему добить.'
+    }
+  },
+  'Chen': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Penitence', 'Holy Persuasion', 'Divine Favor', 'Hand of God'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор и ганги с призывами.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для призывов и ульты.' },
+      { m: '16:00', item: 'Pavise', why: 'Щит на фокуса и для пуша.' },
+      { m: '24:00', item: 'Guardian Greaves', why: 'Ауры и спасение команды.' },
+      { m: '32:00', item: 'Holy Locket', why: 'Прокачанный хил и амулеты.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Hand of God спасает команду от его бурста — держите заряды.',
+      'Tiny': 'Divine Favor на фокуса ломает его комбо.',
+      'Anti-Mage': 'Призывы давят линии — не дайте ему фармить спокойно.'
+    }
+  },
+  'Clinkz': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Strafe', 'Searing Arrows', 'Skeleton Walk', 'Burning Barrage'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание и фарм.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки под Strafe.' },
+      { m: '14:00', item: 'Desolator', why: 'Снятие брони — каждый выстрел больно.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный обстрел башен.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Crystal Maiden': 'Он мягкий и без Blink — поймайте его Frostbite до Strafe.',
+      'Sniper': 'Выстрелы Searing Arrows долетают до него раньше, чем его шрапнель.',
+      'Storm Spirit': 'Не давайте ему обстреливать — переключайтесь на него после его ульты.'
+    }
+  },
+  'Clockwork': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Battery Assault', 'Power Cogs', 'Rocket Flare', 'Hookshot'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Rocket Flare и снаряды.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для захода в Cogs.' },
+      { m: '14:00', item: 'Blade Mail', why: 'Наказывает тех, кто бьёт в фокусе.' },
+      { m: '22:00', item: 'Aghanim\'s Shard', why: 'Дополнительный снаряд по площади.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня и аура для танкования.' }
+    ],
+    tips: {
+      'Sniper': 'Rocket Flare находит его позицию — снаряды добивают издалека.',
+      'Anti-Mage': 'Cogs ловят его Blink — не давайте сбежать.',
+      'Tinker': 'Battery Assault прерывает его Rearm — держитесь рядом.'
+    }
+  },
+  'Dark Seer': {
+    skills: [1,3,1,3,1,4,1,3,1,3,4,3,2,2,2,4,2,2],
+    skillNames: ['Vacuum', 'Ion Shell', 'Surge', 'Wall of Replica'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Ion Shell.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для комбо Vacuum + Wall.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Vacuum переворачивает драку.' },
+      { m: '24:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Wall — больше копий.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Скорость перезарядок и мана.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Vacuum собирает иллюзии — Wall создаёт армию против него.',
+      'Troll Warlord': 'Ion Shell не даёт ему фармить линию спокойно.',
+      'Anti-Mage': 'Surge позволяет догнать его — ловите после Blink.'
+    }
+  },
+  'Dark Willow': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Bramble Maze', 'Shadow Realm', 'Cursed Crown', 'Bedlam'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии и руны.' },
+      { m: '8:00', item: 'Tranquil Boots', why: 'Реген для ротаций.' },
+      { m: '14:00', item: 'Aether Lens', why: 'Дальность Bramble Maze из укрытия.' },
+      { m: '22:00', item: 'Glimmer Cape', why: 'Спасение и невидимость в драке.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от бурста при позиционировании.' }
+    ],
+    tips: {
+      'Skywrath Mage': 'Shadow Realm позволяет избежать его бурста — входите вовремя.',
+      'Anti-Mage': 'Bramble Maze ловит его после Blink.',
+      'Sniper': 'Bedlam добивает его за укрытием — он не успевает уйти.'
+    }
+  },
+  'Death Prophet': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Crypt Swarm', 'Silence', 'Spirit Siphon', 'Exorcism'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон на линию.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость под Exorcism.' },
+      { m: '14:00', item: 'Eul\'s Scepter of Divinity', why: 'Набор духа и спасение.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Ульту не прерывают — вы живёте.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Выносливость под ультой в лейте.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Exorcism разносит его — не выпускайте из боя.',
+      'Storm Spirit': 'Silence до его Ball Lightning — и он уязвим.',
+      'Sniper': 'Crypt Swarm выбивает его с позиции — давите в драках.'
+    }
+  },
+  'Disruptor': {
+    skills: [2,1,2,3,2,4,2,1,2,1,4,1,1,3,3,4,3,3],
+    skillNames: ['Thunder Strike', 'Kinetic Field', 'Glimpse', 'Static Storm'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на руны и линии.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо Glimpse + Storm.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Glimpse и Kinetic Field.' },
+      { m: '24:00', item: 'Force Staff', why: 'Вытаскивает союзников из поля.' },
+      { m: '30:00', item: 'Refresher Orb', why: 'Два Static Storm в одной драке.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Glimpse возвращает его в Static Storm — отменяет Blink-уход.',
+      'Storm Spirit': 'Кинетик + Storm ловят его до Ball Lightning.',
+      'Tinker': 'Glimpse уничтожает его позицию — держите ульту для него.'
+    }
+  },
+  'Doom': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Devour', 'Scorched Earth', 'Infernal Blade', 'Doom'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана для Devour.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость под Scorched Earth.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Doom на ключевую цель.' },
+      { m: '24:00', item: 'Refresher Orb', why: 'Doom на двух героев за бой.' },
+      { m: '32:00', item: 'Heart of Tarrasque', why: 'Выживает под ответным фокусом.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Doom полностью выключает его из боя — главная цель ульты.',
+      'Storm Spirit': 'Doom не даёт ему летать — молчите его в драке.',
+      'Tinker': 'Doom убирает Rearm — он бесполезен.'
+    }
+  },
+  'Dragon Knight': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Breathe Fire', 'Dragon Tail', 'Dragon Blood', 'Elder Dragon Form'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость и атака.' },
+      { m: '14:00', item: 'Black King Bar', why: 'Форма дракона под BKB — давление башен.' },
+      { m: '22:00', item: 'Assault Cuirass', why: 'Броня и аура для пуша.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Танкует башни и драки.' }
+    ],
+    tips: {
+      'Sniper': 'Dragon Tail станит его с дистанции — ловите без шрапнели.',
+      'Anti-Mage': 'Форма дракона + Breathe Fire выбивают его из леса.',
+      'Phantom Assassin': 'Дракон бьёт по площади — не давайте ей уйти в тень.'
+    }
+  },
+  'Earth Spirit': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Boulder Smash', 'Rolling Boulder', 'Geomagnetic Grip', 'Magnetize'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для комбо.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на длинные комбо.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Внезапный Rolling Boulder в драку.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Не прерывают ваше комбо.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Перезарядки и мана.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Magnetize на его след — он не сбежит от камней.',
+      'Storm Spirit': 'Geomagnetic Grip ловит его до Ball Lightning.',
+      'Sniper': 'Rolling Boulder выбивает его с позиции — качайте его в драке.'
+    }
+  },
+  'Elder Titan': {
+    skills: [1,3,1,3,1,4,1,3,1,3,4,3,2,2,2,4,2,2],
+    skillNames: ['Echo Stomp', 'Astral Spirit', 'Natural Order', 'Earth Splitter'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Astral Spirit.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для ульты и ауры.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Stomp переворачивает драку.' },
+      { m: '24:00', item: 'Aghanim\'s Shard', why: 'Усиленный Echo Stomp.' },
+      { m: '30:00', item: 'Black King Bar', why: 'Выживание после инициации.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Natural Order снимает его броню — иллюзии тают.',
+      'Storm Spirit': 'Earth Splitter добивает его на низком ХП.',
+      'Troll Warlord': 'Stomp + ульта отключают его бурст.'
+    }
+  },
+  'Enchantress': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Enchant', 'Impetus', 'Nature\'s Attendants', 'Untouchable'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор и контроль линии призывом.' },
+      { m: '8:00', item: 'Boots of Travel', why: 'Быстрые ротации с кентавром.' },
+      { m: '16:00', item: 'Dragon Lance', why: 'Дальность Impetus.' },
+      { m: '24:00', item: 'Hurricane Pike', why: 'Дистанция и спасение.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от бурста на низком ХП.' }
+    ],
+    tips: {
+      'Phantom Assassin': 'Untouchable снижает её скорость атаки — она не дожимает.',
+      'Troll Warlord': 'Impetus издалека плавит её — не вступайте в мили.',
+      'Slark': 'Он не накопит Essence Shift против вашей Untouchable — держитесь рядом с командой.'
+    }
+  },
+  'Enigma': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Malefice', 'Demonic Conversion', 'Midnight Pulse', 'Black Hole'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии и руны.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для демонов и ульты.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Black Hole — главная инициация.' },
+      { m: '24:00', item: 'Refresher Orb', why: 'Два Black Hole за бой.' },
+      { m: '30:00', item: 'Black King Bar', why: 'Вы не сбиваетесь под фокусом.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Black Hole собирает иллюзии — не тратьте в пустоту.',
+      'Tinker': 'Malefice прерывает Rearm — держитесь рядом.',
+      'Anti-Mage': 'Midnight Pulse + Black Hole карают его без Blink.'
+    }
+  },
+  'Faceless Void': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Time Walk', 'Time Dilation', 'Time Lock', 'Chronosphere'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки и тайм-лок.' },
+      { m: '16:00', item: 'Maelstrom', why: 'Фарм и урон по области.' },
+      { m: '24:00', item: 'Black King Bar', why: 'В Chrono бьёте свободно.' },
+      { m: '32:00', item: 'Monkey King Bar', why: 'Прокачка тайм-лока и урона.' }
+    ],
+    tips: {
+      'Crystal Maiden': 'Chrono на неё — и она мертва. Ищите момент без её щитов.',
+      'Storm Spirit': 'Time Dilation карает его перезарядки — ловите после ульты.',
+      'Troll Warlord': 'В Chrono он не уйдёт — Time Lock не даёт атаковать.'
+    }
+  },
+  'Grimstroke': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Stroke of Fate', 'Phantom\'s Embrace', 'Ink Swell', 'Soulbind'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии и руны.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Stroke of Fate.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение и доводка Ink Swell.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от фокуса.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Soulbind ловит его дважды — урон по копии тоже бьёт его.',
+      'Anti-Mage': 'Stroke of Fate по линии находит его позиции.',
+      'Phantom Lancer': 'Soulbind множит урон по иллюзиям — выбивайте его из боя.'
+    }
+  },
+  'Gyrocopter': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Rocket Barrage', 'Homing Missile', 'Flak Cannon', 'Call Down'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Maelstrom', why: 'Фарм и сплэш урона.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный Flak Cannon в драке.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Flak Cannon бьёт по всем иллюзиям — это лучший сплэш против него.',
+      'Sniper': 'Homing Missile и Rocket Barrage выбивают его с позиции.',
+      'Crystal Maiden': 'Call Down по её зоне стана — она не уйдёт.'
+    }
+  },
+  'Hoodwink': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Acorn Shot', 'Bushwhack', 'Scurry', 'Sharpshooter'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для снайперских выстрелов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки и ротации.' },
+      { m: '14:00', item: 'Dragon Lance', why: 'Дальность Sharpshooter и Acorn.' },
+      { m: '22:00', item: 'Gleipnir', why: 'Сет с Bushwhack — враг не уйдёт.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Sniper': 'Sharpshooter находит его с безопасной дистанции — наказывайте позиции.',
+      'Crystal Maiden': 'Bushwhack + Acorn ловят её до того, как она скастует.',
+      'Storm Spirit': 'Sharpshooter после его Ball Lightning добивает.'
+    }
+  },
+  'Io': {
+    skills: [1,3,2,1,3,4,1,3,1,3,4,3,2,2,2,4,2,2],
+    skillNames: ['Tether', 'Spirits', 'Overcharge', 'Relocate'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Tether и Spirits.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на постоянные комбо.' },
+      { m: '16:00', item: 'Glimmer Cape', why: 'Спасение себя и якоря.' },
+      { m: '24:00', item: 'Guardian Greaves', why: 'Ауры вокруг Tether.' },
+      { m: '30:00', item: 'Holy Locket', why: 'Хил через Overcharge.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Relocate с союзником — мгновенная кара его линий.',
+      'Storm Spirit': 'Overcharge усиливает союзника — вы не даёте ему убежать.',
+      'Sniper': 'Relocate+грипп на него в джангу — убийство с гарантией.'
+    }
+  },
+  'Jakiro': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dual Breath', 'Ice Path', 'Liquid Fire', 'Macropyre'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для комбо.' },
+      { m: '14:00', item: 'Aether Lens', why: 'Дальность Ice Path.' },
+      { m: '22:00', item: 'Force Staff', why: 'Спасение и доводка Macropyre.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Macropyre в драках.' }
+    ],
+    tips: {
+      'Sniper': 'Liquid Fire разбирает башни, где он прячется.',
+      'Anti-Mage': 'Ice Path ловит его после Blink.',
+      'Troll Warlord': 'Macropyre под его ульту — он плавится.'
+    }
+  },
+  'Keeper of the Light': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Illuminate', 'Mana Leak', 'Chakra Magic', 'Will-O-Wisp'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор и защита линий.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Chakra Magic.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Illuminate.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение в драке.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от бурста под фокусом.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Mana Leak карает его Blink — он теряет ману.',
+      'Storm Spirit': 'Illuminate выбивает его из зоны — Chakra поддерживает команду.',
+      'Sniper': 'Will-O-Wisp тащит его — он не сбежит.'
+    }
+  },
+  'Kez': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shodo Sai', 'Grappling Claw', 'Talon Toss', 'Falcon Rush'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и маневренность.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Мгновенный двойной удар с Claw.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободные комбо в драке.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Sniper': 'Grappling Claw до него — и Falcon Rush рвёт его с позиции.',
+      'Crystal Maiden': 'Kez дизейблится сам — ловите его после Claw.',
+      'Storm Spirit': 'Talon Toss замедляет его до Ball Lightning.'
+    }
+  },
+  'Largo': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Tide Slam', 'Brine Coil', 'Shell Guard', 'Maelstrom Surge'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на контроль.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Инициация с ультой.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Выживание в фокусе.' },
+      { m: '32:00', item: 'Heart of Tarrasque', why: 'Танкует и давит в драках.' }
+    ],
+    tips: {
+      'Lion': 'Держите дистанцию — его контроль не должен пройти.',
+      'Lina': 'Brine Coil прерывает её Laguna — заходите первым.',
+      'Zeus': 'Аура и контроль делают его беспомощным вблизи.'
+    }
+  },
+  'Legion Commander': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Overwhelming Odds', 'Press the Attack', 'Moment of Courage', 'Duel'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Press the Attack.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для Duel.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Duel — главный сетап.' },
+      { m: '24:00', item: 'Black King Bar', why: 'В Duel не мешают.' },
+      { m: '30:00', item: 'Desolator', why: 'Урон, чтобы выигрывать Duel.' }
+    ],
+    tips: {
+      'Sniper': 'Duel на него — он не успеет уйти. Наказывайте его позицию.',
+      'Anti-Mage': 'Ловите его после Blink, пока он без маны.',
+      'Crystal Maiden': 'Press the Attack снимает её станы — входите после её ульты.'
+    }
+  },
+  'Leshrac': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Split Earth', 'Diabolic Edict', 'Lightning Storm', 'Pulse Nova'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для Pulse Nova.' },
+      { m: '16:00', item: 'Bloodstone', why: 'Мана, реген и урон в драке.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободная ульта в бою.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Перезарядки и вампиризм.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Edict и Nova рвут иллюзии — вы лучший против него.',
+      'Storm Spirit': 'Split Earth ловит его до Ball Lightning.',
+      'Sniper': 'Пуш с ультой заставляет его выходить из зоны.'
+    }
+  },
+  'Lifestealer': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Rage', 'Feast', 'Open Wounds', 'Infest'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Armlet of Mordiggian', why: 'Максимум силы и регена.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Rage + BKB — неуязвимость.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня и скорость в лейте.' }
+    ],
+    tips: {
+      'Sniper': 'Open Wounds не даёт ему сбежать — Rage игнорирует замедления.',
+      'Anti-Mage': 'Feast съедает его здоровье — не давайте фармить.',
+      'Phantom Assassin': 'Rage защищает от её критов — бейте её в Rage.'
+    }
+  },
+  'Lina': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dragon Slave', 'Light Strike Array', 'Fiery Soul', 'Laguna Blade'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Power Treads', why: 'Интеллект и скорость.' },
+      { m: '16:00', item: 'Kaya', why: 'Усиление магии и скорость.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный каст в драке.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Laguna по площади — ужас драки.' }
+    ],
+    tips: {
+      'Phantom Assassin': 'Light Strike Array перед её прыжком — ловите комбо.',
+      'Sniper': 'Dragon Slave выбивает его с позиции.',
+      'Storm Spirit': 'Laguna до его Ball Lightning — кара без спасения.'
+    }
+  },
+  'Lone Druid': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Summon Spirit Bear', 'Rabid', 'Savage Roar', 'True Form'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание и фарм медведем.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость героя и медведя.' },
+      { m: '16:00', item: 'Desolator', why: 'Снятие брони — башни падают.' },
+      { m: '24:00', item: 'Assault Cuirass', why: 'Ауры для медведя.' },
+      { m: '30:00', item: 'Butterfly', why: 'Атака и уклонение.' }
+    ],
+    tips: {
+      'Sniper': 'Медведь с энтанглом ловит его — Savage Roar разбивает оборону.',
+      'Anti-Mage': 'Давите линии медведем — он не успевает на фарм.',
+      'Troll Warlord': 'Медведь танкует его ульту — ждите её окончания.'
+    }
+  },
+  'Luna': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Lucent Beam', 'Moon Glaives', 'Lunar Blessing', 'Eclipse'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Yasha and Kaya', why: 'Скорость и магия в драке.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный Eclipse.' },
+      { m: '30:00', item: 'Butterfly', why: 'Атака и уклонение в лейте.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Moon Glaives отскакивают по иллюзиям — вы его враг.',
+      'Sniper': 'Eclipse выжигает его позицию.',
+      'Crystal Maiden': 'Ловите её Frostbite до Eclipse — она не успеет.'
+    }
+  },
+  'Lycan': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Summon Wolves', 'Howl', 'Feral Impulse', 'Shapeshift'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на волков.' },
+      { m: '8:00', item: 'Boots of Travel', why: 'Глобальные пуши линий.' },
+      { m: '14:00', item: 'Desolator', why: 'Башни падают за секунды.' },
+      { m: '22:00', item: 'Assault Cuirass', why: 'Ауры для волков и армии.' },
+      { m: '30:00', item: 'Black King Bar', why: 'Shapeshift под BKB — неуязвимый пуш.' }
+    ],
+    tips: {
+      'Sniper': 'Волки и Shapeshift добираются до него — он не успевает уйти.',
+      'Anti-Mage': 'Давление линий волками не даёт ему фармить.',
+      'Phantom Assassin': 'Ловите его, пока он без волков — не давайте собрать армию.'
+    }
+  },
+  'Mars': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Spear of Mars', 'God\'s Rebuke', 'Bulwark', 'Arena of Blood'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Spear.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и добивание.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Arena — главная инициация.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Вы держите арену.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня и аура для команды.' }
+    ],
+    tips: {
+      'Sniper': 'Arena ловит его в ловушку — он не убежит.',
+      'Phantom Assassin': 'Bulwark снижает её урон спереди.',
+      'Storm Spirit': 'Spear выбивает его из Ball Lightning.'
+    }
+  },
+  'Mirana': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Starstorm', 'Elune\'s Arrow', 'Leap', 'Moonlight Shadow'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для стрел.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки и маны.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Starstorm в драке.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободные выстрелы.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Arrow на его позицию — и он не успеет уйти.',
+      'Anti-Mage': 'Starstorm бьёт после Blink — ловите его в лесу.',
+      'Storm Spirit': 'Arrow в его Ball Lightning — кара без спасения.'
+    }
+  },
+  'Monkey King': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Boundless Strike', 'Tree Dance', 'Jingu Mastery', 'Wukong\'s Command'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание и дерево.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для Jingu.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Двойной удар с Jingu.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободная ульта.' },
+      { m: '30:00', item: 'Butterfly', why: 'Атака и уклонение.' }
+    ],
+    tips: {
+      'Sniper': 'Wukong\'s Command в его зоне — он не выйдет.',
+      'Crystal Maiden': 'Ловите её в Tree Dance до стана.',
+      'Phantom Assassin': 'Jingu выжигает её — не давайте уйти в тень.'
+    }
+  },
+  'Morphling': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Waveform', 'Adaptive Strike', 'Attribute Shift', 'Morph'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и атака.' },
+      { m: '8:00', item: 'Power Treads', why: 'Агилити для урона.' },
+      { m: '14:00', item: 'Dragon Lance', why: 'Дальность и агилити.' },
+      { m: '22:00', item: 'Ethereal Blade', why: 'Waveform + E-Blade — комбо убийства.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Sniper': 'Waveform на него — он не успевает уйти.',
+      'Storm Spirit': 'Adaptive Strike станит его до Ball Lightning.',
+      'Phantom Assassin': 'Ловите его на низком ХП — он не успеет Morph в силу.'
+    }
+  },
+  'Naga Siren': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Mirror Image', 'Ensnare', 'Rip Tide', 'Song of the Siren'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на иллюзии.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Manta Style', why: 'Больше иллюзий для фарма.' },
+      { m: '22:00', item: 'Diffusal Blade', why: 'Сжигает ману и ловит цели.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение для иллюзий.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Ensnare не даёт ему Blink — иллюзии добивают.',
+      'Tinker': 'Song прерывает его Rearm — комбо с командой.',
+      'Storm Spirit': 'Diffusal выжигает его ману — он не улетит.'
+    }
+  },
+  'Nature\'s Prophet': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Sprout', 'Teleportation', 'Nature\'s Call', 'Wrath of Nature'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на призывы.' },
+      { m: '8:00', item: 'Boots of Travel', why: 'Глобальные ротации.' },
+      { m: '14:00', item: 'Desolator', why: 'Снятие брони для пуша.' },
+      { m: '22:00', item: 'Shadow Blade', why: 'Внезапные ганги с позиции.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Ауры для трентиков.' }
+    ],
+    tips: {
+      'Sniper': 'Sprout на его позицию — и он в ловушке.',
+      'Anti-Mage': 'Давите линии трентиками — он не успевает на фарм.',
+      'Storm Spirit': 'Sprout ловит его до Ball Lightning.'
+    }
+  },
+  'Nyx Assassin': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Impale', 'Mana Burn', 'Spiked Carapace', 'Vendetta'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для гангов.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Vendetta + Blink — внезапный заход.' },
+      { m: '24:00', item: 'Dagon', why: 'Комбо с Mana Burn — мгновенное убийство.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Спасение после захода.' }
+    ],
+    tips: {
+      'Sniper': 'Vendetta из невидимости — он не успеет уйти.',
+      'Storm Spirit': 'Mana Burn сжигает его ману до Ball Lightning.',
+      'Crystal Maiden': 'Spiked Carapace ломает её Frostbite.'
+    }
+  },
+  'Ogre Magi': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Fireblast', 'Ignite', 'Bloodlust', 'Multicast'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Fireblast.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана для Multicast.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность контроля.' },
+      { m: '24:00', item: 'Scythe of Vyse', why: 'Ещё один дизейбл под Multicast.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от фокуса.' }
+    ],
+    tips: {
+      'Sniper': 'Fireblast и Ignite выбивают его с позиции.',
+      'Anti-Mage': 'Ловите его после Blink — контроль не даёт уйти.',
+      'Storm Spirit': 'Двойной Fireblast — и он без маны.'
+    }
+  },
+  'Omniknight': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Purification', 'Heavenly Grace', 'Hammer of Purity', 'Guardian Angel'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Purification.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на ульту.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Guardian Angel на здания.' },
+      { m: '24:00', item: 'Guardian Greaves', why: 'Ауры и хил.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Танкует под фокусом.' }
+    ],
+    tips: {
+      'Sniper': 'Purification бьёт его при спасении союзника — наказывайте.',
+      'Anti-Mage': 'Guardian Angel спасает от его бурста — тайминг решает.',
+      'Storm Spirit': 'Heavenly Grace снимает его молчание — не заходите на него.'
+    }
+  },
+  'Outworld Destroyer': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Arcane Orb', 'Astral Imprisonment', 'Essence Flux', 'Sanity\'s Eclipse'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Power Treads', why: 'Интеллект для Arcane Orb.' },
+      { m: '16:00', item: 'Force Staff', why: 'Спасение от астралов и позиция.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный каст ульты.' },
+      { m: '30:00', item: 'Scythe of Vyse', why: 'Контроль и интеллект.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Sanity\'s Eclipse карает его пустую ману.',
+      'Storm Spirit': 'Astral Imprisonment забирает его ману — он не улетит.',
+      'Phantom Assassin': 'Ловите её после Blink — Eclipse не даёт сбежать.'
+    }
+  },
+  'Pangolier': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Swashbuckle', 'Shield Crash', 'Lucky Shot', 'Rolling Thunder'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и атака.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для ульты.' },
+      { m: '14:00', item: 'Diffusal Blade', why: 'Сжигает ману под Lucky Shot.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободное Rolling Thunder.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Rolling Thunder сбивает его с позиции — у него нет выхода.',
+      'Anti-Mage': 'Diffusal не даёт ему Blink — карайте в драке.',
+      'Storm Spirit': 'Swashbuckle бьёт его после Ball Lightning.'
+    }
+  },
+  'Phoenix': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Icarus Dive', 'Fire Spirits', 'Sun Ray', 'Supernova'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Sun Ray.' },
+      { m: '8:00', item: 'Tranquil Boots', why: 'Реген для Sun Ray.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Sun Ray.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение и позиция.' },
+      { m: '30:00', item: 'Refresher Orb', why: 'Две Supernova за бой.' }
+    ],
+    tips: {
+      'Sniper': 'Supernova на его позицию — он не успеет уйти.',
+      'Storm Spirit': 'Fire Spirits снижают его скорость — он не улетит.',
+      'Troll Warlord': 'Sun Ray плавит его в ульте — держитесь на дистанции.'
+    }
+  },
+  'Primal Beast': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Onslaught', 'Uproar', 'Pulverize', 'Trample'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Onslaught.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и агрессия.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Onslaught в драку.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Не прерывают ваш заход.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Танкует весь фокус.' }
+    ],
+    tips: {
+      'Sniper': 'Onslaught на него — и он в воздухе.',
+      'Crystal Maiden': 'Pulverize ловит её — ульту не даст кастануть.',
+      'Storm Spirit': 'Uproar снижает урон в драке — ждите его захода.'
+    }
+  },
+  'Puck': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Illusory Orb', 'Waning Rift', 'Phase Shift', 'Dream Coil'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Bottle', why: 'Руны и мана.' },
+      { m: '14:00', item: 'Eul\'s Scepter of Divinity', why: 'Спасение и сетап.' },
+      { m: '22:00', item: 'Blink Dagger', why: 'Неуловимость и инициация.' },
+      { m: '30:00', item: 'Scythe of Vyse', why: 'Контроль после Coil.' }
+    ],
+    tips: {
+      'Sniper': 'Waning Rift молчит его — Dream Coil не даёт уйти.',
+      'Storm Spirit': 'Phase Shift уворачивается от его Zap — терпите.',
+      'Anti-Mage': 'Coil ловит его Blink — и он без выхода.'
+    }
+  },
+  'Pugna': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Nether Blast', 'Decrepify', 'Nether Ward', 'Life Drain'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Life Drain.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Life Drain.' },
+      { m: '24:00', item: 'Aghanim\'s Scepter', why: 'Nether Ward молчит всех.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Перезарядки и мана.' }
+    ],
+    tips: {
+      'Sniper': 'Life Drain высасывает его из позиции.',
+      'Anti-Mage': 'Nether Ward карает его заклинания — ловите после Blink.',
+      'Storm Spirit': 'Decrepify не даёт ему уйти — жмите Life Drain.'
+    }
+  },
+  'Queen of Pain': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shadow Strike', 'Blink', 'Scream of Pain', 'Sonic Wave'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость и мана.' },
+      { m: '16:00', item: 'Orchid Malevolence', why: 'Молчание под бурст.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный заход в драку.' },
+      { m: '30:00', item: 'Eye of Skadi', why: 'Замедление и выживание.' }
+    ],
+    tips: {
+      'Sniper': 'Blink + Scream — он не успевает уйти.',
+      'Anti-Mage': 'Orchid молчит его до Blink.',
+      'Storm Spirit': 'Sonic Wave в его Ball Lightning — кара.'
+    }
+  },
+  'Razor': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Plasma Field', 'Static Link', 'Storm Surge', 'Eye of the Storm'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Static Link.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для Link.' },
+      { m: '14:00', item: 'Aghanim\'s Shard', why: 'Усиленный Plasma Field.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный Static Link.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Static Link крадёт его урон — он бесполезен.',
+      'Phantom Assassin': 'Link не даёт ей бить — разрывайте дистанцию.',
+      'Storm Spirit': 'Eye of the Storm добивает его после Ball Lightning.'
+    }
+  },
+  'Riki': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Smoke Screen', 'Blink Strike', 'Tricks of the Trade', 'Cloak and Dagger'],
+    items: [
+      { m: '0:00', item: 'Stout Shield', why: 'Торговля на линии.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и добивание.' },
+      { m: '14:00', item: 'Diffusal Blade', why: 'Сжигает ману под комбо.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободные атаки в дыму.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Smoke Screen на его позицию — и он молчит.',
+      'Storm Spirit': 'Smoke не даёт ему кастануть — бейте под дымом.',
+      'Crystal Maiden': 'Blink Strike добивает её до стана.'
+    }
+  },
+  'Ringmaster': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Tame the Beasts', 'Escape Act', 'Impalement Arts', 'Wheel of Wonder'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для киданий ножей.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Impalement Arts.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Wheel of Wonder.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение и позиция.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от фокуса.' }
+    ],
+    tips: {
+      'Sniper': 'Impalement Arts находит его позицию — ножи бьют издалека.',
+      'Storm Spirit': 'Escape Act спасает от его бурста.',
+      'Anti-Mage': 'Wheel of Wonder тащит его в центр — он не сбежит.'
+    }
+  },
+  'Rubick': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Telekinesis', 'Fade Bolt', 'Null Field', 'Spell Steal'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для краж.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Telekinesis.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Telekinesis — сетап.' },
+      { m: '24:00', item: 'Aether Lens', why: 'Дальность краж и контроля.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Кража сферы и сэптэра.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Telekinesis прерывает его Ball Lightning — ловите.',
+      'Anti-Mage': 'Fade Bolt бьёт его в лесу.',
+      'Sniper': 'Украденный Assassinate — его же ультой.'
+    }
+  },
+  'Shadow Demon': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Disruption', 'Soul Catcher', 'Shadow Poison', 'Demonic Purge'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для комбо.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Shadow Poison.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Disruption.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение и позиция.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Двойной Demonic Purge.' }
+    ],
+    tips: {
+      'Sniper': 'Disruption + Purge — он не успеет уйти.',
+      'Anti-Mage': 'Soul Catcher усиливает урон по нему в лесу.',
+      'Storm Spirit': 'Purge снимает его баффы — карайте после Ball Lightning.'
+    }
+  },
+  'Shadow Fiend': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Shadowraze', 'Necromastery', 'Presence of the Dark Lord', 'Requiem of Souls'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и атака.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Desolator', why: 'Снятие брони под Raze.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный Requiem.' },
+      { m: '30:00', item: 'Butterfly', why: 'Атака и уклонение.' }
+    ],
+    tips: {
+      'Sniper': 'Raze добивает его из-за позиции.',
+      'Anti-Mage': 'Necromastery даёт урон — ловите его после Blink.',
+      'Storm Spirit': 'Requiem в его Ball Lightning — кара без спасения.'
+    }
+  },
+  'Shadow Shaman': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Ether Shock', 'Hex', 'Shackles', 'Mass Serpent Ward'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на комбо.' },
+      { m: '14:00', item: 'Aghanim\'s Shard', why: 'Дополнительные змеи.' },
+      { m: '22:00', item: 'Blink Dagger', why: 'Blink + Hex + Shackles — сетап.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Змеи дольше живут.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Hex ловит его до Blink — Shackles убивает.',
+      'Sniper': 'Змеи разбирают его позицию — он не выйдет.',
+      'Tinker': 'Shackles не даёт ему Rearm — ловите в драке.'
+    }
+  },
+  'Silencer': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Arcane Curse', 'Glaives of Wisdom', 'Last Word', 'Global Silence'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии.' },
+      { m: '8:00', item: 'Power Treads', why: 'Интеллект и атака.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Glaives по области.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Выживание под фокусом.' },
+      { m: '30:00', item: 'Scythe of Vyse', why: 'Контроль после Silence.' }
+    ],
+    tips: {
+      'Storm Spirit': 'Global Silence отключает его полностью.',
+      'Anti-Mage': 'Arcane Curse карает его за Blink.',
+      'Tinker': 'Last Word молчит его Rearm — беспощадно.'
+    }
+  },
+  'Slardar': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Guardian Sprint', 'Slithereen Crush', 'Bash of the Deep', 'Corrosive Haze'],
+    items: [
+      { m: '0:00', item: 'Ring of Health', why: 'Реген на линии.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для Sprint.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Crush — инициация.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободные станы.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня и аура.' }
+    ],
+    tips: {
+      'Sniper': 'Corrosive Haze — он без брони, Crush добивает.',
+      'Phantom Assassin': 'Bash ловит её после Blink.',
+      'Storm Spirit': 'Sprint позволяет догнать его — ловите без Ball Lightning.'
+    }
+  },
+  'Slark': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dark Pact', 'Pounce', 'Essence Shift', 'Shadow Dance'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и атака.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и уклонение.' },
+      { m: '14:00', item: 'Echo Sabre', why: 'Мгновенный двойной удар.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободные атаки под фокусом.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака в лейте.' }
+    ],
+    tips: {
+      'Sniper': 'Pounce ловит его — Essence Shift растёт с каждым ударом.',
+      'Storm Spirit': 'Dark Pact снимает молчание — не бойтесь его захода.',
+      'Crystal Maiden': 'Ловите её до стана — Pounce + Pact.'
+    }
+  },
+  'Techies': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Sticky Bomb', 'Reactive Tazer', 'Blast Off!', 'Proximity Mines'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор и установка ловушек.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на мины.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Sticky Bomb.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение после Blast Off.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Выживание после захода.' }
+    ],
+    tips: {
+      'Sniper': 'Мины на его позиции — он не успеет уйти.',
+      'Anti-Mage': 'Sticky Bomb замедляет его — мины добивают.',
+      'Storm Spirit': 'Reactive Tazer ломает его Ball Lightning.'
+    }
+  },
+  'Templar Assassin': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Refraction', 'Meld', 'Psi Blades', 'Psionic Trap'],
+    items: [
+      { m: '0:00', item: 'Wraith Band', why: 'Агилити и атака.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Desolator', why: 'Снятие брони под Psi Blades.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный фарм и драки.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Psionic Trap + Blink — он не успеет уйти.',
+      'Anti-Mage': 'Refraction блокирует его урон — не давайте фармить.',
+      'Storm Spirit': 'Мина снимает его Refraction — ловите после.'
+    }
+  },
+  'Timbersaw': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Timber Chain', 'Reactive Armor', 'Whirling Death', 'Chakram'],
+    items: [
+      { m: '0:00', item: 'Ring of Health', why: 'Реген на линии.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Chain.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Второй Chakram.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободные Chain и Chakram.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Выживание под фокусом.' }
+    ],
+    tips: {
+      'Phantom Lancer': 'Whirling Death рвёт иллюзии — вы лучший против него.',
+      'Sniper': 'Timber Chain добирается до него — не дайте уйти.',
+      'Storm Spirit': 'Chakram замедляет его — ловите после Ball Lightning.'
+    }
+  },
+  'Tinker': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Laser', 'Heat-Seeking Missile', 'Defense Matrix', 'Rearm'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Bottle', why: 'Руны и мана.' },
+      { m: '16:00', item: 'Boots of Travel', why: 'Глобальные ротации.' },
+      { m: '24:00', item: 'Aghanim\'s Shard', why: 'Усиленный Laser.' },
+      { m: '30:00', item: 'Octarine Core', why: 'Перезарядки и мана.' }
+    ],
+    tips: {
+      'Anti-Mage': 'Laser на его Blink — он ослеплён и не уйдёт.',
+      'Sniper': 'Missile на его позицию — постоянное давление.',
+      'Storm Spirit': 'Rearm + Laser не дают ему летать свободно.'
+    }
+  },
+  'Treant Protector': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Nature\'s Grasp', 'Leech Seed', 'Living Armor', 'Overgrowth'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Grasp.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Living Armor.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Living Armor по области.' },
+      { m: '24:00', item: 'Guardian Greaves', why: 'Ауры и хил.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Танкует под фокусом.' }
+    ],
+    tips: {
+      'Sniper': 'Nature\'s Grasp замедляет его — Overgrowth ловит.',
+      'Anti-Mage': 'Living Armor спасает башни от его пуша.',
+      'Storm Spirit': 'Overgrowth не даёт ему улететь.'
+    }
+  },
+  'Troll Warlord': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Berserker\'s Rage', 'Whirling Axes', 'Fervor', 'Battle Trance'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Sange and Yasha', why: 'Скорость и живучесть.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный фокус.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'Battle Trance разбирает его башни.',
+      'Anti-Mage': 'Fervor с ростом атаки плавит его.',
+      'Phantom Assassin': 'Ловите её до прыжка — Whirling Axes останавливают.'
+    }
+  },
+  'Tusk': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Ice Shards', 'Tag Team', 'Snowball', 'Walrus PUNCH!'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на комбо.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для Snowball.' },
+      { m: '16:00', item: 'Blink Dagger', why: 'Blink + Walrus PUNCH! — сетап.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Выживание в драке.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Танкует фокус.' }
+    ],
+    tips: {
+      'Sniper': 'Snowball добирается до его позиции.',
+      'Anti-Mage': 'Ice Shards ловят его после Blink.',
+      'Storm Spirit': 'Walrus PUNCH! сбивает его Ball Lightning.'
+    }
+  },
+  'Underlord': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Firestorm', 'Pit of Malice', 'Atrophy Aura', 'Dark Rift'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Firestorm.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость и добивание.' },
+      { m: '16:00', item: 'Vanguard', why: 'Танкует линию.' },
+      { m: '24:00', item: 'Assault Cuirass', why: 'Броня и аура.' },
+      { m: '30:00', item: 'Heart of Tarrasque', why: 'Выживание под фокусом.' }
+    ],
+    tips: {
+      'Sniper': 'Pit of Malice ловит его — Firestorm добивает.',
+      'Anti-Mage': 'Atrophy Aura снижает его урон — давите линии.',
+      'Storm Spirit': 'Firestorm в его зоне — он не может стоять.'
+    }
+  },
+  'Ursa': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Earthshock', 'Overpower', 'Fury Swipes', 'Enrage'],
+    items: [
+      { m: '0:00', item: 'Quelling Blade', why: 'Добивание крипов.' },
+      { m: '8:00', item: 'Phase Boots', why: 'Скорость для комбо.' },
+      { m: '14:00', item: 'Vanguard', why: 'Танкует Рошана и линии.' },
+      { m: '22:00', item: 'Abyssal Blade', why: 'Bash + Overpower — мгновенный бурст.' },
+      { m: '30:00', item: 'Black King Bar', why: 'Свободные Fury Swipes.' }
+    ],
+    tips: {
+      'Sniper': 'Earthshock замедляет его — Fury Swipes плавят.',
+      'Anti-Mage': 'Ловите его после Blink — Overpower не даёт уйти.',
+      'Phantom Assassin': 'Enrage спасает от её бурста — ловите после прыжка.'
+    }
+  },
+  'Vengeful Spirit': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Magic Missile', 'Wave of Terror', 'Command Aura', 'Nether Swap'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для свопов.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Missile.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Своп без перезарядки.' },
+      { m: '24:00', item: 'Force Staff', why: 'Спасение после свопа.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита от фокуса.' }
+    ],
+    tips: {
+      'Sniper': 'Swap его к команде — он не успеет уйти.',
+      'Anti-Mage': 'Missile ловит его после Blink.',
+      'Storm Spirit': 'Swap прерывает его Ball Lightning.'
+    }
+  },
+  'Venomancer': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Venomous Gale', 'Poison Sting', 'Plague Ward', 'Poison Nova'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на яды.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на варды.' },
+      { m: '14:00', item: 'Aether Lens', why: 'Дальность Gale.' },
+      { m: '22:00', item: 'Force Staff', why: 'Спасение и позиция.' },
+      { m: '30:00', item: 'Aghanim\'s Scepter', why: 'Усиленный Poison Nova.' }
+    ],
+    tips: {
+      'Sniper': 'Plague Ward на его позиции — постоянное давление.',
+      'Anti-Mage': 'Venomous Gale замедляет его до Blink.',
+      'Storm Spirit': 'Poison Nova после его Ball Lightning — кара.'
+    }
+  },
+  'Visage': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Grave Chill', 'Soul Assumption', 'Gravekeeper\'s Cloak', 'Summon Familiars'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Soul Assumption.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на фамильяров.' },
+      { m: '16:00', item: 'Aghanim\'s Shard', why: 'Усиленный Grave Chill.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Выживание под фокусом.' },
+      { m: '30:00', item: 'Assault Cuirass', why: 'Броня для фамильяров.' }
+    ],
+    tips: {
+      'Sniper': 'Фамильяры станят его — Soul Assumption добивает.',
+      'Anti-Mage': 'Grave Chill замедляет его после Blink.',
+      'Storm Spirit': 'Soul Assumption на его ХП — кара.'
+    }
+  },
+  'Void Spirit': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Dissimilate', 'Resonant Pulse', 'Aether Remnant', 'Astral Step'],
+    items: [
+      { m: '0:00', item: 'Null Talisman', why: 'Мана и урон.' },
+      { m: '8:00', item: 'Bottle', why: 'Руны и мана.' },
+      { m: '16:00', item: 'Eul\'s Scepter of Divinity', why: 'Спасение и сетап.' },
+      { m: '24:00', item: 'Black King Bar', why: 'Свободный заход.' },
+      { m: '30:00', item: 'Scythe of Vyse', why: 'Контроль после Astral Step.' }
+    ],
+    tips: {
+      'Sniper': 'Astral Step в его позицию — он не успеет уйти.',
+      'Anti-Mage': 'Aether Remnant ловит его после Blink.',
+      'Storm Spirit': 'Resonant Pulse даёт щит — выживайте в его заходах.'
+    }
+  },
+  'Warlock': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Fatal Bonds', 'Shadow Word', 'Upheaval', 'Chaotic Offering'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор на линии.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на Bonds.' },
+      { m: '16:00', item: 'Aghanim\'s Scepter', why: 'Двойной голем.' },
+      { m: '24:00', item: 'Aether Lens', why: 'Дальность Upheaval.' },
+      { m: '30:00', item: 'Refresher Orb', why: 'Два Chaotic Offering.' }
+    ],
+    tips: {
+      'Sniper': 'Fatal Bonds множит урон — голем его добивает.',
+      'Anti-Mage': 'Upheaval ловит его — голем станит.',
+      'Storm Spirit': 'Chaotic Offering не даёт ему улететь.'
+    }
+  },
+  'Weaver': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['The Swarm', 'Shukuchi', 'Geminate Attack', 'Time Lapse'],
+    items: [
+      { m: '0:00', item: 'Ring of Basilius', why: 'Мана на Shukuchi.' },
+      { m: '8:00', item: 'Power Treads', why: 'Скорость атаки.' },
+      { m: '14:00', item: 'Maelstrom', why: 'Фарм и урон по области.' },
+      { m: '22:00', item: 'Black King Bar', why: 'Свободный фокус.' },
+      { m: '30:00', item: 'Butterfly', why: 'Уклонение и атака.' }
+    ],
+    tips: {
+      'Sniper': 'The Swarm снимает его броню — Geminate добивает.',
+      'Anti-Mage': 'Ловите его до Blink — Geminate после его прыжка.',
+      'Storm Spirit': 'Shukuchi уходит от его Ball Lightning — терпите.'
+    }
+  },
+  'Witch Doctor': {
+    skills: [1,2,1,3,1,4,1,2,1,2,4,2,2,3,3,4,3,3],
+    skillNames: ['Paralyzing Cask', 'Voodoo Restoration', 'Maledict', 'Death Ward'],
+    items: [
+      { m: '0:00', item: 'Observer Ward', why: 'Обзор для Cask.' },
+      { m: '8:00', item: 'Arcane Boots', why: 'Мана на ульту.' },
+      { m: '16:00', item: 'Aether Lens', why: 'Дальность Maledict.' },
+      { m: '24:00', item: 'Aghanim\'s Scepter', why: 'Death Ward бьёт всех.' },
+      { m: '30:00', item: 'Aeon Disk', why: 'Защита под фокусом.' }
+    ],
+    tips: {
+      'Sniper': 'Maledict + Death Ward — он не успеет уйти.',
+      'Anti-Mage': 'Cask ловит его после Blink.',
+      'Storm Spirit': 'Death Ward после его Ball Lightning — кара.'
+    }
   }
 };
 function heroGuide(name) {
@@ -2434,6 +3803,10 @@ var ICON_SCALE = svg('<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"
 var ICON_INFO = svg('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>');
 var ICON_SAVE = svg('<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/>');
 var ICON_BOOKMARK = svg('<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>');
+var ICON_MAP = svg('<polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>');
+var ICON_LINK = svg('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>');
+var ICON_USER = svg('<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>');
+var ICON_LOGOUT = svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>');
 
 /* ============ СОСТОЯНИЕ ============ */
 var TEAM_SIZE = 5;
@@ -2449,7 +3822,6 @@ var advisorRole = null;
 var poolSearch = '';
 var poolRole = null;
 var poolSort = 'name';
-var guideOpen = null;
 var selectedGuide = null;
 var cmpA = null;
 var cmpB = null;
@@ -2597,7 +3969,6 @@ var PICK_LEGEND = [
   { badge: 'Вы', cls: 'background:var(--radiant-500);color:var(--void-950)', text: 'Зелёная рамка — герой уже в вашей команде.' },
   { badge: 'Враг', cls: 'background:var(--dire-500);color:var(--void-950)', text: 'Красная рамка — герой в команде соперника.' }
 ];
-var SEEN_KEY = 'counterweb.guide-seen';
 
 function renderGuideBody() {
   var steps = STEPS.map(function(s) {
@@ -2621,7 +3992,7 @@ function renderGuideBody() {
     return '<div style="font-size:11px;line-height:1.5"><b style="color:var(--mist-200)">' + TAG_LABELS[tag] + '</b>' +
       '<span style="display:block;color:var(--mist-400)">' + TAG_HINTS[tag] + '</span></div>';
   }).join('');
-  $('guideBody').innerHTML =
+  $('helpBody').innerHTML =
     '<div class="guide-steps">' + steps + '</div>' +
     '<div class="guide-grid2">' +
       '<div class="guide-panel">' +
@@ -2647,17 +4018,6 @@ function renderGuideBody() {
       '<div class="tag-grid">' + tags + '</div>' +
       '<p style="margin-top:8px;padding-top:8px;border-top:1px solid var(--void-750);font-size:11px;color:var(--mist-600)">Строка «Профиль врага» над вкладками считает эти архетипы в составе соперника — именно по ней подбираются предметы.</p>' +
     '</div>';
-}
-function toggleGuide(force) {
-  if (force === true || force === false) guideOpen = force;
-  else {
-    guideOpen = !guideOpen;
-    try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {}
-  }
-  var body = $('guideBody');
-  body.style.display = guideOpen ? '' : 'none';
-  $('guideToggle').setAttribute('aria-expanded', guideOpen ? 'true' : 'false');
-  $('guideToggle').querySelector('.chev').classList.toggle('open', guideOpen);
 }
 
 /* ============ РЕНДЕР: ДРАФТ-ДОСКА ============ */
@@ -2901,7 +4261,9 @@ function renderAdvisor() {
   var tabs = [
     { id: 'counters', label: 'Контрпики', icon: ICON_SWORDS },
     { id: 'items', label: 'Предметы', icon: ICON_CROSSHAIR },
-    { id: 'threats', label: 'Угрозы', icon: ICON_ALERT }
+    { id: 'threats', label: 'Угрозы', icon: ICON_ALERT },
+    { id: 'lanes', label: 'Линии', icon: ICON_MAP },
+    { id: 'combos', label: 'Комбо', icon: ICON_LINK }
   ];
   $('advisorTabs').innerHTML = tabs.map(function(t) {
     return '<button type="button" class="advisor-tab' + (advisorTab === t.id ? ' on' : '') + '" data-action="tab" data-tab="' + t.id + '">' + t.icon + '<span class="tab-label">' + t.label + '</span></button>';
@@ -2920,6 +4282,8 @@ function renderAdvisor() {
   var body = $('advisorBody');
   if (advisorTab === 'counters') body.innerHTML = advisorCounters();
   else if (advisorTab === 'items') body.innerHTML = advisorItems();
+  else if (advisorTab === 'lanes') body.innerHTML = advisorLanes();
+  else if (advisorTab === 'combos') body.innerHTML = advisorCombos();
   else body.innerHTML = advisorThreats();
 }
 function emptyHint(text) {
@@ -3002,6 +4366,111 @@ function advisorThreats() {
   return '<ul class="threat-list">' + rows + '</ul>';
 }
 
+/* ============ РЕНДЕР: ЛИНИИ ============ */
+var LANE_ORDER = [
+  { key: 'safe', label: 'Саф-лейн' },
+  { key: 'mid', label: 'Мид' },
+  { key: 'off', label: 'Оффлейн' },
+  { key: 'roam', label: 'Роумер / запас' }
+];
+function advisorLanes() {
+  if (allies.length === 0) return emptyHint('Добавьте свою команду — расставим героев по линиям и подскажем, какой роли не хватает.');
+  var pool = allies.slice();
+  var lanes = { safe: [], mid: [], off: [], roam: [] };
+  var warnings = [];
+
+  function takeRole(role) {
+    for (var i = 0; i < pool.length; i++) {
+      if (heroByName[pool[i]] && heroByName[pool[i]].roles.indexOf(role) !== -1) return pool.splice(i, 1)[0];
+    }
+    return null;
+  }
+  var mid = takeRole('mid');
+  var carry = takeRole('carry');
+  var off = takeRole('offlane');
+  var sup1 = takeRole('support');
+  var sup2 = takeRole('support') || takeRole('roamer');
+
+  if (mid) lanes.mid.push(mid); else warnings.push('Нет мидера — средняя линия останется без ответа, враг получит свободный фарм.');
+  if (carry) lanes.safe.push(carry); else warnings.push('Нет керри — герою-фармеру нужен саф-лейн.');
+  if (off) lanes.off.push(off); else warnings.push('Нет оффлейнера — кто-то должен держать сложную линию.');
+  if (sup1) lanes.safe.push(sup1); else warnings.push('Не хватает саппорта на саф-лейн.');
+  if (sup2) lanes.off.push(sup2); else warnings.push('Не хватает саппорта на оффлейн.');
+  if (pool.length) {
+    lanes.roam = lanes.roam.concat(pool);
+    warnings.push('Лишние герои: ' + pool.join(', ') + '. Подумайте про роуминг или перераспределите роли.');
+  }
+
+  var rows = LANE_ORDER.map(function(lane, i) {
+    var names = lanes[lane.key];
+    if (lane.key === 'roam' && names.length === 0) return '';
+    var emptyNote = names.length === 0
+      ? '<p class="threat-desc" style="color:var(--dire-400)">Никого не назначено.</p>'
+      : '<div class="lane-lineup">' + names.map(function(n) { return heroImg(n, ''); }).join('') + '</div>';
+    return '<li class="threat-row anim-slide-up" style="animation-delay:' + (i * 35) + 'ms">' +
+      '<div class="threat-main">' +
+        '<div class="threat-title"><h3>' + lane.label + '</h3><span class="lane-count">' + names.length + '</span></div>' +
+        emptyNote +
+      '</div></li>';
+  }).join('');
+
+  var warnHtml = warnings.length
+    ? '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">' + warnings.map(function(w) {
+        return '<div class="lane-warn">' + ICON_ALERT + '<span>' + w + '</span></div>';
+      }).join('') + '</div>'
+    : '<div class="lane-warn lane-ok">' + ICON_SCALE + '<span>Роли укомплектованы — стандартная расстановка 2-1-2.</span></div>';
+
+  return warnHtml + '<ul class="threat-list">' + rows + '</ul>';
+}
+
+/* ============ РЕНДЕР: КОМБО ВРАГА ============ */
+var ARCH_WARN = {
+  illusion: 'Много иллюзий — берите урон по площади и рассекающие удары (Battle Fury, Maelstrom, Gleipnir).',
+  summon: 'Много призывов — рассекающий урон, Maelstrom и Radiance решают.',
+  invis: 'Несколько героев с невидимостью — Dust, Sentry и Gem обязательны.',
+  disable: 'Солидный контроль — BKB и статус-резист спасают.',
+  burst: 'Высокий бурст — Aeon Disk, Heart и Glimmer против фокусов.',
+  tank: 'Очень живучий состав — нужны минус брони и Silver Edge (Break).',
+  regen: 'Быстрое восстановление — Spirit Vessel и Skadi снижают лечение.',
+  mobile: 'Всё убегает — Rod of Atos, Scythe of Vyse, Abyssal Blade.',
+  pusher: 'Давят вышки — обзор, TP и быстрый ответ на карте.',
+  silence: 'Много молчаний — Manta и предметы-раздиспелы.',
+  magic: 'Магический урон — Pipe, Glimmer, Eternal Shroud.',
+  physical: 'Физический урон — броня, Ghost Scepter, Heaven\'s Halberd.'
+};
+function advisorCombos() {
+  if (enemies.length < 2) return emptyHint('Добавьте хотя бы двух героев в команду врага — покажем опасные связки и перекосы состава.');
+  var rows = [];
+  var seen = {};
+  enemies.forEach(function(a, i) {
+    enemies.forEach(function(b, j) {
+      if (j <= i) return;
+      if ((synergyWith[a] || []).indexOf(b) === -1) return;
+      var key = a < b ? a + '|' + b : b + '|' + a;
+      if (seen[key]) return;
+      seen[key] = 1;
+      rows.push('<li class="threat-row anim-slide-up">' +
+        '<div class="lane-lineup" style="margin-top:2px">' + heroImg(a, '') + heroImg(b, '') + '</div>' +
+        '<div class="threat-main">' +
+          '<div class="threat-title"><h3>' + a + ' + ' + b + '</h3><span class="pressure-badge pressure-mid">синергия</span></div>' +
+          '<p class="threat-desc">Эти герои усиливают друг друга. Не давайте им комбинировать — берите надёжный контроль и бейте по одному.</p>' +
+        '</div></li>');
+    });
+  });
+  var profile = lineupProfile(enemies);
+  Object.keys(profile).forEach(function(tag) {
+    if (profile[tag] >= 2 && ARCH_WARN[tag]) {
+      rows.push('<li class="threat-row anim-slide-up">' +
+        '<div class="threat-main">' +
+          '<div class="threat-title"><h3>' + profile[tag] + '× ' + TAG_LABELS[tag] + '</h3><span class="pressure-badge pressure-hi">архетип</span></div>' +
+          '<p class="threat-desc">' + ARCH_WARN[tag] + '</p>' +
+        '</div></li>');
+    }
+  });
+  if (rows.length === 0) return '<div class="empty-hint">' + ICON_TARGET + '<p>Опасных связок и перекосов в этом составе не видно.</p></div>';
+  return '<ul class="threat-list">' + rows.join('') + '</ul>';
+}
+
 /* ============ РЕНДЕР: БИБЛИОТЕКА ============ */
 function renderLibrary() {
   var drafts = readDrafts();
@@ -3073,8 +4542,10 @@ function renderGuides() {
 
   body.innerHTML =
     '<div class="guide-hero-info">' + heroImg(selectedGuide, '', 'lg') +
-      '<div><h3>' + selectedGuide + '</h3>' +
-      '<span class="roles">' + roles + ' · <span style="font-family:monospace;color:var(--gold-400)">' + hero.winRate + '%</span> побед</span></div>' +
+      '<div style="min-width:0"><h3>' + selectedGuide + '</h3>' +
+      '<span class="roles">' + roles + ' · <span style="font-family:monospace;color:var(--gold-400)">' + hero.winRate + '%</span> побед</span>' +
+      '<div class="guide-db"><a class="btn-db" href="https://www.dotabuff.com/heroes/' + hero.slug + '/guides" target="_blank" rel="noopener">Открыть гайды на Dotabuff</a></div>' +
+      '</div>' +
     '</div>' +
     '<div class="guide-section"><h4>Прокачка способностей</h4><div class="gs-body">' +
       '<div class="skill-order">' + skillOrder + '</div>' +
@@ -3234,10 +4705,10 @@ document.querySelectorAll('.pagetab').forEach(function(btn) {
     });
     if (target === 'pageGuides') renderGuides();
     if (target === 'pageCompare') renderComparePool();
+    if (target === 'pageHelp') renderGuideBody();
   });
 });
 $('resetBtn').addEventListener('click', resetAll);
-$('guideToggle').addEventListener('click', function() { toggleGuide(); });
 $('libForm').addEventListener('submit', function(e) {
   e.preventDefault();
   if (allies.length + enemies.length === 0) {
@@ -3264,12 +4735,6 @@ $('stat-pairs').textContent = totalCounterPairs;
 $('stat-items').textContent = items.length;
 $('pgCountGuides').textContent = Object.keys(HERO_GUIDES).length;
 $('pgCountCompare').textContent = heroes.length;
-try {
-  guideOpen = !localStorage.getItem(SEEN_KEY);
-} catch (e) {
-  guideOpen = true;
-}
-toggleGuide(guideOpen);
 renderGuideBody();
 render();
 
