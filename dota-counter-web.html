@@ -190,9 +190,14 @@ a{color:inherit}
 @media(min-width:1280px){.pool-grid{grid-template-columns:repeat(8,1fr)}}
 .hero-cell{position:relative;overflow:hidden;border:1px solid var(--void-750);border-radius:5px;transition:all .2s}
 .hero-cell:hover{border-color:rgba(255,122,47,.6);transform:translateY(-2px)}
-.hero-cell.picked-ally{border-color:rgba(47,211,154,.7);opacity:.95}
-.hero-cell.picked-enemy{border-color:rgba(242,65,95,.7);opacity:.95}
-.hero-cell.inspected{border-color:rgba(242,193,78,.7)}
+.hero-cell.picked-ally{border-color:var(--radiant-400);box-shadow:0 0 0 1px rgba(47,211,154,.35),0 0 18px -6px rgba(47,211,154,.55)}
+.hero-cell.picked-ally:hover{border-color:var(--radiant-400)}
+.hero-cell.picked-enemy{border-color:var(--dire-400);box-shadow:0 0 0 1px rgba(242,65,95,.35),0 0 18px -6px rgba(242,65,95,.55)}
+.hero-cell.picked-enemy:hover{border-color:var(--dire-400)}
+.hero-cell.inspected{border-color:rgba(242,193,78,.9);box-shadow:0 0 0 1px rgba(242,193,78,.3)}
+.hero-cell-tag{position:absolute;top:2px;left:2px;z-index:2;padding:1px 5px;border-radius:3px;font-family:ui-monospace,monospace;font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.hero-cell-tag.ally{background:var(--radiant-500);color:var(--void-950)}
+.hero-cell-tag.enemy{background:var(--dire-500);color:var(--void-950)}
 .hero-cell img{aspect-ratio:16/10;width:100%;object-fit:cover;transition:all .3s}
 .hero-cell:hover img{transform:scale(1.1)}
 .hero-cell img.dim{filter:saturate(.35)}
@@ -1758,23 +1763,27 @@ function renderHero() {
 
 /* ============ РЕНДЕР: ГАЙД ============ */
 var STEPS = [
-  { icon: ICON_SKULL, title: '1. Отметьте врагов', text: 'По ходу пиков нажимайте на героев соперника — они попадают в «Команду врага». Повторный клик убирает героя.' },
-  { icon: ICON_SWORDS, title: '2. Смотрите контрпики', text: 'Во вкладке «Контрпики» список сразу пересчитывается. Зелёный плюс добавляет героя в вашу команду.' },
-  { icon: ICON_CROSSHAIR, title: '3. Проверьте предметы и угрозы', text: '«Предметы» — что покупать против этого состава. «Угрозы» — кого из ваших героев враг наказывает.' },
-  { icon: ICON_SAVE, title: '4. Сохраните состав', text: 'Готовый драфт можно назвать и сохранить, чтобы вернуться к нему в следующей игре.' }
+  { icon: ICON_SKULL, title: '1. Отметьте врагов', text: 'Кликайте по героям соперника в списке — они попадают в «Команду врага». Карточка получит красную рамку и метку «Враг». Повторный клик убирает героя.' },
+  { icon: ICON_SWORDS, title: '2. Выберите свои пики', text: 'Переключите верхний тумблер на «Вашу команду» (или жмите «+» в списке контрпиков). Свои пики подсвечиваются зелёной рамкой с меткой «Вы».' },
+  { icon: ICON_CROSSHAIR, title: '3. Изучите советы', text: 'Справа три вкладки: «Контрпики» — кого брать против врага, «Предметы» — что покупать, «Угрозы» — кого из ваших наказывает состав врага.' },
+  { icon: ICON_SAVE, title: '4. Сохраните драфт', text: 'Готовый состав назовите и сохраните, чтобы вернуться к нему в следующей игре.' }
 ];
 var SCORE_ROWS = [
-  { label: 'Главный контрпик', value: '+3,0', text: 'Герой стоит первым в списке контрпиков против врага — самый жёсткий ответ.', tone: 'color:var(--radiant-400)' },
-  { label: 'Сильный контрпик', value: '+2,5', text: 'Второе или третье место в списке — по-прежнему очень неприятен врагу.', tone: 'color:var(--radiant-400)' },
+  { label: 'Главный контрпик', value: '+3,0', text: 'Первое место в списке контрпиков — самый жёсткий ответ.', tone: 'color:var(--radiant-400)' },
+  { label: 'Сильный контрпик', value: '+2,5', text: 'Второе-третье место — по-прежнему очень неприятен врагу.', tone: 'color:var(--radiant-400)' },
   { label: 'Обычный контрпик', value: '+2,0', text: 'Просто известное преимущество в матчапе.', tone: 'color:var(--radiant-400)' },
-  { label: 'Победа на линии', value: '+1,5', text: 'Отдельно доминирует на линии против кого-то из врагов.', tone: 'color:var(--arcane-400)' },
+  { label: 'Победа на линии', value: '+1,5', text: 'Доминирует на линии против кого-то из врагов.', tone: 'color:var(--arcane-400)' },
   { label: 'Обратный риск', value: '−0,8 за каждого', text: 'Штраф, если враг тоже контрит этого героя — обмен пиками работает в обе стороны.', tone: 'color:var(--dire-400)' },
-  { label: 'Поправка на винрейт', value: '±0,12 за 1%', text: 'Небольшой сдвиг по общей статистике побед — разводит героев с равными оценками.', tone: 'color:var(--gold-400)' }
+  { label: 'Поправка на винрейт', value: '±0,12 за 1%', text: 'Небольшой сдвиг по общей статистике — разводит героев с равными оценками.', tone: 'color:var(--gold-400)' }
 ];
 var LEGEND = [
   { badge: '+2', cls: 'background:var(--radiant-500);color:var(--void-950)', text: 'На портрете в списке героев: скольких врагов из текущего состава этот герой контрит.' },
   { badge: 'ИНФО', cls: 'background:var(--void-950);color:var(--gold-400);border:1px solid var(--void-700)', text: 'Открывает полный разбор героя: кто его контрит, кого контрит он, линии и предметы.' },
   { badge: '7,4', cls: 'background:var(--void-850);color:var(--gold-400);border:1px solid rgba(242,193,78,.3)', text: 'Итоговая оценка контрпика. Оранжевая полоска под ней — то же значение относительно лидера списка.' }
+];
+var PICK_LEGEND = [
+  { badge: 'Вы', cls: 'background:var(--radiant-500);color:var(--void-950)', text: 'Зелёная рамка — герой уже в вашей команде.' },
+  { badge: 'Враг', cls: 'background:var(--dire-500);color:var(--void-950)', text: 'Красная рамка — герой в команде соперника.' }
 ];
 var SEEN_KEY = 'counterweb.guide-seen';
 
@@ -1789,6 +1798,10 @@ function renderGuideBody() {
       '<span><b style="color:var(--mist-200)">' + r.label + '</b><span style="display:block;color:var(--mist-400)">' + r.text + '</span></span></div>';
   }).join('');
   var legend = LEGEND.map(function(l) {
+    return '<div class="legend-row"><span class="legend-badge" style="' + l.cls + '">' + l.badge + '</span>' +
+      '<span style="color:var(--mist-400)">' + l.text + '</span></div>';
+  }).join('');
+  var pickLegend = PICK_LEGEND.map(function(l) {
     return '<div class="legend-row"><span class="legend-badge" style="' + l.cls + '">' + l.badge + '</span>' +
       '<span style="color:var(--mist-400)">' + l.text + '</span></div>';
   }).join('');
@@ -1808,6 +1821,8 @@ function renderGuideBody() {
         '<div class="guide-panel">' +
           '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_INFO + '</span> Обозначения на экране</h4>' +
           legend +
+          '<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--void-750)"><b style="color:var(--mist-200);font-size:11px">Подсветка выбранных героев</b></div>' +
+          pickLegend +
         '</div>' +
         '<div class="guide-panel">' +
           '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">' + ICON_SCALE + '</span> Баланс сил</h4>' +
@@ -1968,8 +1983,9 @@ function poolCell(hero, i) {
   var counters = enemies.filter(function(e) { return counterWeight(e, hero.name) > 0; }).length;
 
   var cls = 'hero-cell anim-slide-up';
-  if (isAlly) cls += ' picked-ally';
-  else if (isEnemy) cls += ' picked-enemy';
+  var tag = '';
+  if (isAlly) { cls += ' picked-ally'; tag = '<span class="hero-cell-tag ally" title="Убрать: ' + hero.name + '">Вы</span>'; }
+  else if (isEnemy) { cls += ' picked-enemy'; tag = '<span class="hero-cell-tag enemy" title="Убрать: ' + hero.name + '">Враг</span>'; }
   else if (inspected === hero.name) cls += ' inspected';
 
   var action = picked ? 'remove' : 'pick';
@@ -1978,6 +1994,7 @@ function poolCell(hero, i) {
     : 'Добавить ' + hero.name + (activeSide === 'ally' ? ' в вашу команду' : ' в команду врага');
 
   return '<div class="' + cls + '" style="animation-delay:' + (Math.min(i, 24) * 12) + 'ms">' +
+    tag +
     '<button type="button" data-action="' + action + '"' + (picked ? ' data-side="' + (isAlly ? 'ally' : 'enemy') + '"' : '') + ' data-name="' + hero.name + '" class="hero-cell-btn" title="' + title + '">' +
       heroImg(hero.name, picked ? 'dim' : '') +
       '<span class="hero-cell-name">' + hero.name + '</span>' +
