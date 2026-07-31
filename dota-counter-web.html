@@ -257,6 +257,30 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .pagetab.on{color:var(--ember-400);background:var(--void-850);border-color:var(--void-750)}
 .pagetab .pg-count{margin-left:4px;padding:0 6px;border-radius:99px;background:var(--void-800);font-family:ui-monospace,monospace;font-size:10px;color:var(--mist-400)}
 .pagetab.on .pg-count{color:var(--ember-400)}
+.auth-tab{border:1px solid var(--void-750);border-bottom:none}
+.auth-tab.on{border-color:var(--void-750)}
+/* авторизация */
+.auth-backdrop{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,6,13,.72);backdrop-filter:blur(4px)}
+.auth-backdrop[hidden]{display:none}
+.auth-modal{position:relative;width:min(360px,100%);padding:22px;border:1px solid var(--void-700);border-radius:10px;background:linear-gradient(to bottom,var(--void-850),var(--void-900));box-shadow:0 24px 70px -20px rgba(0,0,0,.8);animation:slide-up .25s ease-out both}
+.auth-modal h3{font-size:18px;color:var(--mist-50)}
+.auth-sub{font-size:12px;color:var(--mist-400);margin:6px 0 16px;line-height:1.5}
+.auth-x{position:absolute;top:12px;right:12px;display:flex;color:var(--mist-600);transition:color .2s}
+.auth-x:hover{color:var(--mist-200)}
+.auth-form{display:flex;flex-direction:column;gap:10px}
+.auth-form input{width:100%;padding:10px 12px;border:1px solid var(--void-700);border-radius:6px;background:var(--void-950);color:var(--mist-50);font:inherit;font-size:14px;transition:border-color .2s}
+.auth-form input:focus{outline:none;border-color:var(--ember-500)}
+.auth-form input::placeholder{color:var(--mist-600)}
+.auth-submit{width:100%;justify-content:center}
+.auth-mode-btn{width:100%;justify-content:center;margin-top:10px}
+.auth-signedin{display:flex;flex-direction:column;gap:10px}
+.auth-email{font-size:13px;color:var(--mist-200);word-break:break-all;background:var(--void-950);border:1px solid var(--void-700);border-radius:6px;padding:10px 12px}
+.auth-error{font-size:12px;color:var(--dire-400);margin-top:12px;text-align:center;line-height:1.4}
+.auth-hint{font-size:11px;color:var(--mist-600);margin-top:8px;line-height:1.45}
+.lib-sync{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--radiant-400)}
+.lib-sync.off{color:var(--mist-600)}
+.lib-sync.err{color:var(--dire-400)}
+.lib-sync[hidden]{display:none}
 .tabpage{display:none}
 .tabpage.on{display:block}
 /* гайды */
@@ -464,6 +488,10 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       Инструкция
     </button>
+    <button type="button" class="pagetab auth-tab" id="authBtn" style="margin-left:auto">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+      <span id="authLabel">Войти</span>
+    </button>
   </div>
   <div class="tabpage on" id="pageDraft">
   <section class="panel hero anim-fade-in">
@@ -545,6 +573,7 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff7a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>
           <h2>Мои драфты</h2>
           <span class="lib-count" id="libCount"></span>
+          <span class="lib-sync" id="libSync" hidden></span>
         </div>
         <form class="lib-form" id="libForm">
           <input id="libName" type="text" maxlength="60" placeholder="Название драфта…" autocomplete="off">
@@ -591,6 +620,33 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
     </section>
   </div>
 </div>
+
+<div class="auth-backdrop" id="authBackdrop" hidden>
+  <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button type="button" class="auth-x" id="authClose" title="Закрыть" aria-label="Закрыть">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <h3 id="authTitle">Вход в аккаунт</h3>
+    <p class="auth-sub" id="authSub">Ваши драфты сохранятся в облаке и будут доступны на любом устройстве.</p>
+    <div id="authFormWrap">
+      <form class="auth-form" id="authForm" novalidate>
+        <input id="authEmail" type="email" placeholder="Email" autocomplete="email" required>
+        <input id="authPass" type="password" placeholder="Пароль" autocomplete="current-password" required>
+        <button class="btn-ember auth-submit" type="submit" id="authSubmit">Войти</button>
+      </form>
+      <button class="btn-ghost auth-mode-btn" type="button" id="authModeBtn">Создать аккаунт</button>
+    </div>
+    <div class="auth-signedin" id="authSignedIn" hidden>
+      <p class="auth-email" id="authEmailLabel"></p>
+      <button class="btn-ghost" type="button" id="authLogout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Выйти
+      </button>
+    </div>
+    <p class="auth-error" id="authError" hidden></p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 /* ============ DATA: герои ============ */
 var HERO_RAW = `
@@ -3949,6 +4005,123 @@ function relativeTime(iso) {
   return Math.round(hours / 24) + ' дн назад';
 }
 
+/* ============ АВТОРИЗАЦИЯ И СИНХРОНИЗАЦИЯ (Supabase) ============ */
+var SUPABASE_URL = 'https://wskzpolmejujvrlybumo.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_uPCvTgxpsYF8nYfWZwh9TA_xLwFDVU7';
+var sbClient = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+var authUser = null;
+var authMode = 'signin';
+var authPulled = false;
+var pushTimer = null;
+
+function authAvailable() { return !!sbClient; }
+
+function setSyncStatus(text, state) {
+  var el = $('libSync');
+  if (!el) return;
+  if (!text) { el.hidden = true; return; }
+  el.hidden = false;
+  el.textContent = text;
+  el.className = 'lib-sync' + (state === 'error' ? ' err' : (state === 'off' ? ' off' : ''));
+}
+
+function renderAuth() {
+  var btn = $('authBtn');
+  if (!authAvailable()) { btn.style.display = 'none'; return; }
+  btn.style.display = '';
+  $('authLabel').textContent = authUser ? (authUser.email || 'Аккаунт').split('@')[0] : 'Войти';
+  $('authTitle').textContent = authUser ? 'Вы вошли' : 'Вход в аккаунт';
+  $('authSub').textContent = authUser
+    ? 'Драфты синхронизированы с этим аккаунтом и доступны на любом устройстве.'
+    : 'Ваши драфты сохранятся в облаке и будут доступны на любом устройстве.';
+  $('authFormWrap').hidden = !!authUser;
+  $('authSignedIn').hidden = !authUser;
+  if (authUser) $('authEmailLabel').textContent = authUser.email || '';
+}
+
+function openAuth() {
+  if (!authAvailable()) return;
+  if (authUser && $('authEmail')) $('authEmail').value = authUser.email || '';
+  $('authBackdrop').hidden = false;
+  $('authError').hidden = true;
+}
+function closeAuth() {
+  $('authBackdrop').hidden = true;
+  $('authError').hidden = true;
+}
+
+function mergeCloudDrafts(cloud) {
+  var local = readDrafts();
+  var byId = {};
+  function take(d) { if (d && d.id && (!byId[d.id] || String(d.updatedAt || '') > String(byId[d.id].updatedAt || ''))) byId[d.id] = d; }
+  (cloud || []).forEach(take);
+  local.forEach(take);
+  var merged = Object.keys(byId).map(function(k) { return byId[k]; })
+    .sort(function(a, b) { return String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')); });
+  writeDrafts(merged);
+  renderLibrary();
+}
+
+function pushDrafts() {
+  if (!authUser) return;
+  if (pushTimer) clearTimeout(pushTimer);
+  pushTimer = setTimeout(function() {
+    sbClient.from('user_drafts').upsert({
+      user_id: authUser.id,
+      payload: readDrafts(),
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' }).then(function(res) {
+      if (res.error) { console.error('push error', res.error); setSyncStatus('Ошибка синхронизации', 'error'); }
+      else setSyncStatus('Сохранено в облаке');
+    });
+  }, 400);
+}
+
+function pullDrafts() {
+  if (!authUser) return;
+  setSyncStatus('Загрузка…');
+  sbClient.from('user_drafts').select('payload').eq('user_id', authUser.id).maybeSingle().then(function(res) {
+    if (res.error) {
+      console.error('pull error', res.error);
+      setSyncStatus('Ошибка загрузки', 'error');
+      return;
+    }
+    var cloud = (res.data && res.data.payload) || [];
+    if (cloud.length) mergeCloudDrafts(cloud);
+    pushDrafts();
+  });
+}
+
+function authErrorMessage(err) {
+  var msg = (err && err.message) || 'Ошибка';
+  if (msg.indexOf('Invalid login credentials') !== -1) return 'Неверный email или пароль';
+  if (msg.indexOf('Email not confirmed') !== -1) return 'Email ещё не подтверждён — проверьте почту';
+  if (msg.indexOf('User already registered') !== -1) return 'Такой email уже зарегистрирован — войдите';
+  if (msg.indexOf('Password should be at least') !== -1) return 'Пароль слишком короткий';
+  if (msg.indexOf('Unable to validate email') !== -1) return 'Некорректный email';
+  if (msg.indexOf('rate limit') !== -1) return 'Слишком много попыток — подождите минуту';
+  return msg;
+}
+
+function initAuth() {
+  if (!authAvailable()) { renderAuth(); return; }
+  sbClient.auth.onAuthStateChange(function(event, session) {
+    var prev = authUser;
+    authUser = session ? session.user : null;
+    renderAuth();
+    if (authUser && !prev) { authPulled = true; pullDrafts(); }
+    if (!authUser && prev) setSyncStatus('');
+  });
+  renderAuth();
+  sbClient.auth.getSession().then(function(res) {
+    if (res.data && res.data.session) {
+      authUser = res.data.session.user;
+      renderAuth();
+      if (!authPulled) { authPulled = true; pullDrafts(); }
+    }
+  });
+}
+
 /* ============ ДРАФТ-ЛОГИКА ============ */
 function addTo(side, name) {
   var other = side === 'ally' ? enemies : allies;
@@ -4759,6 +4932,7 @@ document.addEventListener('click', function(e) {
       var drafts = readDrafts().filter(function(d) { return d.id !== el.getAttribute('data-id'); });
       writeDrafts(drafts);
       renderLibrary();
+      pushDrafts();
       break;
   }
 });
@@ -4814,6 +4988,54 @@ $('libForm').addEventListener('submit', function(e) {
   $('libName').value = '';
   renderLibrary();
   toast('Драфт сохранён');
+  pushDrafts();
+});
+
+/* ============ АВТОРИЗАЦИЯ: СОБЫТИЯ ============ */
+$('authBtn').addEventListener('click', openAuth);
+$('authClose').addEventListener('click', closeAuth);
+$('authBackdrop').addEventListener('click', function(e) { if (e.target === $('authBackdrop')) closeAuth(); });
+$('authModeBtn').addEventListener('click', function() {
+  authMode = authMode === 'signin' ? 'signup' : 'signin';
+  $('authSubmit').textContent = authMode === 'signin' ? 'Войти' : 'Создать аккаунт';
+  $('authModeBtn').textContent = authMode === 'signin' ? 'Создать аккаунт' : 'У меня есть аккаунт';
+  $('authTitle').textContent = authMode === 'signin' ? 'Вход в аккаунт' : 'Создание аккаунта';
+});
+$('authForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var errEl = $('authError');
+  errEl.hidden = true;
+  var email = $('authEmail').value.trim();
+  var pass = $('authPass').value;
+  if (!email || !pass) { errEl.textContent = 'Введите email и пароль'; errEl.hidden = false; return; }
+  if (pass.length < 6) { errEl.textContent = 'Пароль должен быть не короче 6 символов'; errEl.hidden = false; return; }
+  $('authSubmit').disabled = true;
+  var req = authMode === 'signin'
+    ? sbClient.auth.signInWithPassword({ email: email, password: pass })
+    : sbClient.auth.signUp({ email: email, password: pass });
+  req.then(function(res) {
+    $('authSubmit').disabled = false;
+    if (res.error) { errEl.textContent = authErrorMessage(res.error); errEl.hidden = false; return; }
+    if (res.data && res.data.session) {
+      authUser = res.data.session.user;
+      renderAuth();
+      closeAuth();
+      toast('Вы вошли: ' + (authUser.email || ''));
+      if (!authPulled) { authPulled = true; pullDrafts(); }
+      return;
+    }
+    toast('Проверьте почту — подтвердите email и войдите', true);
+    closeAuth();
+  });
+});
+$('authLogout').addEventListener('click', function() {
+  sbClient.auth.signOut().then(function() {
+    authUser = null;
+    renderAuth();
+    closeAuth();
+    setSyncStatus('');
+    toast('Вы вышли из аккаунта');
+  });
 });
 
 /* ============ ИНИЦИАЛИЗАЦИЯ ============ */
@@ -4824,6 +5046,7 @@ $('pgCountGuides').textContent = Object.keys(HERO_GUIDES).length;
 $('pgCountCompare').textContent = heroes.length;
 renderGuideBody();
 render();
+initAuth();
 
 </script>
 </body>
