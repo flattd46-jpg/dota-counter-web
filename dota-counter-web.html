@@ -443,7 +443,6 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
   </div>
   <div class="tabpage on" id="pageDraft">
   <section class="panel hero anim-fade-in">
-    <img id="spotlight" alt="" aria-hidden="true">
     <div class="hero-inner">
       <div class="hero-txt">
         <p class="label-caps" style="display:flex;align-items:center;gap:6px">
@@ -2571,15 +2570,6 @@ function tagPill(tag) {
 
 /* ============ РЕНДЕР: ШАПКА ============ */
 function renderHero() {
-  var spotlight = enemies[enemies.length - 1] || allies[allies.length - 1] || null;
-  var img = $('spotlight');
-  if (spotlight && heroByName[spotlight]) {
-    img.style.display = 'block';
-    img.src = heroPortrait(heroByName[spotlight].slug, 'lg');
-  } else {
-    img.style.display = 'none';
-    img.removeAttribute('src');
-  }
   $('resetBtn').disabled = (allies.length + enemies.length) === 0;
 }
 
