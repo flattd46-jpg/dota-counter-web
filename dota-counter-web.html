@@ -290,6 +290,7 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .guide-hero.on{border-color:var(--ember-500);box-shadow:0 0 0 1px rgba(255,122,47,.4)}
 .guide-hero img{aspect-ratio:16/10;width:100%;object-fit:cover}
 .guide-hero span{position:absolute;inset-inline:0;bottom:0;padding:14px 4px 2px;background:linear-gradient(to top,var(--void-950),transparent);font-size:9px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.guide-hero .guide-wr{position:absolute;inset:auto;top:4px;right:4px;padding:1px 5px;border-radius:3px;background:rgba(8,6,13,.82);font-family:ui-monospace,monospace;font-size:9px;font-weight:700;color:var(--gold-400);pointer-events:none;white-space:nowrap}
 .guide-layout{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:1024px){.guide-layout{grid-template-columns:340px 1fr}}
 .guide-hero-info{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--void-750);border-radius:6px;background:rgba(15,11,24,.6)}
@@ -368,6 +369,26 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 .sug-meta .wr{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
 .sug-add{margin:auto 0;flex-shrink:0;padding:6px;border:1px solid rgba(47,211,154,.4);border-radius:3px;background:rgba(47,211,154,.1);color:var(--radiant-400);transition:all .2s}
 .sug-add:hover{background:var(--radiant-500);color:var(--void-950)}
+.sug-why{margin-top:6px;padding:8px 10px;border:1px dashed var(--void-700);border-radius:4px;background:rgba(15,11,24,.4);font-size:11px;line-height:1.45;color:var(--mist-300)}
+.sug-why b{display:block;margin-bottom:4px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ember-400)}
+.sug-why .why-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.sug-why .why-list b{display:inline;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--mist-50)}
+.sug-why-btn{margin-top:6px;padding:2px 8px;border:1px solid var(--void-700);border-radius:3px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-400);transition:all .2s}
+.sug-why-btn:hover{border-color:var(--ember-500);color:var(--ember-400)}
+.weight-box{margin-bottom:12px;padding:10px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.5)}
+.weight-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.weight-head span{font-size:12px;font-weight:600;color:var(--mist-200)}
+.weight-head .weight-hint{margin-left:auto;font-size:10px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--mist-600)}
+.weight-sliders{display:flex;flex-direction:column;gap:6px}
+.weight-row{display:flex;align-items:center;gap:8px;cursor:pointer}
+.weight-name{width:86px;flex-shrink:0;font-size:11px;color:var(--mist-300)}
+.weight-row input[type="range"]{flex:1;min-width:0;accent-color:var(--ember-500)}
+.weight-val{width:30px;flex-shrink:0;text-align:right;font-family:ui-monospace,monospace;font-size:11px;color:var(--gold-400)}
+.weight-reset{margin-top:8px;padding:3px 10px;border:1px solid var(--void-700);border-radius:3px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-500);transition:all .2s}
+.weight-reset:hover{border-color:var(--dire-400);color:var(--dire-400)}
+.item-stage-ctl{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.item-stage-ctl .lbl{margin-right:4px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-400)}
+.stage-hint{margin:0 0 10px;font-size:11px;line-height:1.4;color:var(--mist-600)}
 .item-list{list-style:none;display:flex;flex-direction:column;gap:6px}
 .item-row{display:flex;gap:10px;padding:8px;border:1px solid var(--void-750);border-radius:5px;background:rgba(15,11,24,.6);transition:border-color .2s}
 .item-row:hover{border-color:rgba(242,193,78,.5)}
@@ -465,6 +486,8 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 @keyframes gradient-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes wave-border{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .skeleton{position:relative;overflow:hidden;background:var(--void-800)!important;border-radius:6px}.skeleton::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);background-size:200% 100%;animation:shimmer 1.6s infinite}
+.img-lazy{position:relative;background:linear-gradient(90deg,var(--void-800),var(--void-750),var(--void-800));background-size:200% 100%;animation:shimmer 1.4s infinite;transition:opacity .25s}
+.img-lazy.img-done{background:none;animation:none}
 .panel{transition:border-color .25s,box-shadow .25s,transform .2s;will-change:transform}
 .panel:hover{border-color:rgba(255,122,47,.18);box-shadow:0 8px 32px -8px rgba(0,0,0,.55),0 0 0 1px rgba(255,122,47,.06)}
 .panel:active{transform:translateY(0) scale(.998)}
@@ -641,8 +664,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opa
 .matrix-cell:hover{transform:scale(1.15);box-shadow:0 2px 8px -2px rgba(0,0,0,.5);z-index:10;position:relative}
 .matrix-cell.dim{opacity:.4}
 .matrix-cell.active{box-shadow:0 0 0 2px var(--ember-500)}
-.matrix-tooltip{position:fixed;z-index:400;padding:8px 12px;border-radius:8px;background:var(--void-850);border:1px solid var(--void-700);box-shadow:0 8px 24px -6px rgba(0,0,0,.6);font-size:11px;max-width:200px;pointer-events:none;opacity:0;transition:opacity .15s}
+.matrix-tooltip{position:fixed;z-index:400;padding:8px 12px;border-radius:8px;background:var(--void-850);border:1px solid var(--void-700);box-shadow:0 8px 24px -6px rgba(0,0,0,.6);font-size:11px;max-width:220px;pointer-events:none;opacity:0;transition:opacity .15s}
 .matrix-tooltip.show{opacity:1}
+.matrix-tooltip .mt-row{margin-top:4px;padding-top:4px;border-top:1px solid var(--void-750);font-size:10px;line-height:1.4;color:var(--mist-300)}
+.matrix-tooltip .mt-row.ok{color:var(--radiant-400)}
+.matrix-tooltip .mt-row.bad{color:var(--dire-400)}
+.matrix-tooltip .mt-row.neu{color:var(--mist-400)}
 
 /* ============ AI RECOMMENDATION ============ */
 .ai-rec{padding:12px;border-radius:10px;background:linear-gradient(135deg,rgba(255,122,47,.06),rgba(122,103,245,.06));border:1px solid rgba(255,122,47,.1);transition:transform .2s,border-color .2s}
@@ -894,6 +921,10 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opa
       </div>
       <div class="guide-layout">
         <div>
+          <div class="search" style="margin-bottom:8px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="guideSearch" type="text" placeholder="Поиск героя для гайда…" autocomplete="off">
+          </div>
           <div class="guide-select" id="guideHeroes"></div>
         </div>
         <div>
@@ -4106,6 +4137,40 @@ var TAG_HINTS = {
   pusher: 'Ломает вышки и линии — нужен обзор и быстрый ответ на карте.',
   silence: 'Затыкает заклинания — нужны предметы, снимающие дебаффы.'
 };
+/* Какие тэги героя «отвечают» на тэги врага — для объяснения «почему контрпик». */
+var TAG_ANSWERS = {
+  illusion: ['physical', 'magic', 'disable'],
+  summon: ['physical', 'magic', 'disable'],
+  mobile: ['disable', 'magic'],
+  regen: ['burst', 'disable'],
+  burst: ['tank', 'regen', 'disable'],
+  tank: ['physical', 'magic'],
+  invis: ['disable', 'magic'],
+  pusher: ['physical', 'magic'],
+  disable: ['regen', 'tank', 'mobile'],
+  silence: ['disable', 'regen', 'tank'],
+  magic: ['tank', 'regen', 'disable'],
+  physical: ['tank', 'regen']
+};
+function counterReason(hero, enemy) {
+  var h = heroByName[enemy];
+  if (!h) return null;
+  var matched = [];
+  (h.tags || []).forEach(function(tag) {
+    if (!TAG_ANSWERS[tag]) return;
+    if ((hero.tags || []).some(function(t) { return TAG_ANSWERS[tag].indexOf(t) !== -1; })) {
+      matched.push({ tag: tag, label: TAG_LABELS[tag], hint: TAG_HINTS[tag] });
+    }
+  });
+  if (matched.length === 0) return null;
+  var lines = matched.slice(0, 2).map(function(m) {
+    return '<li><b>' + m.label + '</b> — ' + m.hint + '</li>';
+  }).join('');
+  return '<ul class="why-list">' + lines + '</ul>';
+}
+function advisorWhy(name) {
+  return advisorWhyOpen === name;
+}
 
 var CDN = 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/';
 function heroPortrait(slug, size) {
@@ -4118,12 +4183,12 @@ function initials(name) {
 function heroImg(name, cls, size) {
   var h = heroByName[name];
   if (!h) return '<div class="ph ' + cls + '">' + initials(name) + '</div>';
-  return '<img src="' + heroPortrait(h.slug, size || 'sm') + '" alt="' + name + '" loading="lazy" draggable="false" data-name="' + name + '" class="' + cls + '">';
+  return '<img src="' + heroPortrait(h.slug, size || 'sm') + '" alt="' + name + '" loading="lazy" draggable="false" data-name="' + name + '" class="img-lazy ' + cls + '">';
 }
 function itemImg(name, cls) {
   var i = itemByName[name];
   if (!i) return '<div class="ph ' + cls + '">' + initials(name) + '</div>';
-  return '<img src="' + itemIcon(i.slug) + '" alt="' + name + '" loading="lazy" draggable="false" class="' + cls + '">';
+  return '<img src="' + itemIcon(i.slug) + '" alt="' + name + '" loading="lazy" draggable="false" class="img-lazy ' + cls + '">';
 }
 
 /* ============ ПОПУЛЯРНЫЕ ПРЕДМЕТЫ ПО СТАДИЯМ (OpenDota snapshot) ============ */
@@ -4170,7 +4235,7 @@ function popularHtmlFor(heroName) {
         var p = popularItem(pair[0]);
         var pct = Math.min(100, pair[1]);
         return '<div class="popular-item" title="' + p.name + ': ' + pct + '% игр">' +
-          '<img src="' + p.icon + '" alt="' + p.name + '" loading="lazy" draggable="false" data-name="' + p.name + '">' +
+          '<img src="' + p.icon + '" alt="' + p.name + '" loading="lazy" draggable="false" data-name="' + p.name + '" class="img-lazy">' +
           '<span class="popular-name">' + p.name + '</span>' +
           '<span class="popular-bar"><i style="width:' + pct + '%"></i></span>' +
           '<span class="popular-pct">' + pct + '%</span>' +
@@ -4185,10 +4250,16 @@ document.addEventListener('error', function(e) {
   if (t && t.tagName === 'IMG') {
     var name = t.getAttribute('data-name');
     var ph = document.createElement('div');
-    ph.className = 'ph ' + t.className;
+    ph.className = 'ph ' + t.className.replace(/img-lazy\s*/g, '');
     ph.textContent = name ? initials(name) : '?';
     ph.style.background = 'var(--void-800)';
     if (t.parentNode) t.parentNode.replaceChild(ph, t);
+  }
+}, true);
+document.addEventListener('load', function(e) {
+  var t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList && t.classList.contains('img-lazy')) {
+    t.classList.add('img-done');
   }
 }, true);
 /* ============ ДВИЖОК ============ */
@@ -4196,6 +4267,22 @@ var WEIGHT_LANE = 1.5;
 var WEIGHT_RISK = 0.8;
 var WEIGHT_WINRATE = 0.12;
 var WEIGHT_SYNERGY = 1.3;
+/* Настраиваемые веса совета — сохраняются между сессиями. */
+var weights = { lane: 1.5, risk: 0.8, winrate: 0.12, synergy: 1.3 };
+try {
+  var _savedWeights = JSON.parse(localStorage.getItem('counterweb.weights'));
+  if (_savedWeights && typeof _savedWeights === 'object') {
+    weights = {
+      lane: +_savedWeights.lane || WEIGHT_LANE,
+      risk: +_savedWeights.risk || WEIGHT_RISK,
+      winrate: +_savedWeights.winrate || WEIGHT_WINRATE,
+      synergy: +_savedWeights.synergy || WEIGHT_SYNERGY
+    };
+  }
+} catch (e) {}
+function saveWeights() {
+  try { localStorage.setItem('counterweb.weights', JSON.stringify(weights)); } catch (e) {}
+}
 
 function counterWeight(hero, counter) {
   var index = (counteredBy[hero] || []).indexOf(counter);
@@ -4228,21 +4315,21 @@ function suggestHeroes(enemies, allies, options) {
         var weight = counterWeight(enemy, hero.name);
         if (weight > 0) { score += weight; beats.push(enemy); }
         if ((laneWins[hero.name] || []).indexOf(enemy) !== -1) {
-          score += WEIGHT_LANE;
+          score += weights.lane;
           lanes.push(enemy);
         }
         var back = counterWeight(hero.name, enemy);
-        if (back > 0) { score -= back * WEIGHT_RISK; risk.push(enemy); }
+        if (back > 0) { score -= back * weights.risk; risk.push(enemy); }
       });
 
       allies.forEach(function(ally) {
         if ((synergyWith[hero.name] || []).indexOf(ally) !== -1) {
-          score += WEIGHT_SYNERGY;
+          score += weights.synergy;
           synergy.push(ally);
         }
       });
 
-      score += (hero.winRate - 50) * WEIGHT_WINRATE;
+      score += (hero.winRate - 50) * weights.winrate;
       return { hero: hero, score: score, beats: beats, lanes: lanes, risk: risk, synergy: synergy };
     })
     .filter(function(s) { return s.beats.length > 0 || s.lanes.length > 0 || s.synergy.length > 0; })
@@ -4264,8 +4351,9 @@ function lineupProfile(lineup) {
   return profile;
 }
 
-/* Предметы против состава: явные пары плюс архетипные подборы. */
-function suggestItems(enemies, limit) {
+/* Предметы против состава: явные пары плюс архетипные подборы.
+   stage — стадия игры ('start'/'early'/'mid'/'late'/null), влияет на типичность предмета. */
+function suggestItems(enemies, limit, stage) {
   limit = limit != null ? limit : 10;
   if (enemies.length === 0) return [];
 
@@ -4295,9 +4383,10 @@ function suggestItems(enemies, limit) {
   return Object.keys(scores)
     .map(function(name) {
       var entry = scores[name];
+      var stageBoost = itemStageBonus(name, stage) * 2;
       return {
         item: itemByName[name],
-        score: entry.score,
+        score: entry.score + stageBoost,
         against: Object.keys(entry.against)
       };
     })
@@ -4318,6 +4407,48 @@ function analyzeThreats(allies, enemies) {
     .sort(function(a, b) { return b.pressure - a.pressure; });
 }
 
+/* Насколько предмет типичен для каждой стадии (по сборкам OpenDota). */
+var ITEM_STAGE_AFFINITY = (function() {
+  var affinity = {};
+  Object.keys(POPULAR_DATA).forEach(function(heroName) {
+    var rec = POPULAR_DATA[heroName];
+    POPULAR_STAGES.forEach(function(st) {
+      var stage = st[0];
+      (rec[stage] || []).forEach(function(pair) {
+        var item = popularItem(pair[0]);
+        var a = affinity[item.name] || (affinity[item.name] = { start: 0, early: 0, mid: 0, late: 0 });
+        a[stage] += pair[1];
+      });
+    });
+  });
+  return affinity;
+})();
+var ITEM_STAGES = [
+  { id: 'start', label: 'Старт' },
+  { id: 'early', label: 'Ранняя' },
+  { id: 'mid', label: 'Средняя' },
+  { id: 'late', label: 'Поздняя' }
+];
+function itemStageBonus(itemName, stage) {
+  if (!stage) return 0;
+  var aff = ITEM_STAGE_AFFINITY[itemName];
+  if (!aff) return 0;
+  var total = aff.start + aff.early + aff.mid + aff.late;
+  if (total === 0) return 0;
+  return (aff[stage] / total) - 0.25;
+}
+function advisorStageButtons() {
+  return '<button type="button" class="role-btn' + (advisorStage === null ? ' on' : '') + '" data-action="advisor-stage" data-stage="">Любая</button>' +
+    ITEM_STAGES.map(function(st) {
+      return '<button type="button" class="role-btn' + (advisorStage === st.id ? ' on' : '') + '" data-action="advisor-stage" data-stage="' + st.id + '">' + st.label + '</button>';
+    }).join('');
+}
+function advisorStageHint(stage) {
+  if (!stage) return 'Стадия не выбрана — учитываются все предметы. Выберите стадию, чтобы увидеть, что покупать именно к этому моменту игры.';
+  var labels = { start: 'Старт игры (0–5 мин)', early: 'Ранняя игра (5–15 мин)', mid: 'Средняя игра (15–30 мин)', late: 'Поздняя игра (30+ мин)' };
+  return 'Учитываем типичность предметов для стадии «' + labels[stage] + '»: жирнее — те, что покупают именно к этому моменту.';
+}
+
 /* Баланс сил: кто кого пере-контрит в сумме. */
 function draftAdvantage(allies, enemies) {
   var edges = [], liabilities = [];
@@ -4329,8 +4460,8 @@ function draftAdvantage(allies, enemies) {
       if (ours > 0) { allyScore += ours; edges.push({ hero: ally, over: enemy, weight: ours }); }
       var theirs = counterWeight(ally, enemy);
       if (theirs > 0) { enemyScore += theirs; liabilities.push({ hero: enemy, over: ally, weight: theirs }); }
-      if ((laneWins[ally] || []).indexOf(enemy) !== -1) allyScore += WEIGHT_LANE;
-      if ((laneWins[enemy] || []).indexOf(ally) !== -1) enemyScore += WEIGHT_LANE;
+      if ((laneWins[ally] || []).indexOf(enemy) !== -1) allyScore += weights.lane;
+      if ((laneWins[enemy] || []).indexOf(ally) !== -1) enemyScore += weights.lane;
     });
   });
 
@@ -4387,10 +4518,13 @@ var activeSide = 'enemy';
 var inspected = null;
 var advisorTab = 'counters';
 var advisorRole = null;
+var advisorStage = null;
+var advisorWhyOpen = null;
 var poolSearch = '';
-var poolRole = null;
+var poolRoles = [];
 var poolSort = 'name';
 var selectedGuide = null;
+var guideSearch = '';
 var cmpA = null;
 var cmpB = null;
 
@@ -4836,7 +4970,7 @@ function renderPool() {
   var prevTop = grid.scrollTop;
   var q = poolSearch.trim().toLowerCase();
   var visible = heroes.filter(function(hero) {
-    if (poolRole && hero.roles.indexOf(poolRole) === -1) return false;
+    if (poolRoles.length && !poolRoles.some(function(r) { return hero.roles.indexOf(r) !== -1; })) return false;
     if (!q) return true;
     return searchHaystack(hero.name).indexOf(q) !== -1;
   });
@@ -4845,17 +4979,23 @@ function renderPool() {
   $('poolSortBtns').innerHTML = [
     { id: 'name', label: 'Имя' },
     { id: 'wr', label: 'Винрейт' },
+    { id: 'role', label: 'Роль' },
     { id: 'counter', label: 'Контрит врага' }
   ].map(function(s) {
     return '<button type="button" class="sort-btn' + (poolSort === s.id ? ' on' : '') + '" data-action="pool-sort" data-sort="' + s.id + '" title="Сортировать: ' + s.label + '">' + s.label + '</button>';
   }).join('');
 
   $('poolRoles').innerHTML = ROLES.map(function(r) {
-    return '<button type="button" class="role-btn' + (poolRole === r ? ' on' : '') + '" data-action="pool-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
+    return '<button type="button" class="role-btn' + (poolRoles.indexOf(r) !== -1 ? ' on' : '') + '" data-action="pool-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
   }).join('');
 
   var visible = visible.slice().sort(function(a, b) {
     if (poolSort === 'wr') return b.winRate - a.winRate || a.name.localeCompare(b.name, 'ru');
+    if (poolSort === 'role') {
+      var ra = ROLES.indexOf(a.roles[0]);
+      var rb = ROLES.indexOf(b.roles[0]);
+      return (ra === -1 ? 99 : ra) - (rb === -1 ? 99 : rb) || a.name.localeCompare(b.name, 'ru');
+    }
     if (poolSort === 'counter') {
       var ac = enemies.filter(function(e) { return counterWeight(e, a.name) > 0; }).length;
       var bc = enemies.filter(function(e) { return counterWeight(e, b.name) > 0; }).length;
@@ -5059,9 +5199,33 @@ function advisorRoleButtons() {
       return '<button type="button" class="role-btn' + (advisorRole === r ? ' on' : '') + '" data-action="advisor-role" data-role="' + r + '">' + ROLE_LABELS[r] + '</button>';
     }).join('');
 }
+var WEIGHT_FIELDS = [
+  { key: 'lane', label: 'Линия', hint: 'Важность выигрыша линии' },
+  { key: 'risk', label: 'Риск', hint: 'Насколько важно, что враг контрит пик' },
+  { key: 'winrate', label: 'Винрейт', hint: 'Вес статистики побед в пабах' },
+  { key: 'synergy', label: 'Синергия', hint: 'Важность сочетаемости с вашими пиками' }
+];
+function advisorWeightsHtml() {
+  return '<div class="weight-box">' +
+    '<div class="weight-head"><span>' + ICON_SCALE + ' Настройка приоритетов</span><span class="weight-hint">Что важнее в расчёте рекомендаций</span></div>' +
+    '<div class="weight-sliders">' +
+    WEIGHT_FIELDS.map(function(f) {
+      var val = weights[f.key];
+      return '<label class="weight-row" title="' + f.hint + '">' +
+        '<span class="weight-name">' + f.label + '</span>' +
+        '<input type="range" min="0" max="3" step="0.1" value="' + val + '" data-weight="' + f.key + '" data-action="weight">' +
+        '<span class="weight-val" data-val="' + f.key + '">' + val.toFixed(1) + '</span>' +
+      '</label>';
+    }).join('') +
+    '</div>' +
+    '<button type="button" class="weight-reset" data-action="weight-reset">Сброс</button>' +
+  '</div>';
+}
 function advisorCounters() {
   var suggestions = suggestHeroes(enemies, allies, { role: advisorRole, limit: 10 });
-  if (enemies.length === 0 && allies.length === 0) return emptyHint('Добавьте героев в команду врага — и здесь появятся лучшие контрпики. Или соберите свою команду, чтобы увидеть синергию.');
+  if (enemies.length === 0 && allies.length === 0) {
+    return advisorWeightsHtml() + '<div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px">' + advisorRoleButtons() + '</div>' + emptyHint('Добавьте героев в команду врага — и здесь появятся лучшие контрпики. Или соберите свою команду, чтобы увидеть синергию.');
+  }
   if (suggestions.length === 0) return emptyHint('Для этого фильтра сильных контрпиков нет. Попробуйте другую роль.');
   var maxScore = suggestions[0].score;
   var rows = suggestions.map(function(s, i) {
@@ -5074,6 +5238,10 @@ function advisorCounters() {
     var roles = s.hero.roles.slice(0, 2).map(function(r) {
       return '<span style="flex-shrink:0;padding:0 4px;border:1px solid var(--void-700);border-radius:3px;font-size:10px;color:var(--mist-400)">' + ROLE_LABELS[r] + '</span>';
     }).join('');
+    var reasons = s.beats.map(function(b) { return counterReason(s.hero, b); }).filter(Boolean).join('');
+    var whyBlock = reasons
+      ? '<div class="sug-why" data-why="' + s.hero.name + '"' + (advisorWhyOpen === s.hero.name ? '' : ' hidden') + '><b>Почему работает:</b>' + reasons + '</div>'
+      : '';
     return '<li class="sug-row anim-slide-up" style="animation-delay:' + (i * 35) + 'ms">' +
       '<span class="sug-rank">' + (i + 1) + '</span>' +
       '<button type="button" class="sug-portrait" data-action="inspect" data-name="' + s.hero.name + '" title="Разбор матчапов: ' + s.hero.name + '">' + heroImg(s.hero.name, 'sug-portrait-img') + '</button>' +
@@ -5081,16 +5249,18 @@ function advisorCounters() {
         '<div class="sug-title"><h3>' + s.hero.name + '</h3><span class="sug-score">' + s.score.toFixed(1) + '</span></div>' +
         '<div class="scorebar"><i style="width:' + pct + '%"></i></div>' +
         '<p class="sug-desc">' + desc.join(' · ') + '</p>' +
+        whyBlock +
+        (reasons ? '<button type="button" class="sug-why-btn" data-action="sug-why" data-name="' + s.hero.name + '">' + (advisorWhyOpen === s.hero.name ? 'Скрыть пояснение' : 'Почему?') + '</button>' : '') +
         '<div class="sug-meta"><span class="wr">' + s.hero.winRate + '% побед</span>' + roles + '</div>' +
       '</div>' +
       '<button type="button" class="sug-add" data-action="add-ally" data-name="' + s.hero.name + '" title="Добавить ' + s.hero.name + ' в вашу команду">' + ICON_PLUS + '</button>' +
       '</li>';
   }).join('');
-  return '<div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px">' + advisorRoleButtons() + '</div><ol class="sug">' + rows + '</ol>';
+  return advisorWeightsHtml() + '<div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px">' + advisorRoleButtons() + '</div><ol class="sug">' + rows + '</ol>';
 }
 function advisorItems() {
   if (enemies.length === 0) return emptyHint('Соберите состав врага — и увидите, какие предметы наказывают его сильнее всего.');
-  var picks = suggestItems(enemies, 12);
+  var picks = suggestItems(enemies, 12, advisorStage);
   var maxItem = picks.length ? picks[0].score : 0;
   var rows = picks.map(function(s, i) {
     var pct = maxItem > 0 ? Math.max(8, Math.round((s.score / maxItem) * 100)) : 0;
@@ -5104,7 +5274,9 @@ function advisorItems() {
       '<div class="item-sidebar"><i style="height:' + pct + '%"></i></div>' +
       '</li>';
   }).join('');
-  return '<ul class="item-list">' + rows + '</ul>';
+  return '<div class="item-stage-ctl"><span class="lbl">Стадия</span>' + advisorStageButtons() + '</div>' +
+    '<p class="stage-hint">' + advisorStageHint(advisorStage) + '</p>' +
+    '<ul class="item-list">' + rows + '</ul>';
 }
 function advisorThreats() {
   if (allies.length === 0) return emptyHint('Добавьте свои пики — и увидите, какие герои врага их наказывают.');
@@ -5263,11 +5435,18 @@ function renderLibrary() {
 
 /* ============ РЕНДЕР: ГАЙДЫ ============ */
 function renderGuideHeroes() {
+  var q = guideSearch.trim().toLowerCase();
   var names = Object.keys(HERO_GUIDES).sort(function(a, b) { return a.localeCompare(b, 'ru'); });
+  if (q) names = names.filter(function(n) { return searchHaystack(n).indexOf(q) !== -1; });
   $('guideHeroes').innerHTML = names.map(function(name) {
+    var h = heroByName[name];
+    var wr = h ? '<span class="guide-wr" title="Винрейт в пабах">' + h.winRate + '%</span>' : '';
     return '<button type="button" class="guide-hero' + (selectedGuide === name ? ' on' : '') + '" data-action="guide-select" data-name="' + name + '" title="Гайд: ' + name + '">' +
-      heroImg(name, '') + '<span>' + name + '</span></button>';
+      heroImg(name, '') + wr + '<span>' + name + '</span></button>';
   }).join('');
+  if (names.length === 0) {
+    $('guideHeroes').innerHTML = '<p class="pool-empty">Героев с таким именем нет.</p>';
+  }
 }
 function renderGuides() {
   renderGuideHeroes();
@@ -5304,6 +5483,20 @@ function renderGuides() {
     ? '<div class="gs-body" style="padding:4px 12px">' + tipRows.join('') + '</div>'
     : '<div class="gs-body">Советов против героев из текущего состава врага пока нет. Отметьте врагов на вкладке «Драфт» — и здесь появятся матчап-советы.</div>';
 
+  var m = heroMatchups(selectedGuide);
+  function chipList(names, tone) {
+    if (!names.length) return '<p class="detail-empty">Данных нет.</p>';
+    return '<div class="detail-chips">' + names.slice(0, 6).map(function(n) {
+      return '<button type="button" class="chip anim-pop-in" data-action="guide-matchup" data-name="' + n + '" style="border-color:' + tone + ';background:rgba(255,255,255,.02)" title="Гайд: ' + n + '">' +
+        heroImg(n, 'chip-img') + '<span>' + n + '</span></button>';
+    }).join('') + '</div>';
+  }
+  var matchupsHtml =
+    '<div class="guide-section"><h4>Матчапы</h4><div class="gs-body">' +
+      '<div class="detail-block"><h3 style="color:var(--dire-400);font-size:12px">Его контрят</h3>' + chipList(m.counteredBy, 'rgba(242,65,95,.3)') + '</div>' +
+      '<div class="detail-block"><h3 style="color:var(--radiant-400);font-size:12px">Сам контрит</h3>' + chipList(m.counters, 'rgba(47,211,154,.3)') + '</div>' +
+    '</div></div>';
+
   body.innerHTML =
     '<div class="guide-hero-info">' + heroImg(selectedGuide, '', 'lg') +
       '<div style="min-width:0"><h3>' + selectedGuide + '</h3>' +
@@ -5317,6 +5510,7 @@ function renderGuides() {
     '</div></div>' +
     '<div class="guide-section"><h4>Сборка по минутам</h4><div class="gs-body"><div class="minute-table">' + itemsHtml + '</div></div></div>' +
     popularHtmlFor(selectedGuide) +
+    matchupsHtml +
     '<div class="guide-section"><h4>Советы против героев врага</h4>' + tipsHtml + '</div>';
 }
 
@@ -5326,11 +5520,11 @@ function scoreAgainst(list, name) {
   (list || []).forEach(function(enemy) {
     var w = counterWeight(enemy, name);
     if (w > 0) { score += w; beats.push(enemy); }
-    if ((laneWins[name] || []).indexOf(enemy) !== -1) { score += WEIGHT_LANE; lanes.push(enemy); }
+    if ((laneWins[name] || []).indexOf(enemy) !== -1) { score += weights.lane; lanes.push(enemy); }
     var back = counterWeight(name, enemy);
-    if (back > 0) { score -= back * WEIGHT_RISK; risk.push(enemy); }
+    if (back > 0) { score -= back * weights.risk; risk.push(enemy); }
   });
-  score += (heroByName[name].winRate - 50) * WEIGHT_WINRATE;
+  score += (heroByName[name].winRate - 50) * weights.winrate;
   return { score: score, beats: beats, lanes: lanes, risk: risk };
 }
 function renderComparePool() {
@@ -5408,6 +5602,16 @@ function render() {
 }
 
 /* ============ СОБЫТИЯ ============ */
+document.addEventListener('input', function(e) {
+  var el = e.target;
+  if (el && el.getAttribute && el.getAttribute('data-weight')) {
+    weights[el.getAttribute('data-weight')] = Number(el.value);
+    saveWeights();
+    var valEl = document.querySelector('[data-val="' + el.getAttribute('data-weight') + '"]');
+    if (valEl) valEl.textContent = Number(el.value).toFixed(1);
+    renderAdvisor();
+  }
+});
 document.addEventListener('click', function(e) {
   var el = e.target.closest ? e.target.closest('[data-action]') : null;
   if (!el) return;
@@ -5425,9 +5629,22 @@ document.addEventListener('click', function(e) {
     case 'clear': clearSide(side); break;
     case 'tab': advisorTab = el.getAttribute('data-tab'); renderAdvisor(); break;
     case 'advisor-role': advisorRole = el.getAttribute('data-role') || null; renderAdvisor(); break;
-    case 'pool-role': poolRole = poolRole === el.getAttribute('data-role') ? null : el.getAttribute('data-role'); renderPool(); break;
+    case 'sug-why': advisorWhyOpen = advisorWhyOpen === name ? null : name; renderAdvisor(); break;
+    case 'advisor-stage': advisorStage = el.getAttribute('data-stage') || null; renderAdvisor(); break;
+    case 'pool-role':
+      var r = el.getAttribute('data-role');
+      var idx = poolRoles.indexOf(r);
+      if (idx !== -1) poolRoles.splice(idx, 1); else poolRoles.push(r);
+      renderPool();
+      break;
     case 'pool-sort': poolSort = el.getAttribute('data-sort'); renderPool(); break;
+    case 'weight-reset':
+      weights = { lane: 1.5, risk: 0.8, winrate: 0.12, synergy: 1.3 };
+      saveWeights();
+      renderAdvisor();
+      break;
     case 'guide-select': selectedGuide = name; renderGuides(); break;
+    case 'guide-matchup': selectedGuide = name; renderGuides(); break;
     case 'cmp':
       if (name === cmpA) cmpA = null;
       else if (name === cmpB) cmpB = null;
@@ -5464,6 +5681,15 @@ $('poolSearchClear').addEventListener('click', function() {
   renderPool();
   $('poolSearch').focus();
 });
+var _guideSearch = document.getElementById('guideSearch');
+if (_guideSearch) {
+  var _guideSearchTimer = null;
+  _guideSearch.addEventListener('input', function() {
+    guideSearch = this.value;
+    clearTimeout(_guideSearchTimer);
+    _guideSearchTimer = setTimeout(renderGuideHeroes, 150);
+  });
+}
 $('sideEnemy').addEventListener('click', function() { setActiveSide('enemy'); });
 $('sideAlly').addEventListener('click', function() { setActiveSide('ally'); });
 /* Переключение страниц: единая функция для сайдбара, нижней навигации и клавиатуры */
@@ -5985,7 +6211,22 @@ function renderMatchupMatrix(container, filter) {
     if (!rh || !ch) return;
     var adv = calculateMatchupAdvantage(rh, ch);
     var desc = adv > 0.55 ? 'Сильный контр' : adv > 0.45 ? 'Слабый контр' : 'Нейтрально';
-    tooltip.innerHTML = '<strong>' + rh.name + '</strong> vs <strong>' + ch.name + '</strong>: ' + desc + ' (' + (adv * 100).toFixed(0) + '%)';
+    var rowsHtml = '';
+    var rhCountersCh = (rh.counters || []).indexOf(ch.name) !== -1;
+    var chCountersRh = (ch.counters || []).indexOf(rh.name) !== -1;
+    var laneWin = (rh.laneWins || []).indexOf(ch.name) !== -1;
+    var laneLose = (ch.laneWins || []).indexOf(rh.name) !== -1;
+    var sharedRoles = (rh.roles || []).filter(function(r) { return (ch.roles || []).indexOf(r) !== -1; });
+    var items = (itemsVs[rh.name] || []).slice(0, 3);
+    if (rhCountersCh) rowsHtml += '<div class="mt-row ok">' + rh.name + ' контрит ' + ch.name + '</div>';
+    if (chCountersRh) rowsHtml += '<div class="mt-row bad">' + ch.name + ' контрит ' + rh.name + '</div>';
+    if (laneWin) rowsHtml += '<div class="mt-row ok">' + rh.name + ' выигрывает линию</div>';
+    if (laneLose) rowsHtml += '<div class="mt-row bad">' + ch.name + ' выигрывает линию</div>';
+    if (sharedRoles.length && !rhCountersCh && !chCountersRh && !laneWin && !laneLose) {
+      rowsHtml += '<div class="mt-row neu">Общая роль: ' + sharedRoles.slice(0, 2).map(function(r) { return ROLE_LABELS[r]; }).join(', ') + '</div>';
+    }
+    if (items.length) rowsHtml += '<div class="mt-row neu">Против ' + ch.name + ' берут: ' + items.join(', ') + '</div>';
+    tooltip.innerHTML = '<strong>' + rh.name + '</strong> vs <strong>' + ch.name + '</strong>: ' + desc + ' (' + (adv * 100).toFixed(0) + '%)' + rowsHtml;
     tooltip.style.left = (td.getBoundingClientRect().left + 100) + 'px';
     tooltip.style.top = (td.getBoundingClientRect().top - 40) + 'px';
     tooltip.classList.add('visible');
