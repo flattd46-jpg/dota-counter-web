@@ -193,7 +193,7 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
-.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:560px;overflow-y:auto;padding-right:4px}
+.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:max-content;gap:10px;max-height:560px;overflow-y:auto;padding-right:4px}
 @media(min-width:640px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:900px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:1280px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
@@ -535,7 +535,7 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
 .particle:nth-child(10){left:15%;top:55%;width:2px;height:2px;animation-duration:21s;animation-delay:9s;background:rgba(255,122,47,.2)}
 
 /* ============ СТАГГЕР-СЕТКА ============ */
-.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:560px;overflow-y:auto;padding-right:2px}
+.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:max-content;gap:10px;max-height:560px;overflow-y:auto;padding-right:2px}
 .pool-grid .hero-cell{animation:hero-cell-in .2s ease-out both}
 @media(min-width:640px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:900px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
