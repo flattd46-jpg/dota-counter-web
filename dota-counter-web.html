@@ -4566,13 +4566,13 @@ function resetAll() {
 function setInspected(name) {
   inspected = name;
   renderDetail();
-  renderPool();
+  updatePoolSelections();
 }
 function setActiveSide(side) {
   activeSide = side;
   renderSidebar();
   renderDraft();
-  renderPool();
+  updatePoolSelections();
 }
 function loadDraft(id) {
   var drafts = readDrafts();
@@ -4857,6 +4857,65 @@ function poolCell(hero, i) {
     '<span class="hero-cell-wr" title="Винрейт в пабах">' + hero.winRate + '%</span>' +
     '<button type="button" class="hero-cell-info" data-action="inspect" data-name="' + hero.name + '" title="Разбор матчапов: ' + hero.name + '">' + ICON_INFO + '</button>' +
     '</div>';
+}
+
+/* Обновление меток выбора в уже отрисованной сетке без пересоздания DOM (быстро). */
+function updatePoolSelections() {
+  var grid = $('poolGrid');
+  var cells = grid.querySelectorAll('.hero-cell');
+  var taken = heroesTaken();
+  var allyTitle = activeSide === 'ally';
+  for (var i = 0; i < cells.length; i++) {
+    var cell = cells[i];
+    var btn = cell.querySelector('.hero-cell-btn');
+    if (!btn) continue;
+    var name = btn.getAttribute('data-name');
+    if (!name) continue;
+    var isAlly = allies.indexOf(name) !== -1;
+    var isEnemy = enemies.indexOf(name) !== -1;
+    var picked = isAlly || isEnemy;
+    cell.classList.toggle('picked-ally', isAlly);
+    cell.classList.toggle('picked-enemy', isEnemy);
+    cell.classList.toggle('inspected', !picked && inspected === name);
+    var tag = cell.querySelector('.hero-cell-tag');
+    if (picked) {
+      if (!tag) {
+        tag = document.createElement('span');
+        tag.className = 'hero-cell-tag';
+        cell.insertBefore(tag, cell.firstChild);
+      }
+      tag.className = 'hero-cell-tag ' + (isAlly ? 'ally' : 'enemy');
+      tag.textContent = isAlly ? 'Вы' : 'Враг';
+      tag.title = 'Убрать: ' + name;
+      btn.setAttribute('data-action', 'remove');
+      btn.setAttribute('data-side', isAlly ? 'ally' : 'enemy');
+      btn.title = 'Убрать ' + name + ' из драфта';
+      var img = btn.querySelector('img');
+      if (img) img.classList.add('dim');
+    } else {
+      if (tag) tag.remove();
+      btn.setAttribute('data-action', 'pick');
+      btn.removeAttribute('data-side');
+      btn.title = 'Добавить ' + name + (allyTitle ? ' в вашу команду' : ' в команду врага');
+      var img2 = btn.querySelector('img');
+      if (img2) img2.classList.remove('dim');
+    }
+    var counters = enemies.filter(function(e) { return counterWeight(e, name) > 0; }).length;
+    var badge = cell.querySelector('.hero-cell-counter');
+    if (counters > 0 && !picked) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'hero-cell-counter';
+        badge.setAttribute('title', '');
+        cell.appendChild(badge);
+      }
+      badge.textContent = '+' + counters;
+      badge.title = 'Контрит ' + counters + (counters === 1 ? ' пик' : ' пика') + ' врага';
+    } else if (badge) {
+      badge.remove();
+    }
+  }
+  $('resetBtn').disabled = (allies.length + enemies.length) === 0;
 }
 
 /* ============ РЕНДЕР: ДЕТАЛИ ГЕРОЯ ============ */
@@ -5289,7 +5348,12 @@ function render() {
   renderDraft();
   renderMeter();
   renderSidebar();
-  renderPool();
+  /* Пересоздаём сетку только если она пустая, применился фильтр/сортировка/поиск
+     или активна сортировка «Контрит врага» (порядок зависит от текущих врагов).
+     Иначе обновляем метки выбора на месте — это заметно быстрее. */
+  var grid = $('poolGrid');
+  if (!grid.querySelector('.hero-cell') || poolSort === 'counter') renderPool();
+  else updatePoolSelections();
   renderDetail();
   renderAdvisor();
   renderLibrary();
@@ -5341,13 +5405,16 @@ document.addEventListener('dblclick', function(e) {
   if (el) setInspected(el.getAttribute('data-name'));
 });
 
+var _poolSearchTimer = null;
 $('poolSearch').addEventListener('input', function() {
   poolSearch = this.value;
-  renderPool();
+  clearTimeout(_poolSearchTimer);
+  _poolSearchTimer = setTimeout(renderPool, 150);
 });
 $('poolSearchClear').addEventListener('click', function() {
   poolSearch = '';
   $('poolSearch').value = '';
+  clearTimeout(_poolSearchTimer);
   renderPool();
   $('poolSearch').focus();
 });
@@ -5376,9 +5443,16 @@ function switchTab(target) {
   window.scrollTo(0, 0);
 }
 var _matrixSearch = document.getElementById('matrixSearch');
-if (_matrixSearch) _matrixSearch.addEventListener('input', function() {
-  renderMatchupMatrix(document.getElementById('matrixContainer'), this.value);
-});
+if (_matrixSearch) {
+  var _matrixSearchTimer = null;
+  _matrixSearch.addEventListener('input', function() {
+    var val = this.value;
+    clearTimeout(_matrixSearchTimer);
+    _matrixSearchTimer = setTimeout(function() {
+      renderMatchupMatrix(document.getElementById('matrixContainer'), val);
+    }, 200);
+  });
+}
 $('resetBtn').addEventListener('click', resetAll);
 $('libForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -5582,21 +5656,7 @@ document.addEventListener('mousedown', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
   HeroTip.init();
   initStagger();
-  setTimeout(initStagger, 500);
-  setTimeout(initStagger, 1500);
 });
-
-/* override render to keep stagger + particles alive */
-var _premRender = render;
-render = function() {
-  _premRender();
-  setTimeout(function() {
-    initStagger();
-    HeroTip.hide();
-    /* re-attach drag & drop */
-    if (window.__ddInited) enableDragDrop();
-  }, 60);
-};
 
 /* ============ ПРЕМИУМ-ФУНКЦИИ ============ */
 function initPremium() {
@@ -5861,25 +5921,11 @@ function renderMatchupMatrix(container, filter) {
   heroes.forEach(function(h) {
     html += '<th class="matrix-th"><span class="matrix-hero-name">' + h.name + '</span><span class="matrix-hero-tag" style="background:' + getAttrColor(h.attr) + '40;color:' + getAttrColor(h.attr) + '">' + h.attr.charAt(0) + '</span></th>';
   });
-  html += '</tr></thead><tbody>';
-  heroes.forEach(function(rowHero) {
-    html += '<tr><th class="matrix-th"><span class="matrix-hero-name">' + rowHero.name + '</span><span class="matrix-hero-tag" style="background:' + getAttrColor(rowHero.attr) + '40;color:' + getAttrColor(rowHero.attr) + '">' + rowHero.attr.charAt(0) + '</span></th>';
-    heroes.forEach(function(colHero) {
-      var advantage = calculateMatchupAdvantage(rowHero, colHero);
-      var bgColor;
-      if (advantage > 0.6) bgColor = 'rgba(34,197,94,0.3)';
-      else if (advantage > 0.5) bgColor = 'rgba(34,197,94,0.15)';
-      else if (advantage < 0.4) bgColor = 'rgba(239,68,68,0.3)';
-      else if (advantage < 0.5) bgColor = 'rgba(239,68,68,0.15)';
-      else bgColor = 'rgba(107,114,128,0.15)';
-      html += '<td class="matrix-td" data-row="' + rowHero.name + '" data-col="' + colHero.name + '" style="background:' + bgColor + '"><span class="matrix-value">' + (advantage * 100).toFixed(0) + '%</span><span class="matrix-arrow">' + (advantage > 0.5 ? '&#9650;' : advantage < 0.5 ? '&#9660;' : '&#9644;') + '</span></td>';
-    });
-    html += '</tr>';
-  });
-  html += '</tbody></table></div>';
+  html += '</tr></thead><tbody></tbody></table></div>';
   html += '<div class="matrix-legend"><span class="legend-item"><span class="legend-dot" style="background:#22c55e"></span> Преимущество</span><span class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> Слабость</span><span class="legend-item"><span class="legend-dot" style="background:#6b7280"></span> Нейтрально</span></div></div>';
   container.innerHTML = html;
 
+  var tbody = container.querySelector('#matchupMatrix tbody');
   var mat = container.querySelector('.matrix-container');
   mat.addEventListener('mouseover', function(e) {
     var td = e.target.closest ? e.target.closest('.matrix-td') : null;
@@ -5904,6 +5950,37 @@ function renderMatchupMatrix(container, filter) {
     var tooltip = document.getElementById('matrixTooltip');
     if (tooltip) tooltip.classList.remove('visible');
   });
+
+  /* Рендерим строки чанками, чтобы не замораживать главный поток на ~1 сек. */
+  var i = 0, CHUNK = 24;
+  var gen = (window.__matrixGen = (window.__matrixGen || 0) + 1);
+  function buildRow(rowHero) {
+    var row = '<tr><th class="matrix-th"><span class="matrix-hero-name">' + rowHero.name + '</span><span class="matrix-hero-tag" style="background:' + getAttrColor(rowHero.attr) + '40;color:' + getAttrColor(rowHero.attr) + '">' + rowHero.attr.charAt(0) + '</span></th>';
+    heroes.forEach(function(colHero) {
+      var advantage = calculateMatchupAdvantage(rowHero, colHero);
+      var bgColor;
+      if (advantage > 0.6) bgColor = 'rgba(34,197,94,0.3)';
+      else if (advantage > 0.5) bgColor = 'rgba(34,197,94,0.15)';
+      else if (advantage < 0.4) bgColor = 'rgba(239,68,68,0.3)';
+      else if (advantage < 0.5) bgColor = 'rgba(239,68,68,0.15)';
+      else bgColor = 'rgba(107,114,128,0.15)';
+      row += '<td class="matrix-td" data-row="' + rowHero.name + '" data-col="' + colHero.name + '" style="background:' + bgColor + '"><span class="matrix-value">' + (advantage * 100).toFixed(0) + '%</span><span class="matrix-arrow">' + (advantage > 0.5 ? '&#9650;' : advantage < 0.5 ? '&#9660;' : '&#9644;') + '</span></td>';
+    });
+    return row + '</tr>';
+  }
+  function next() {
+    if (gen !== window.__matrixGen) return;
+    var frag = document.createDocumentFragment();
+    var end = Math.min(i + CHUNK, heroes.length);
+    for (; i < end; i++) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = buildRow(heroes[i]);
+      frag.appendChild(tr);
+    }
+    tbody.appendChild(frag);
+    if (i < heroes.length) requestAnimationFrame(next);
+  }
+  requestAnimationFrame(next);
 }
 
 function calculateMatchupAdvantage(hero1, hero2) {
