@@ -127,13 +127,13 @@ a{color:inherit}
 .team-count{margin-left:auto;font-family:ui-monospace,monospace;font-size:12px;font-variant-numeric:tabular-nums}
 .team-clear{padding:4px;border-radius:3px;color:var(--mist-600);transition:all .2s}
 .team-clear:hover{background:var(--void-800);color:var(--dire-400)}
-.slots{display:grid;grid-template-columns:repeat(5,1fr);gap:6px 8px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px}
 .slot{position:relative;overflow:hidden;border-radius:5px;box-shadow:0 0 0 1px rgba(47,211,154,.6)}
 .slot.enemy{box-shadow:0 0 0 1px rgba(242,65,95,.6)}
 .slot img{aspect-ratio:16/10;width:100%;object-fit:cover;transition:transform .3s}
 .slot:hover img{transform:scale(1.1)}
-.slot-name{position:absolute;inset-inline:0;bottom:0;padding:12px 4px 2px;background:linear-gradient(to top,var(--void-950),rgba(8,6,13,.85) 30%,transparent);font-size:9px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(min-width:640px){.slot-name{font-size:10px}}
+.slot-name{position:absolute;inset-inline:0;bottom:0;padding:12px 4px 2px;background:linear-gradient(to top,var(--void-950),rgba(8,6,13,.85) 30%,transparent);font-size:10px;font-weight:600;color:var(--mist-50);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:640px){.slot-name{font-size:11px}}
 .slot-x{position:absolute;top:2px;right:2px;padding:2px;border-radius:3px;background:rgba(8,6,13,.8);color:var(--mist-200);opacity:0;transition:all .2s}
 .slot:hover .slot-x{opacity:1}
 .slot-x:hover{background:var(--dire-600);color:#fff}
@@ -193,10 +193,10 @@ button:focus-visible{outline:2px solid var(--ember-400);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
-.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:540px;overflow-y:auto;padding-right:4px}
-@media(min-width:640px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:768px){.pool-grid{grid-template-columns:repeat(6,1fr)}}
-@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(8,1fr)}}
+.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:560px;overflow-y:auto;padding-right:4px}
+@media(min-width:640px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
 .hero-cell{position:relative;overflow:hidden;border:1px solid var(--void-750);border-radius:5px;transition:all .2s}
 .hero-cell:hover{border-color:rgba(255,122,47,.6);transform:translateY(-2px)}
 .hero-cell.picked-ally{border-color:var(--radiant-400);box-shadow:0 0 0 1px rgba(47,211,154,.35),0 0 18px -6px rgba(47,211,154,.55)}
@@ -535,13 +535,12 @@ body{background-image:radial-gradient(ellipse at 30% 20%,rgba(255,122,47,.10),tr
 .particle:nth-child(10){left:15%;top:55%;width:2px;height:2px;animation-duration:21s;animation-delay:9s;background:rgba(255,122,47,.2)}
 
 /* ============ СТАГГЕР-СЕТКА ============ */
-.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-height:520px;overflow-y:auto;padding-right:2px}
-.pool-grid .hero-cell{animation:hero-cell-in .35s ease-out both}
-@media(min-width:640px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:900px){.pool-grid{grid-template-columns:repeat(5,1fr)}}
-@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(6,1fr)}}
-.pool-grid .hero-cell{animation:hero-cell-in .35s ease-out both}
-@keyframes hero-cell-in{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:560px;overflow-y:auto;padding-right:2px}
+.pool-grid .hero-cell{animation:hero-cell-in .2s ease-out both}
+@media(min-width:640px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.pool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1280px){.pool-grid{grid-template-columns:repeat(4,1fr)}}
+@keyframes hero-cell-in{from{opacity:0;transform:translateY(6px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
 
 /* ============ HERO HOVER TOOLTIP ============ */
 .hero-tip{position:fixed;z-index:300;pointer-events:none;background:linear-gradient(135deg,var(--void-850),var(--void-900));border:1px solid var(--void-700);border-radius:8px;padding:10px 12px;box-shadow:0 12px 40px -10px rgba(0,0,0,.7);opacity:0;transition:opacity .18s;min-width:180px;max-width:220px}
@@ -705,6 +704,42 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;opa
 .legend-item{display:inline-flex;align-items:center;gap:6px}
 .legend-dot{width:10px;height:10px;border-radius:3px}
 .matrix-tooltip.visible{opacity:1}
+
+/* ============ LIVE-ОВЕРЛЕЙ (GSI) ============ */
+#liveFab{position:fixed;right:16px;bottom:16px;z-index:1200;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:var(--void-850);border:1px solid var(--void-700);color:var(--mist-100);font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 10px 34px -8px rgba(0,0,0,.8);transition:all .2s}
+#liveFab:hover{border-color:var(--ember-400);transform:translateY(-2px)}
+#liveFab .live-dot{width:9px;height:9px;border-radius:50%;background:var(--mist-600);flex:none;transition:background .3s}
+#liveFab.connected .live-dot{background:var(--radiant-400);box-shadow:0 0 8px var(--radiant-400)}
+#liveFab.live .live-dot{background:var(--ember-500);box-shadow:0 0 10px var(--ember-500);animation:live-pulse 1.4s ease-in-out infinite}
+#liveFab.off .live-dot{background:var(--dire-500)}
+#liveFab.off{border-color:rgba(242,65,95,.5);color:var(--mist-300)}
+@keyframes live-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+#livePanel{position:fixed;right:16px;bottom:64px;z-index:1200;width:320px;max-width:calc(100vw - 24px);background:var(--void-900);border:1px solid var(--void-700);border-radius:10px;box-shadow:0 18px 50px -10px rgba(0,0,0,.85);display:none;overflow:hidden}
+#livePanel.open{display:block;animation:panel-in .18s ease-out}
+@keyframes panel-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.live-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--void-850);border-bottom:1px solid var(--void-750)}
+.live-head h3{font-size:12px;margin:0;display:flex;align-items:center;gap:8px}
+.live-close{cursor:pointer;color:var(--mist-500);font-size:16px;line-height:1;padding:0 4px}
+.live-close:hover{color:var(--mist-100)}
+.live-body{padding:12px;display:grid;gap:12px;font-size:12px}
+.live-row{display:grid;gap:4px}
+.live-row-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mist-500)}
+.live-picks{display:flex;flex-wrap:wrap;gap:6px;min-height:24px}
+.live-pick{position:relative;width:44px;border-radius:4px;overflow:hidden;border:1px solid var(--void-700);animation:hero-cell-in .2s ease-out both}
+.live-pick img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.live-pick .live-pick-x{position:absolute;top:0;right:0;width:14px;height:14px;line-height:12px;text-align:center;font-size:10px;color:#fff;background:rgba(0,0,0,.6);cursor:pointer;opacity:0;transition:opacity .15s}
+.live-pick:hover .live-pick-x{opacity:1}
+.live-status{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--mist-400);padding-top:8px;border-top:1px solid var(--void-750)}
+.live-status .live-dot{width:8px;height:8px;border-radius:50%;background:var(--mist-600);flex:none}
+.live-status.on .live-dot{background:var(--radiant-400)}
+.live-status.live .live-dot{background:var(--ember-500)}
+.live-side{display:flex;gap:6px}
+.live-side button{flex:1;padding:6px;border-radius:5px;border:1px solid var(--void-700);background:var(--void-850);color:var(--mist-300);font-size:11px;cursor:pointer;transition:all .15s}
+.live-side button.on{background:var(--void-700);color:var(--mist-50);border-color:var(--ember-400)}
+.live-hint{font-size:10px;color:var(--mist-600);line-height:1.5}
+.live-logs{display:grid;gap:2px;max-height:120px;overflow-y:auto;font-family:ui-monospace,monospace;font-size:10px;color:var(--mist-500)}
+.live-logs div{animation:hero-cell-in .2s ease-out both}
+@media(prefers-reduced-motion:reduce){#livePanel.open{animation:none}}
 </style>
 </head>
 <body>
@@ -4652,6 +4687,17 @@ function renderGuideBody() {
       '<span style="display:block;color:var(--mist-400)">' + TAG_HINTS[tag] + '</span></div>';
   }).join('');
   $('helpBody').innerHTML =
+    '<div class="guide-panel" style="border:1px solid rgba(255,122,47,.4);background:linear-gradient(135deg,rgba(255,122,47,.06),rgba(255,122,47,.02))">' +
+      '<h4 style="color:var(--mist-50)"><span style="color:var(--ember-500)">&#9679;</span> Живой драфт — всё автоматически (GSI)</h4>' +
+      '<p style="font-size:12px;color:var(--mist-300)">Сайт сам видит пики в вашем матче и заполняет доску, считает контрпики и советы — руками ничего делать не нужно. Индикатор <b style="color:var(--radiant-400)">LIVE</b> в правом нижнем углу: серый = сервер не запущен, зелёный = готов, оранжевый = идёт драфт.</p>' +
+      '<div style="display:grid;gap:6px;margin-top:8px;font-size:11px;color:var(--mist-400)">' +
+        '<div><b style="color:var(--mist-200)">1.</b> Дважды кликните <code style="background:#232b38;padding:1px 6px;border-radius:4px">start.bat</code> из папки сайта — сервер запустится, а cfg сам установится в Dota 2.</div>' +
+        '<div><b style="color:var(--mist-200)">2.</b> Откройте сайт (откроется сам), держите окно сервера открытым.</div>' +
+        '<div><b style="color:var(--mist-200)">3.</b> Перезапустите Dota 2 (важно — cfg читается при запуске) и зайдите в матч.</div>' +
+        '<div><b style="color:var(--mist-200)">4.</b> Во время драфта сайт сам переключится на доску, покажет пики и советы.</div>' +
+      '</div>' +
+      '<p style="margin-top:8px;font-size:10px;color:var(--mist-600)">Если индикатор не загорается: проверьте, что <code>node gsi-server.js</code> работает, а cfg лежит в <code>...\\dota 2 beta\\game\\dota\\cfg\\gamestate_integration\\</code>. Сайт, открытый по https на GitHub Pages, может блокировать локальный сервер — тогда откройте файл dota-counter-web.html локально.</p>' +
+    '</div>' +
     '<div class="guide-steps">' + steps + '</div>' +
     '<div class="guide-grid2">' +
       '<div class="guide-panel">' +
@@ -5607,7 +5653,7 @@ function activateTab(pageId) {
 /* ============ СТАГГЕР АНИМАЦИЯ ============ */
 function initStagger() {
   document.querySelectorAll('.pool-grid .hero-cell').forEach(function(cell, i) {
-    cell.style.animationDelay = (i * 18) + 'ms';
+    cell.style.animationDelay = (i * 8) + 'ms';
   });
 }
 
@@ -6116,7 +6162,224 @@ initAuth = function() {
   updateGuideBadge();
 };
 
+/* ============ LIVE-ОВЕРЛЕЙ (GSI) ============ */
+(function() {
+  if (window.__liveInit) return;
+  window.__liveInit = true;
+
+  var GSI_HOST = 'http://127.0.0.1:8765';
+  var es = null;
+  var connected = false;
+  var liveState = null;
+  var mySide = 'auto';       // 'auto' | '0' (radiant) | '1' (dire)
+  var liveMode = true;       // авто-применение пиков в драфт
+  var lastApplied = { allies: [], enemies: [] };
+  var fab, panel, dot, label, panelDot, closeBtn, statusEl, statusText, enemiesEl, alliesEl, logsEl;
+
+  function log(msg) {
+    if (!logsEl) return;
+    var d = document.createElement('div');
+    d.textContent = new Date().toLocaleTimeString('ru-RU') + ' ' + msg;
+    logsEl.appendChild(d);
+    while (logsEl.children.length > 60) logsEl.removeChild(logsEl.firstChild);
+    logsEl.scrollTop = logsEl.scrollHeight;
+  }
+
+  function setStatus(cls, text) {
+    statusEl.className = 'live-status' + (cls ? ' ' + cls : '');
+    statusText.textContent = text;
+  }
+
+  function renderOverlay() {
+    if (!liveState) return;
+    var d = liveState;
+    var myTeam = mySide === 'auto' ? d.playerTeam : parseInt(mySide, 10);
+    var enemyPicks = myTeam === 0 ? d.direPicks : d.radiantPicks;
+    var allyPicks = myTeam === 0 ? d.radiantPicks : d.direPicks;
+    enemiesEl.innerHTML = enemyPicks.map(function(n) { return livePickHtml(n, 'enemy', myTeam === 0 ? 'dire' : 'radiant'); }).join('');
+    alliesEl.innerHTML = allyPicks.map(function(n) { return livePickHtml(n, 'ally', myTeam === 0 ? 'radiant' : 'dire'); }).join('');
+    if (liveMode && myTeam !== null) {
+      applyToBoard(enemyPicks, allyPicks);
+    }
+  }
+
+  function livePickHtml(name, side, source) {
+    var h = heroByName[name];
+    var img = h
+      ? '<img src="' + heroPortrait(h.slug, 'sm') + '" alt="' + name + '" loading="lazy" data-name="' + name + '">'
+      : '<span class="live-pick" style="padding:2px 4px">' + escapeHtml(name) + '</span>';
+    return '<div class="live-pick" data-name="' + name + '" data-side="' + side + '" data-source="' + source + '" title="' + escapeHtml(name) + '">' +
+      img + '<span class="live-pick-x" title="Убрать из драфта">×</span></div>';
+  }
+
+  function applyToBoard(enemyPicks, allyPicks) {
+    var prevE = lastApplied.enemies.join('|');
+    var prevA = lastApplied.allies.join('|');
+    var newE = enemyPicks.join('|');
+    var newA = allyPicks.join('|');
+    if (prevE === newE && prevA === newA) return;
+
+    var deltaE = diff(enemyPicks, lastApplied.enemies);
+    var deltaA = diff(allyPicks, lastApplied.allies);
+
+    enemies = enemyPicks.slice(0, TEAM_SIZE);
+    allies = allyPicks.slice(0, TEAM_SIZE);
+    lastApplied = { enemies: enemyPicks.slice(), allies: allyPicks.slice() };
+
+    render();
+    deltaE.concat(deltaA).forEach(function(name) {
+      toast('Живой пик: ' + name);
+    });
+  }
+
+  function diff(next, prev) {
+    var out = [];
+    next.forEach(function(n) { if (prev.indexOf(n) === -1) out.push(n); });
+    return out;
+  }
+
+  function connect() {
+    if (es) { try { es.close(); } catch (e) {} }
+    try {
+      es = new EventSource(GSI_HOST + '/events');
+    } catch (e) {
+      setStatus('', 'Не удалось подключиться к ' + GSI_HOST);
+      return;
+    }
+    es.onopen = function() {
+      connected = true;
+      setStatus('on', 'Подключено к ретранслятору ' + GSI_HOST);
+      fab.classList.add('connected');
+      log('Подключено');
+    };
+    es.onmessage = function(e) {
+      try {
+        var d = JSON.parse(e.data);
+        if (d.type !== 'draft') return;
+        var wasLive = liveState && liveState.isPicking;
+        liveState = d;
+        if (d.isPicking) {
+          fab.classList.add('live');
+          fab.classList.remove('connected');
+          setStatus('live', 'Идёт драфт · моя сторона: ' + (d.playerTeam === 0 ? 'Свет' : d.playerTeam === 1 ? 'Тьма' : 'определяется'));
+          if (!wasLive) {
+            // авто: переключаемся на вкладку драфта и открываем оверлей при старте драфта
+            if (typeof switchTab === 'function') switchTab('pageDraft');
+            panel.classList.add('open');
+            panel.setAttribute('aria-hidden', 'false');
+          }
+        } else {
+          fab.classList.remove('live');
+          fab.classList.add('connected');
+          setStatus('on', 'Драфт завершён или не начат');
+        }
+        renderOverlay();
+      } catch (err) {}
+    };
+    es.onerror = function() {
+      connected = false;
+      setStatus('', 'Нет связи с ретранслятором. Запустите gsi-server.js (node gsi-server.js)');
+      fab.classList.remove('live');
+      fab.classList.remove('connected');
+      fab.classList.add('off');
+      log('Связь потеряна');
+    };
+  }
+
+  function initUI() {
+    fab = document.getElementById('liveFab');
+    panel = document.getElementById('livePanel');
+    dot = document.getElementById('liveFabDot');
+    label = document.getElementById('liveFabLabel');
+    panelDot = document.getElementById('livePanelDot');
+    closeBtn = document.getElementById('liveClose');
+    statusEl = document.getElementById('liveStatus');
+    statusText = document.getElementById('liveStatusText');
+    enemiesEl = document.getElementById('liveEnemies');
+    alliesEl = document.getElementById('liveAllies');
+    logsEl = document.getElementById('liveLogs');
+    if (!fab || !panel) return;
+
+    fab.addEventListener('click', function() {
+      panel.classList.toggle('open');
+      panel.setAttribute('aria-hidden', panel.classList.contains('open') ? 'false' : 'true');
+    });
+    closeBtn.addEventListener('click', function() {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+    });
+    document.getElementById('liveSide').addEventListener('click', function(e) {
+      var btn = e.target.closest('button');
+      if (!btn) return;
+      mySide = btn.getAttribute('data-side');
+      document.querySelectorAll('#liveSide button').forEach(function(b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+      renderOverlay();
+    });
+    var modeBtn = document.getElementById('liveModeBtn');
+    if (modeBtn) {
+      modeBtn.addEventListener('click', function() {
+        liveMode = !liveMode;
+        modeBtn.textContent = liveMode ? 'Включено' : 'Выключено';
+        modeBtn.style.borderColor = liveMode ? 'var(--radiant-400)' : 'var(--mist-600)';
+        modeBtn.style.color = liveMode ? 'var(--radiant-400)' : 'var(--mist-400)';
+      });
+    }
+    panel.addEventListener('click', function(e) {
+      var x = e.target.closest('.live-pick-x');
+      if (!x) return;
+      var pick = x.closest('.live-pick');
+      if (!pick) return;
+      var side = pick.getAttribute('data-side') === 'enemy' ? 'enemy' : 'ally';
+      var source = pick.getAttribute('data-source');
+      var name = pick.getAttribute('data-name');
+      removeHero(side, name);
+      if (liveState && source) {
+        liveState[source + 'Picks'] = liveState[source + 'Picks'].filter(function(n) { return n !== name; });
+        renderOverlay();
+      }
+    });
+  }
+
+  setTimeout(function() { initUI(); connect(); }, 1200);
+})();
+
 </script>
 </main></div>
+<button id="liveFab" type="button" title="Живой драфт (GSI) — статус и управление">
+  <span class="live-dot" id="liveFabDot"></span><span id="liveFabLabel">LIVE</span>
+</button>
+<div id="livePanel" aria-hidden="true">
+  <div class="live-head">
+    <h3><span class="live-dot" id="livePanelDot" style="display:inline-block"></span> Живой драфт (GSI)</h3>
+    <span class="live-close" id="liveClose" title="Закрыть">&times;</span>
+  </div>
+  <div class="live-body">
+    <div class="live-row">
+      <span class="live-row-label">Моя команда</span>
+      <div class="live-side" id="liveSide">
+        <button type="button" data-side="0">Свет</button>
+        <button type="button" data-side="1">Тьма</button>
+        <button type="button" data-side="auto" class="on">Авто</button>
+      </div>
+      <div class="live-hint">Авто определяет вашу сторону по SteamID. Если драфт не совпадает — выберите сторону вручную.</div>
+    </div>
+    <div class="live-row">
+      <span class="live-row-label">Применять пики к доске</span>
+      <button type="button" class="btn-ghost" id="liveModeBtn" style="font-size:11px;padding:6px;border:1px solid var(--radiant-400);color:var(--radiant-400)">Включено</button>
+      <div class="live-hint">Пики врагов и союзников автоматически заполняют доску драфта и обновляют советы.</div>
+    </div>
+    <div class="live-row">
+      <span class="live-row-label">Враги (прямо сейчас)</span>
+      <div class="live-picks" id="liveEnemies"></div>
+    </div>
+    <div class="live-row">
+      <span class="live-row-label">Ваша команда</span>
+      <div class="live-picks" id="liveAllies"></div>
+    </div>
+    <div class="live-status" id="liveStatus"><span class="live-dot"></span><span id="liveStatusText">Не подключено</span></div>
+    <div class="live-logs" id="liveLogs"></div>
+  </div>
+</div>
 </body>
 </html>
